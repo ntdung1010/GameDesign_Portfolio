@@ -508,7 +508,6 @@ body { font-weight: 400; }
     <div class="story-head">
       <h2 id="storyTitle" class="rv">My Backstory</h2>
       <div class="divider" id="storyDivider"></div>
-      <span class="demo-tag rv">Demo content · replace with your own</span>
     </div>
     <div class="timeline" id="timeline">
       <div class="tl-rail" aria-hidden="true"><i id="rail"></i></div>
@@ -717,19 +716,34 @@ const SKILLS = [
   { title: "Puzzle & Level Design", icon: "pad", items: ["Puzzle mechanics for sort and match games", "Level design and difficulty curves", "Onboarding, tutorials and pacing", "Boosters, blockers and obstacle design", "Level and config review before release"] },
   { title: "Game & Systems Design", icon: "chart", items: ["Core loops and progression", "In-game economy, ads and IAP balance", "A/B test plans and readouts", "Retention and monetization metrics", "Competitor teardowns and feature proposals"] },
 ];
-/* Backstory: demo entries, newest first. Replace title / company / years / summary / details. */
+/* Backstory (from LinkedIn), newest first. "details" fills the View details popup:
+   each block is { h: heading, p?: intro line, li: [[bold, text], ...] }, split into two columns. */
 const STORY = [
-  { title: "Game Designer", company: "Company name", years: "2024 – Present", summary: "Short line about the team and the games you work on. One more line about your main focus.", focus: "Specialized in puzzle and level design." },
-  { title: "Level Designer", company: "Company name", years: "2023 – 2024", summary: "Short line about what you built here: level packs, difficulty curves or a new mechanic.", focus: "Shipped: game title, game title." },
-  { title: "Junior Game Designer", company: "Company name", years: "2022 – 2023", summary: "Short line about your first shipped game and what you learned.", focus: "" },
-  { title: "Game Design Intern", company: "Company name", years: "2022", summary: "Short line about the internship and the tools you used.", focus: "" },
-];
-const STORY_DETAILS = [ // demo layout for every "View details" popup
-  { h: "Projects", p: "Working with the team on:", li: [["Game title", "role on this game"], ["Game title", "role on this game"]] },
-  { h: "Level design", li: [["Level packs", "how many levels, which mechanics"], ["Difficulty curve", "how you tuned it"], ["Tools", "level editor, configs"]] },
-  { h: "Systems", li: [["Boosters", "what you designed"], ["Economy", "coins, rewards, ads"]] },
-  { h: "Data & A/B tests", li: [["Test", "what you changed and why"], ["Result", "which metric moved"]] },
-  { h: "Collaboration", li: [["Art & dev", "how you worked with them"], ["Docs", "specs, mockups, proposals"]] },
+  { title: "Game Designer", company: "Winter Wolf · IEC Games", years: "Jun 2024 – Present",
+    summary: "Designing levels and game balance for casual mobile puzzle games, from the first prototype to live updates.",
+    focus: "Level design, balance sheets and A/B tests.",
+    details: [
+      { h: "Projects", p: "Puzzle titles on Google Play and the App Store:", li: [["Sort puzzles", "Chaos Drink Sort, Birdy Nest Sort, Birdy Sort: Hatchery Puzzle"], ["Match & organise", "Tasty Skewer Match, Mob Rush Adventure"], ["Water Sort Puzzle Premium", "iOS"]] },
+      { h: "Level design", li: [["Level packs", "building and ordering levels along a target difficulty curve"], ["Mechanics", "new blockers and twists that keep later levels fresh"]] },
+      { h: "Balancing", li: [["Balance sheets", "rewards, coins and booster pricing modelled in spreadsheets"], ["Difficulty", "tuned with win rate, attempts and churn per level"]] },
+      { h: "Data & LiveOps", li: [["A/B tests", "planning tests and reading the results with the team"], ["Remote config", "adjusting levels and economy without a new build"]] },
+    ] },
+  { title: "Game Designer", company: "IceBear Studio", years: "Jun 2022 – May 2024",
+    summary: "My first game design role, on-site in Hanoi: level design and game feel for casual mobile games.",
+    focus: "Level design, sound design and gameplay tuning.",
+    details: [
+      { h: "Projects", p: "Casual games such as:", li: [["Cat Escape", "puzzle"], ["Stick Hero 2: Tower Defense", "tower defense"], ["DIY 3D: Makeover Doll", "makeover and dress-up"]] },
+      { h: "Level design", li: [["Levels", "layouts, pacing and difficulty from early game to late game"], ["Onboarding", "first-session tutorials and teaching new mechanics"]] },
+      { h: "Sound design", li: [["Audio", "picking and placing sound effects and music to support game feel"]] },
+      { h: "Collaboration", li: [["Team", "working with artists and developers to ship regular updates"], ["Docs", "feature specs and level notes for the team"]] },
+    ] },
+  { title: "Embedded Software Developer", company: "FPT Software", years: "Apr 2022 – May 2022",
+    summary: "A short start as an embedded C++ developer before I moved into games.",
+    focus: "The engineering habit stayed: I like to know how a system works under the hood.",
+    details: [
+      { h: "Work", li: [["Embedded software", "C++ development on embedded systems"], ["Engineering", "reading specs, debugging and testing"]] },
+      { h: "Education", li: [["VNU University of Engineering and Technology", "Hanoi"]] },
+    ] },
 ];
 const GAMES = [
   { id: "chaos", title: "Chaos Drink Sort: Water Puzzle", short: "Chaos Drink Sort", genre: "Water sort puzzle", store: "Google Play", icon: "icons/chaos.png",
@@ -992,8 +1006,8 @@ function openStory(i) {
   const s = STORY[i];
   $("mTitle").textContent = `${s.title} at ${s.company}`;
   const block = (d) => `<h4>${esc(d.h)}</h4>${d.p ? `<p>${esc(d.p)}</p>` : ""}<ul>${d.li.map(([b, t]) => `<li><b>${esc(b)}</b> → ${esc(t)}</li>`).join("")}</ul>`;
-  const half = Math.ceil(STORY_DETAILS.length / 2);
-  $("mBody").innerHTML = `<div>${STORY_DETAILS.slice(0, half).map(block).join("")}</div><div>${STORY_DETAILS.slice(half).map(block).join("")}</div>`;
+  const det = s.details || [], half = Math.ceil(det.length / 2);
+  $("mBody").innerHTML = `<div>${det.slice(0, half).map(block).join("")}</div><div>${det.slice(half).map(block).join("")}</div>`;
   modalReturn = document.activeElement;
   modal.hidden = false; document.documentElement.style.overflow = "hidden";
   $("mClose").focus();
