@@ -123,7 +123,7 @@ kbd { font-family: var(--f-mono); font-size: 12px; display: inline-grid; place-i
 .now { position: absolute; z-index: 2; left: var(--edge); bottom: var(--bot); display: flex; align-items: center; gap: 12px; font-family: var(--f-mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--dk-muted); text-align: left; }
 .now img, .now .ph { width: 40px; height: 40px; border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,.4); }
 .now b { display: block; color: var(--dk-ink); font-weight: 500; }
-.scroll-cue { position: absolute; z-index: 2; right: var(--edge-r); bottom: var(--bot); color: var(--dk-ink); display: flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
+.scroll-cue { position: absolute; z-index: 2; left: 50%; transform: translateX(-50%); bottom: var(--bot); color: var(--dk-ink); display: flex; align-items: center; gap: 10px; font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; }
 .scroll-cue i { width: 22px; height: 34px; border: 2px solid currentColor; border-radius: 12px; position: relative; opacity: .8; }
 .scroll-cue i::after { content: ""; position: absolute; left: 50%; top: 6px; width: 4px; height: 7px; margin-left: -2px; border-radius: 2px; background: currentColor; animation: wheel 1.6s ease-in-out infinite; }
 @keyframes wheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(10px); opacity: 0; } 100% { opacity: 0; } }
@@ -398,28 +398,12 @@ html.booting, html.booting body { overflow: hidden; }
   .skillgrid > :nth-child(3) { order: 4; } /* phones: art, technical, art, design */
 }
 @media (max-width: 480px) { .sg-cols { grid-template-columns: minmax(0, 1fr); } }
-/* ===== Information / contact ===== */
-.contact { background: var(--dk-bg); color: var(--dk-ink); padding-block: clamp(56px, 8vw, 96px); padding-left: var(--gx); padding-right: var(--gxr); }
-.contact .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
-.contact .eyebrow { color: var(--dk-muted); }
-.contact h2 { margin: 8px 0 12px; font-family: var(--f-display); font-weight: 800; font-size: clamp(28px, 4vw, 44px); line-height: 1.08; letter-spacing: -.03em; text-transform: uppercase; text-wrap: balance; }
-.contact h2 em { font-style: normal; color: var(--accent); }
-.contact p { margin: 0; color: var(--dk-muted); max-width: 46ch; }
-.c-cards { display: grid; gap: 14px; }
-.c-card { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border-radius: 16px; background: rgba(241,245,243,.06); border: 1px solid rgba(241,245,243,.14); min-width: 0; }
-.c-ic { width: 52px; height: 52px; border-radius: 14px; display: grid; place-items: center; flex: none; color: #ffffff; }
-.c-ic.li { background: #0a66c2; } .c-ic.mail { background: var(--accent); }
-.c-txt { display: grid; gap: 2px; min-width: 0; flex: 1; }
-.c-txt b { font-family: var(--f-display); font-weight: 500; font-size: 15px; }
-.c-txt span { font-family: var(--f-mono); font-size: 13px; color: var(--dk-muted); overflow-wrap: anywhere; user-select: all; }
-.c-act { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-.c-btn { display: inline-flex; align-items: center; gap: 6px; height: 38px; padding: 0 14px; border-radius: 10px; border: 0; cursor: pointer; text-decoration: none; font-weight: 800; font-size: 13px; background: var(--dk-ink); color: var(--dk-bg); }
-.c-btn.ghost { background: transparent; color: var(--dk-ink); border: 1px solid rgba(241,245,243,.3); }
-.c-btn:hover { filter: brightness(1.08); }
-.foot-links { display: inline-flex; gap: 10px; }
-.foot-links a { width: 32px; height: 32px; border-radius: 9px; display: grid; place-items: center; border: 1px solid var(--line); color: var(--ink); text-decoration: none; }
-.foot-links a:hover { border-color: var(--accent); color: var(--accent); }
-@media (max-width: 760px) { .contact .wrap { grid-template-columns: minmax(0, 1fr); } .c-card { flex-wrap: wrap; } .c-act { width: 100%; justify-content: flex-start; } }
+/* ===== Contact icons in the bottom-right corner ===== */
+.float-links { position: fixed; right: var(--edge-r); bottom: calc(var(--bot) + 4px); z-index: 25; display: grid; gap: 10px; }
+.float-links a { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: #eef0ef; color: #1b1f22; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,.18); transition: transform .2s, background .2s, color .2s; }
+.float-links a:hover { transform: translateY(-2px) scale(1.06); background: var(--accent); color: #ffffff; }
+html[data-view="play"] .float-links, html[data-view="sail"] .float-links { display: none; }
+@media (max-width: 640px) { .float-links { gap: 8px; } .float-links a { width: 38px; height: 38px; } }
 </style>
 </head>
 <body>
@@ -540,8 +524,7 @@ html.booting, html.booting body { overflow: hidden; }
       <div class="row" style="justify-content:center"><a class="cta" href="#play">Play the map</a><a class="cta" href="#sail" style="background:#1597a8;color:#fff">Sail the islands</a><a class="cta ghost" href="#portfolio">See the list</a></div>
     </div>
   </section>
-  <section class="contact" aria-label="Information"><div class="wrap" data-contact></div></section>
-  <footer class="foot"><div class="wrap"><span class="copy">© 2026 Game Design Portfolio</span><span class="foot-links" data-footlinks></span><span>Made with a level map</span></div></footer>
+  <footer class="foot"><div class="wrap"><span class="copy">© 2026 Game Design Portfolio</span><span>Made with a level map</span></div></footer>
 </main>
 
 <!-- ===================== PORTFOLIO ===================== -->
@@ -595,8 +578,7 @@ html.booting, html.booting body { overflow: hidden; }
       <div class="more"><div class="more-head"><h3>More games</h3><span class="eyebrow">Earlier work · Google Play</span></div><div class="more-grid" data-more></div></div>
     </div>
   </section>
-  <section class="contact" aria-label="Information"><div class="wrap" data-contact></div></section>
-  <footer class="foot"><div class="wrap"><span class="copy">© 2026 Game Design Portfolio</span><span class="foot-links" data-footlinks></span><span>Made with a level map</span></div></footer>
+  <footer class="foot"><div class="wrap"><span class="copy">© 2026 Game Design Portfolio</span><span>Made with a level map</span></div></footer>
 </main>
 
 <!-- ===================== PLAY ===================== -->
@@ -677,6 +659,7 @@ html.booting, html.booting body { overflow: hidden; }
   <span><kbd>R</kbd> reset</span>
   <span>Scroll to zoom</span>
 </div>
+<nav class="float-links" id="floatLinks" aria-label="Contact"></nav>
 <div id="joy" hidden><i></i></div>
 <div id="toast" class="card"></div>
 
@@ -833,38 +816,10 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
       <span>${esc(g.store)}</span>
     </a>`).join("");
 
-  // Information / contact (bottom of Home and Portfolio) and footer icons
-  const IC_LI = '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="9" width="4" height="12" rx="1"/><circle cx="5" cy="5" r="2.2"/><path d="M10 9h3.8v1.8c.6-1.1 2-2.1 4-2.1 3.3 0 4.2 2.1 4.2 5.2V21h-4v-6.2c0-1.5-.3-2.8-1.9-2.8-1.7 0-2.1 1.2-2.1 2.8V21h-4z"/></svg>';
-  const IC_MAIL = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg>';
-  const liShort = PROFILE.linkedin.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
-  const contactHTML = `
-    <div>
-      <span class="eyebrow">Information</span>
-      <h2>Let's make a <em>great</em> game together</h2>
-      <p>Open to game design and level design roles in mobile puzzle and casual games. The quickest way to reach me is email or LinkedIn.</p>
-    </div>
-    <div class="c-cards">
-      <div class="c-card">
-        <span class="c-ic li">${IC_LI}</span>
-        <span class="c-txt"><b>LinkedIn</b><span>${esc(liShort)}</span></span>
-        <span class="c-act"><a class="c-btn" href="${PROFILE.linkedin}" target="_blank" rel="noopener">View profile ↗</a></span>
-      </div>
-      <div class="c-card">
-        <span class="c-ic mail">${IC_MAIL}</span>
-        <span class="c-txt"><b>Email</b><span>${esc(PROFILE.email)}</span></span>
-        <span class="c-act"><a class="c-btn" href="mailto:${PROFILE.email}">Send email</a><button class="c-btn ghost" type="button" data-copy="${esc(PROFILE.email)}">Copy</button></span>
-      </div>
-    </div>`;
-  document.querySelectorAll("[data-contact]").forEach(el => { el.innerHTML = contactHTML; });
-  document.querySelectorAll("[data-footlinks]").forEach(el => {
-    el.innerHTML = `<a href="${PROFILE.linkedin}" target="_blank" rel="noopener" aria-label="LinkedIn">${IC_LI.replace(/22/g, "16")}</a><a href="mailto:${PROFILE.email}" aria-label="Email ${esc(PROFILE.email)}">${IC_MAIL.replace(/22/g, "16")}</a>`;
-  });
-  document.addEventListener("click", (e) => {
-    const b = e.target.closest("[data-copy]"); if (!b) return;
-    const txt = b.dataset.copy, done = () => { b.textContent = "Copied"; setTimeout(() => { b.textContent = "Copy"; }, 1600); };
-    const fallback = () => { const r = document.createRange(); const span = b.closest(".c-card").querySelector(".c-txt span"); r.selectNodeContents(span); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); b.textContent = "Press Ctrl+C"; };
-    try { navigator.clipboard.writeText(txt).then(done, fallback); } catch (err) { fallback(); }
-  });
+  // Contact icons pinned to the bottom-right corner (LinkedIn, email)
+  const IC_LI = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="9" width="4" height="12" rx="1"/><circle cx="5" cy="5" r="2.2"/><path d="M10 9h3.8v1.8c.6-1.1 2-2.1 4-2.1 3.3 0 4.2 2.1 4.2 5.2V21h-4v-6.2c0-1.5-.3-2.8-1.9-2.8-1.7 0-2.1 1.2-2.1 2.8V21h-4z"/></svg>';
+  const IC_MAIL = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h13A2.5 2.5 0 0 1 21 6.5v.3l-9 6.1-9-6.1z"/><path d="M3 9.2V17.5A2.5 2.5 0 0 0 5.5 20h13a2.5 2.5 0 0 0 2.5-2.5V9.2l-8.4 5.7a1 1 0 0 1-1.1 0z"/></svg>';
+  $("floatLinks").innerHTML = `<a href="${PROFILE.linkedin}" target="_blank" rel="noopener" aria-label="LinkedIn profile" title="LinkedIn">${IC_LI}</a><a href="mailto:${PROFILE.email}" aria-label="Email ${esc(PROFILE.email)}" title="${esc(PROFILE.email)}">${IC_MAIL}</a>`;
   // More games (older titles)
   const moreHTML = MORE_GAMES.map(g => `
     <a class="mini" href="${g.url}" target="_blank" rel="noopener">
