@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "portfolio-desktop",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5174", "--bind", "127.0.0.1", "--directory", "C:\\Users\\IEC-WW\\OneDrive\\Desktop\\DungNT-Portfolio"],
+      "port": 5174
+    }
+  ]
+}
