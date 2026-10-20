@@ -401,7 +401,12 @@ html[data-view="play"] .float-links, html[data-view="sail"] .float-links { displ
 @media (max-width: 640px) { .float-links { gap: 8px; } .float-links a { width: 38px; height: 38px; } }
 /* ===== Typography in the style of the reference: Poppins-like titles, Montserrat headings ===== */
 .hero h1, .role, .logo, .tl-card h3, .item h3, .app b, .lbl b, :is(#panel, #sPanel) h2, .play-body h3, .m-card h3, .more-head h3, .boot-name, .skill-head h3 { font-family: var(--f-title); }
-.hero h1 { font-weight: 700; letter-spacing: -.015em; }
+.hero h1 { font-weight: 800; font-size: clamp(42px, 9.6vw, 120px); letter-spacing: -.02em; perspective: 700px; }
+/* hero name: each letter bounces up and tips back on hover, then springs home */
+.hero h1 .word { display: inline-block; white-space: nowrap; }
+.hero h1 .ch { display: inline-block; transform-origin: 50% 90%; transition: transform .75s cubic-bezier(.34,1.56,.64,1), color .6s ease; will-change: transform; cursor: default; }
+.hero h1 .ch.up { transform: translateY(calc(var(--amp, 1) * -.26em)) rotateX(calc(var(--amp, 1) * 52deg)) rotateZ(calc(var(--tilt, 0) * 1deg)); transition: transform .32s cubic-bezier(.2,1.8,.4,1), color .2s ease; color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .hero h1 .ch, .hero h1 .ch.up { transform: none !important; } }
 .role { font-weight: 600; letter-spacing: -.01em; }
 .logo { font-weight: 700; letter-spacing: -.01em; }
 .big, .story-head h2, .sg-head h2 { font-family: var(--f-display); font-weight: 800; letter-spacing: .01em; }
@@ -844,6 +849,28 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
         <a class="cta" href="${g.url}" target="_blank" rel="noopener">${storeLabel(g)} <span aria-hidden="true">↗</span></a>
       </div>
     </article>`).join("");
+})();
+
+/* ---------- Hero name: letters bounce up and tip back on hover, then return a few seconds later ---------- */
+(function bouncyName() {
+  const h = $("heroName"), text = h.textContent.trim();
+  h.setAttribute("aria-label", text);
+  h.innerHTML = text.split(/\s+/).map(w => `<span class="word" aria-hidden="true">${[...w].map(c => `<span class="ch">${esc(c)}</span>`).join("")}</span>`).join(" ");
+  if (reduceMotion) return;
+  const chars = [...h.querySelectorAll(".ch")];
+  const timers = new WeakMap();
+  const kick = (el, amp, delay) => setTimeout(() => {
+    el.style.setProperty("--amp", amp.toFixed(2));
+    el.style.setProperty("--tilt", ((Math.random() - 0.5) * 16 * amp).toFixed(1));
+    el.classList.add("up");
+    clearTimeout(timers.get(el));
+    timers.set(el, setTimeout(() => el.classList.remove("up"), 2200 + Math.random() * 600));
+  }, delay);
+  const hit = (i) => { // the hovered letter jumps most, its neighbours ripple a little
+    [[0, 1], [-1, 0.55], [1, 0.55], [-2, 0.25], [2, 0.25]].forEach(([d, amp]) => { const el = chars[i + d]; if (el) kick(el, amp, Math.abs(d) * 55); });
+  };
+  chars.forEach((el, i) => el.addEventListener("pointerenter", () => hit(i)));
+  h.addEventListener("pointerdown", (e) => { const i = chars.indexOf(e.target.closest(".ch")); if (i >= 0) hit(i); });
 })();
 
 /* ---------- Hero: crossfading store art + typed role ---------- */
