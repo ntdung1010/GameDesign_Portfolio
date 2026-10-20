@@ -463,6 +463,9 @@ body { font-weight: 400; }
 /* company names in My Backstory */
 .tl-card .when .co { color: var(--accent); font-weight: 700; letter-spacing: .02em; }
 .m-co { color: var(--accent); }
+/* the school stands apart from the companies in blue */
+.tl-card .when .co.edu { color: #4fa3ff; }
+.m-co.edu { color: #2f7fe0; }
 /* hero intro: letters rise out of a blur, then the eyebrow and role fade in */
 .hero h1.intro .ch { opacity: 0; transform: translateY(.42em) scale(.96); filter: blur(10px); }
 .hero h1.intro.play .ch { animation: nameIn 1s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--d) * 55ms); }
@@ -895,7 +898,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
         <h3>${esc(s.title)}</h3>
-        <span class="when">${s.education ? `Education · ${esc(s.company)}` : `<b class="co">${esc(s.company)}</b>`}${s.years ? ` (${esc(s.years)})` : s.place ? ` · ${esc(s.place)}` : ""}</span>
+        <span class="when">${s.education ? `Education · <b class="co edu">${esc(s.company)}</b>` : `<b class="co">${esc(s.company)}</b>`}${s.years ? ` (${esc(s.years)})` : s.place ? ` · ${esc(s.place)}` : ""}</span>
         <p>${esc(s.summary)}</p>
         ${s.focus ? `<p>${esc(s.focus)}</p>` : ""}
         <button class="pill" type="button" data-story="${i}">${info}View details</button>
@@ -1128,7 +1131,7 @@ const modal = $("modal");
 let modalReturn = null;
 function openStory(i) {
   const s = STORY[i];
-  $("mTitle").innerHTML = `${esc(s.title)} at <span class="m-co">${esc(s.company)}</span>`;
+  $("mTitle").innerHTML = `${esc(s.title)} at <span class="m-co${s.education ? " edu" : ""}">${esc(s.company)}</span>`;
   const block = (d) => `<h4>${esc(d.h)}</h4>${d.p ? `<p>${esc(d.p)}</p>` : ""}<ul>${d.li.map(([b, t]) => `<li><b>${esc(b)}</b> → ${esc(t)}</li>`).join("")}</ul>`;
   const det = s.details || [], half = Math.ceil(det.length / 2);
   $("mBody").innerHTML = `<div>${det.slice(0, half).map(block).join("")}</div><div>${det.slice(half).map(block).join("")}</div>`;
