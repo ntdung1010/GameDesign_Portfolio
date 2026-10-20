@@ -751,7 +751,12 @@ const STORY = [
     focus: "The engineering habit stayed: I like to know how a system works under the hood.",
     details: [
       { h: "Work", li: [["Embedded software", "C++ development on embedded systems"], ["Engineering", "reading specs, debugging and testing"]] },
-      { h: "Education", li: [["VNU University of Engineering and Technology", "Hanoi"]] },
+    ] },
+  { title: "Computer Engineering", company: "VNU University of Engineering and Technology", years: "", place: "Hanoi", education: true,
+    summary: "Where it started: I studied Computer Engineering and learned to program, from C++ to how hardware and software fit together.",
+    focus: "",
+    details: [
+      { h: "Education", li: [["Major", "Computer Engineering"], ["School", "VNU University of Engineering and Technology"], ["City", "Hanoi"]] },
     ] },
 ];
 const GAMES = [
@@ -845,7 +850,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
         <h3>${esc(s.title)}</h3>
-        <span class="when">${esc(s.company)} (${esc(s.years)})</span>
+        <span class="when">${s.education ? "Education · " : ""}${esc(s.company)}${s.years ? ` (${esc(s.years)})` : s.place ? ` · ${esc(s.place)}` : ""}</span>
         <p>${esc(s.summary)}</p>
         ${s.focus ? `<p>${esc(s.focus)}</p>` : ""}
         <button class="pill" type="button" data-story="${i}">${info}View details</button>
