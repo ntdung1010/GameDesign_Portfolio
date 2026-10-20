@@ -428,6 +428,30 @@ html[data-view="play"] .float-links, html[data-view="sail"] .float-links { displ
 .tl-card h3 { font-weight: 500; letter-spacing: -.01em; }
 .tl-card .when, .now, .scroll-cue, .count { font-family: var(--f-body); }
 body { font-weight: 400; }
+/* ===== About: stats column, text, slanted portrait ===== */
+.sect.about { position: relative; overflow: hidden; padding-left: var(--edge); padding-right: 0; }
+.about-in { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; width: 62%; }
+.about-text { min-width: 0; }
+.about-stats { list-style: none; margin: 0; padding: 0 clamp(16px, 2vw, 28px) 0 0; border-right: 2px dashed var(--line); display: grid; gap: 30px; justify-items: center; text-align: center; }
+.about-stats li { display: grid; justify-items: center; gap: 4px; }
+.about-stats svg { color: var(--muted); }
+.about-stats b { font-family: var(--f-title); font-weight: 400; font-size: 38px; line-height: 1.05; font-variant-numeric: tabular-nums; color: var(--ink); }
+.about-stats span { font-family: var(--f-body); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); max-width: 11ch; line-height: 1.35; }
+.about-photo { position: absolute; top: 0; right: 0; bottom: 0; width: 36%; margin: 0; clip-path: polygon(16% 0, 100% 0, 100% 100%, 0 100%); background: linear-gradient(160deg, #2b3a4a, #121a21); overflow: hidden; }
+.about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.about-photo .ph-art { position: absolute; inset: 0; display: grid; place-items: end center; }
+.about-photo .ph-art svg { width: 78%; height: auto; }
+.about-photo figcaption { position: absolute; left: 22%; bottom: 18px; font-family: var(--f-body); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: rgba(241,245,243,.6); }
+@media (max-width: 960px) {
+  .sect.about { padding-right: var(--gxr); padding-left: var(--gx); }
+  .about-in { width: 100%; }
+  .about-photo { position: relative; width: 100%; height: 300px; margin-top: 40px; clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%); }
+}
+@media (max-width: 560px) {
+  .about-in { grid-template-columns: minmax(0, 1fr); }
+  .about-stats { border-right: 0; border-bottom: 2px dashed var(--line); padding: 0 0 22px; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .about-stats b { font-size: 28px; }
+}
 </style>
 
 <div id="boot" role="status" aria-label="Loading">
@@ -492,14 +516,18 @@ body { font-weight: 400; }
     <div class="scroll-cue" aria-hidden="true"><span>Scroll</span><i></i></div>
   </section>
 
-  <section class="sect" id="about">
-    <div class="wrap center rv">
-      <span class="eyebrow" id="aboutEyebrow">Game designer specialized in puzzle games</span>
-      <h2 class="big" id="aboutTitle">Hello, I'm a<br>game designer.</h2>
-      <p class="lead" id="aboutBio"></p>
-      <p class="ask">Want to see what I've shipped?</p>
-      <a class="cta" href="#portfolio">View portfolio</a>
+  <section class="sect about" id="about">
+    <div class="about-in">
+      <ul class="about-stats" id="aboutStats" aria-label="At a glance"></ul>
+      <div class="center rv about-text">
+        <span class="eyebrow" id="aboutEyebrow">Game designer specialized in puzzle games</span>
+        <h2 class="big" id="aboutTitle">Hello, I'm a<br>game designer.</h2>
+        <p class="lead" id="aboutBio"></p>
+        <p class="ask">Want to see what I've shipped?</p>
+        <a class="cta" href="#portfolio">View portfolio</a>
+      </div>
     </div>
+    <figure class="about-photo" id="aboutPhoto" aria-label="Portrait"></figure>
   </section>
 
   <section class="story" id="backstory" aria-labelledby="storyTitle">
@@ -703,6 +731,7 @@ const PROFILE = {
   years: 4,
   bio: "Four years designing mobile games, specialized in puzzles. I build core loops, design levels and difficulty curves, balance boosters and in-game economy, and use A/B tests and player data to decide what ships.",
   roles: ["Puzzle", "Level", "Systems", "Gameplay"],   // typed in the hero before "Design"
+  photo: "",   // e.g. "icons/portrait.jpg"; empty shows a placeholder
   linkedin: "https://www.linkedin.com/in/dungntgd/",
   email: "dungnt1010.work@gmail.com",
 };
@@ -819,7 +848,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
   }
   $("heroEyebrow").textContent = `${PROFILE.role} · ${PROFILE.years} years in mobile games`;
   $("aboutEyebrow").textContent = `Game designer · ${PROFILE.years} years · specialized in puzzle games`;
-  $("aboutBio").innerHTML = `${esc(PROFILE.bio)} I've worked on <b>${GAMES.length} titles</b> across <b>Google Play</b> and the <b>App Store</b>, from water sort and bird sort to food match and item sorting.`;
+  $("aboutBio").innerHTML = `${esc(PROFILE.bio)} I've shipped <b>${GAMES.length + MORE_GAMES.length} titles</b> across <b>Google Play</b> and the <b>App Store</b>, from water sort and bird sort to food match and item sorting.`;
   const ICONS = {
     pad: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 11v3M5.5 12.5h3"/><circle cx="16" cy="11.5" r="1" fill="currentColor"/><circle cx="18" cy="13.5" r="1" fill="currentColor"/></svg>',
     chart: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
@@ -857,6 +886,37 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
       <b>${esc(g.short)}</b>
       <span>${esc(g.store)}</span>
     </a>`).join("");
+
+  // About: stats column (counts up when it scrolls into view) and the portrait
+  const STAT_ICONS = {
+    phones: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="4" width="13" height="25" rx="2.5"/><rect x="18" y="8" width="13" height="25" rx="2.5" fill="var(--page)"/><path d="M9.5 25.5h4M22.5 29.5h4" stroke-linecap="round"/></svg>',
+    pad: '<svg width="38" height="36" viewBox="0 0 38 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 11h14c5 0 8 4 9 10l.6 4c.5 3.4-3.6 5.4-6 2.9L25.5 24h-13l-4.1 3.9C6 30.4 1.9 28.4 2.4 25l.6-4c1-6 4-10 9-10z"/><path d="M11 15v6M8 18h6"/><circle cx="25.5" cy="16.5" r="1.2" fill="currentColor"/><circle cx="28.5" cy="19.5" r="1.2" fill="currentColor"/><path d="M19 11V7c0-2 1-3 3-3"/></svg>',
+    studio: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M5 32V13l9-6v25M14 32V4l17 6v22M3 32h30"/><path d="M19 13h2M25 13h2M19 18h2M25 18h2M19 23h2M25 23h2M8 18h2M8 23h2"/></svg>',
+    cup: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4h16v8a8 8 0 0 1-16 0z"/><path d="M10 7H5c0 5 2 8 5.5 8.5M26 7h5c0 5-2 8-5.5 8.5M18 20v6M12 32h12M14 26h8v6h-8z"/></svg>',
+  };
+  const STATS = [
+    { icon: "phones", n: GAMES.length + MORE_GAMES.length, label: "Shipped games" },
+    { icon: "pad", n: PROFILE.years, label: "Years in games" },
+    { icon: "studio", n: 2, label: "Game studios" },
+    { icon: "cup", n: 2, label: "Store platforms" },
+  ];
+  $("aboutStats").innerHTML = STATS.map(st => `<li>${STAT_ICONS[st.icon]}<b data-n="${st.n}">${st.n}</b><span>${esc(st.label)}</span></li>`).join("");
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    const countIO = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return; countIO.disconnect();
+      const nums = $("aboutStats").querySelectorAll("b"), t0 = performance.now();
+      nums.forEach(b => { b.textContent = "0"; });
+      setTimeout(() => nums.forEach(b => { b.textContent = b.dataset.n; }), 1600); // always land on the real number
+      const step = (now) => { const k = Math.min(1, (now - t0) / 1300), ease = 1 - Math.pow(1 - k, 3);
+        $("aboutStats").querySelectorAll("b").forEach(b => { b.textContent = Math.round(+b.dataset.n * ease); });
+        if (k < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    }, { threshold: 0.4 });
+    countIO.observe($("aboutStats"));
+  }
+  $("aboutPhoto").innerHTML = PROFILE.photo
+    ? `<img src="${PROFILE.photo}" alt="${esc(PROFILE.name)}" loading="lazy" decoding="async">`
+    : `<div class="ph-art" aria-hidden="true"><svg viewBox="0 0 200 220"><defs><linearGradient id="phg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5f7a8f"/><stop offset="1" stop-color="#2a3846"/></linearGradient></defs><circle cx="100" cy="72" r="38" fill="url(#phg)"/><path d="M28 220c4-56 34-86 72-86s68 30 72 86z" fill="url(#phg)"/></svg></div><figcaption>Photo coming soon</figcaption>`;
 
   // Contact icons pinned to the bottom-right corner (LinkedIn, email)
   const IC_LI = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="9" width="4" height="12" rx="1"/><circle cx="5" cy="5" r="2.2"/><path d="M10 9h3.8v1.8c.6-1.1 2-2.1 4-2.1 3.3 0 4.2 2.1 4.2 5.2V21h-4v-6.2c0-1.5-.3-2.8-1.9-2.8-1.7 0-2.1 1.2-2.1 2.8V21h-4z"/></svg>';
