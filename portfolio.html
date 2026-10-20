@@ -402,11 +402,23 @@ html[data-view="play"] .float-links, html[data-view="sail"] .float-links { displ
 /* ===== Typography in the style of the reference: Poppins-like titles, Montserrat headings ===== */
 .hero h1, .role, .logo, .tl-card h3, .item h3, .app b, .lbl b, :is(#panel, #sPanel) h2, .play-body h3, .m-card h3, .more-head h3, .boot-name, .skill-head h3 { font-family: var(--f-title); }
 .hero h1 { font-weight: 800; font-size: clamp(42px, 9.6vw, 120px); letter-spacing: -.02em; perspective: 700px; }
-/* hero name: each letter bounces up and tips back on hover, then springs home */
-.hero h1 .word { display: inline-block; white-space: nowrap; }
-.hero h1 .ch { display: inline-block; transform-origin: 50% 90%; transition: transform .75s cubic-bezier(.34,1.56,.64,1), color .6s ease; will-change: transform; cursor: default; }
-.hero h1 .ch.up { transform: translateY(calc(var(--amp, 1) * -.26em)) rotateX(calc(var(--amp, 1) * 52deg)) rotateZ(calc(var(--tilt, 0) * 1deg)); transition: transform .32s cubic-bezier(.2,1.8,.4,1), color .2s ease; color: var(--accent); }
-@media (prefers-reduced-motion: reduce) { .hero h1 .ch, .hero h1 .ch.up { transform: none !important; } }
+/* hero name: a hovered letter falls over (back, sideways or forward), lies there, then springs back up */
+.hero h1 .word { display: inline-block; white-space: nowrap; perspective: 600px; }
+.hero h1 .ch { display: inline-block; transform-origin: 50% 92%; cursor: default; will-change: transform; transition: color .5s ease; }
+.hero h1 .ch.down { color: var(--accent); }
+.hero h1 .ch.fall-back { animation: fallBack .75s cubic-bezier(.45,0,.3,1) forwards; }
+.hero h1 .ch.rise-back { animation: riseBack .8s cubic-bezier(.3,1.4,.5,1) forwards; }
+.hero h1 .ch.fall-side { transform-origin: var(--ox, 100%) 92%; animation: fallSide .8s cubic-bezier(.5,0,.3,1) forwards; }
+.hero h1 .ch.rise-side { transform-origin: var(--ox, 100%) 92%; animation: riseSide .85s cubic-bezier(.3,1.4,.5,1) forwards; }
+.hero h1 .ch.fall-front { animation: fallFront .75s cubic-bezier(.45,0,.3,1) forwards; }
+.hero h1 .ch.rise-front { animation: riseFront .8s cubic-bezier(.3,1.4,.5,1) forwards; }
+@keyframes fallBack { 0% { transform: none; } 22% { transform: translateY(-.28em) rotateX(8deg); } 62% { transform: translateY(0) rotateX(74deg); } 76% { transform: rotateX(60deg); } 88% { transform: rotateX(70deg); } 100% { transform: rotateX(66deg); } }
+@keyframes riseBack { 0% { transform: rotateX(66deg); } 45% { transform: translateY(-.22em) rotateX(-10deg); } 72% { transform: rotateX(5deg); } 100% { transform: none; } }
+@keyframes fallSide { 0% { transform: none; } 18% { transform: translateY(-.14em) rotateZ(calc(var(--dir) * -6deg)); } 58% { transform: rotateZ(calc(var(--dir) * 92deg)); } 72% { transform: rotateZ(calc(var(--dir) * 80deg)); } 86% { transform: rotateZ(calc(var(--dir) * 89deg)); } 100% { transform: rotateZ(calc(var(--dir) * 86deg)); } }
+@keyframes riseSide { 0% { transform: rotateZ(calc(var(--dir) * 86deg)); } 48% { transform: translateY(-.16em) rotateZ(calc(var(--dir) * -9deg)); } 74% { transform: rotateZ(calc(var(--dir) * 3deg)); } 100% { transform: none; } }
+@keyframes fallFront { 0% { transform: none; } 22% { transform: translateY(-.24em) rotateX(-8deg); } 60% { transform: rotateX(-82deg) translateY(.04em); } 75% { transform: rotateX(-66deg); } 88% { transform: rotateX(-76deg); } 100% { transform: rotateX(-72deg); } }
+@keyframes riseFront { 0% { transform: rotateX(-72deg); } 45% { transform: translateY(-.2em) rotateX(10deg); } 72% { transform: rotateX(-4deg); } 100% { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .hero h1 .ch { animation: none !important; } }
 .role { font-weight: 600; letter-spacing: -.01em; }
 .logo { font-weight: 700; letter-spacing: -.01em; }
 .big, .story-head h2, .sg-head h2 { font-family: var(--f-display); font-weight: 800; letter-spacing: .01em; }
@@ -858,19 +870,26 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
   h.innerHTML = text.split(/\s+/).map(w => `<span class="word" aria-hidden="true">${[...w].map(c => `<span class="ch">${esc(c)}</span>`).join("")}</span>`).join(" ");
   if (reduceMotion) return;
   const chars = [...h.querySelectorAll(".ch")];
-  const timers = new WeakMap();
-  const kick = (el, amp, delay) => setTimeout(() => {
-    el.style.setProperty("--amp", amp.toFixed(2));
-    el.style.setProperty("--tilt", ((Math.random() - 0.5) * 16 * amp).toFixed(1));
-    el.classList.add("up");
-    clearTimeout(timers.get(el));
-    timers.set(el, setTimeout(() => el.classList.remove("up"), 2200 + Math.random() * 600));
-  }, delay);
-  const hit = (i) => { // the hovered letter jumps most, its neighbours ripple a little
-    [[0, 1], [-1, 0.55], [1, 0.55], [-2, 0.25], [2, 0.25]].forEach(([d, amp]) => { const el = chars[i + d]; if (el) kick(el, amp, Math.abs(d) * 55); });
+  const KINDS = ["back", "side", "front"];
+  const clear = (el) => el.classList.remove("down", ...KINDS.map(k => "fall-" + k), ...KINDS.map(k => "rise-" + k));
+  const fall = (el) => {
+    if (el.dataset.busy) return; // a letter that is already down ignores new hits until it is back up
+    el.dataset.busy = "1";
+    const kind = KINDS[(Math.random() * KINDS.length) | 0];
+    const dir = Math.random() < 0.5 ? -1 : 1; // sideways falls go left or right
+    el.style.setProperty("--dir", dir); el.style.setProperty("--ox", dir > 0 ? "100%" : "0%");
+    clear(el); void el.offsetWidth; el.classList.add("down", "fall-" + kind);
+    setTimeout(() => {
+      el.classList.remove("fall-" + kind); el.classList.add("rise-" + kind);
+      setTimeout(() => { clear(el); delete el.dataset.busy; }, 850);
+    }, 2400 + Math.random() * 800);
   };
-  chars.forEach((el, i) => el.addEventListener("pointerenter", () => hit(i)));
-  h.addEventListener("pointerdown", (e) => { const i = chars.indexOf(e.target.closest(".ch")); if (i >= 0) hit(i); });
+  // hit zone: only the middle of the glyph counts, so brushing past an edge doesn't knock a neighbour over
+  chars.forEach((el) => el.addEventListener("pointermove", (e) => {
+    const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    if (x > 0.2 && x < 0.8 && y > 0.15 && y < 0.9) fall(el);
+  }));
+  h.addEventListener("pointerdown", (e) => { const el = e.target.closest(".ch"); if (el) fall(el); });
 })();
 
 /* ---------- Hero: crossfading store art + typed role ---------- */
