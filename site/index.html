@@ -460,6 +460,20 @@ body { font-weight: 400; }
   .about-stats { border-right: 0; border-bottom: 2px dashed var(--line); padding: 0 0 22px; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 10px; }
   .about-stats b { font-size: 28px; }
 }
+/* company names in My Backstory */
+.tl-card .when .co { color: var(--accent); font-weight: 700; letter-spacing: .02em; }
+.m-co { color: var(--accent); }
+/* hero intro: letters rise out of a blur, then the eyebrow and role fade in */
+.hero h1.intro .ch { opacity: 0; transform: translateY(.42em) scale(.96); filter: blur(10px); }
+.hero h1.intro.play .ch { animation: nameIn 1s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--d) * 55ms); }
+@keyframes nameIn { to { opacity: 1; transform: none; filter: blur(0); } }
+.hero-copy > .eyebrow, .hero-copy > .role { transition: opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1); }
+.hero-copy.intro-wait > .eyebrow, .hero-copy.intro-wait > .role { opacity: 0 !important; transform: translateY(12px); }
+@media (prefers-reduced-motion: reduce) { .hero h1.intro .ch { opacity: 1; transform: none; filter: none; } .hero-copy.intro-wait > .eyebrow, .hero-copy.intro-wait > .role { opacity: 1 !important; transform: none; } }
+/* hero background video: covers the hero, blurred and darkened; the icon art stays underneath as a fallback */
+.hero-video { position: absolute; inset: 0; overflow: hidden; opacity: 0; transition: opacity 1.8s ease; pointer-events: none; }
+.hero-video.on { opacity: 1; }
+.hero-video iframe { position: absolute; top: 50%; left: 50%; border: 0; width: max(100%, calc((100vh - var(--head-total)) * 1.7778)); height: max(100%, 56.25vw); transform: translate(-50%, -50%) scale(1.22); filter: blur(5px) brightness(.5) saturate(1.1); }
 </style>
 </head>
 <body>
@@ -515,6 +529,7 @@ body { font-weight: 400; }
 <main class="view" id="view-home" data-view="home">
   <section class="hero" id="home-top" aria-label="Intro">
     <div class="slides" id="slides"></div>
+    <div class="hero-video" id="heroVideo" aria-hidden="true"></div>
     <canvas class="fx" data-fx="34"></canvas>
     <div class="hero-copy">
       <span class="eyebrow" style="color:var(--dk-muted)" id="heroEyebrow">Game Designer</span>
@@ -741,6 +756,7 @@ const PROFILE = {
   bio: "Four years designing mobile games, specialized in puzzles. I build core loops, design levels and difficulty curves, balance boosters and in-game economy, and use A/B tests and player data to decide what ships.",
   roles: ["Puzzle", "Level", "Systems", "Gameplay"],   // typed in the hero before "Design"
   photo: "",   // e.g. "icons/portrait.jpg"; empty shows a placeholder
+  heroVideo: "LGO0C7Dh8UM",   // YouTube id played blurred behind the hero (only on the real site, not inside Claude's preview)
   linkedin: "https://www.linkedin.com/in/dungntgd/",
   email: "dungnt1010.work@gmail.com",
 };
@@ -879,7 +895,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
         <h3>${esc(s.title)}</h3>
-        <span class="when">${s.education ? "Education · " : ""}${esc(s.company)}${s.years ? ` (${esc(s.years)})` : s.place ? ` · ${esc(s.place)}` : ""}</span>
+        <span class="when">${s.education ? `Education · ${esc(s.company)}` : `<b class="co">${esc(s.company)}</b>`}${s.years ? ` (${esc(s.years)})` : s.place ? ` · ${esc(s.place)}` : ""}</span>
         <p>${esc(s.summary)}</p>
         ${s.focus ? `<p>${esc(s.focus)}</p>` : ""}
         <button class="pill" type="button" data-story="${i}">${info}View details</button>
@@ -903,7 +919,6 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
     phones: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="4" width="13" height="25" rx="2.5"/><rect x="18" y="8" width="13" height="25" rx="2.5" fill="var(--page)"/><path d="M9.5 25.5h4M22.5 29.5h4" stroke-linecap="round"/></svg>',
     pad: '<svg width="38" height="36" viewBox="0 0 38 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 11h14c5 0 8 4 9 10l.6 4c.5 3.4-3.6 5.4-6 2.9L25.5 24h-13l-4.1 3.9C6 30.4 1.9 28.4 2.4 25l.6-4c1-6 4-10 9-10z"/><path d="M11 15v6M8 18h6"/><circle cx="25.5" cy="16.5" r="1.2" fill="currentColor"/><circle cx="28.5" cy="19.5" r="1.2" fill="currentColor"/><path d="M19 11V7c0-2 1-3 3-3"/></svg>',
     studio: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M5 32V13l9-6v25M14 32V4l17 6v22M3 32h30"/><path d="M19 13h2M25 13h2M19 18h2M25 18h2M19 23h2M25 23h2M8 18h2M8 23h2"/></svg>',
-    store: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 13h24l-2 18H8z"/><path d="M13 13v-3a5 5 0 0 1 10 0v3"/><path d="M15 22l2.5 2.5L22 20"/></svg>',
     stack: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="4" y="4" width="12" height="12" rx="3.5"/><rect x="20" y="4" width="12" height="12" rx="3.5"/><rect x="4" y="20" width="12" height="12" rx="3.5"/><rect x="20" y="20" width="12" height="12" rx="3.5"/><path d="M26 23.5v5M23.5 26h5" stroke-linecap="round"/></svg>',
   };
   // Edit these three: games featured this year, the breakout hit, and earlier successful games
@@ -914,7 +929,6 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
     { icon: "phones", n: GAMES.length + MORE_GAMES.length, label: "Shipped games" },
     { icon: "pad", n: PROFILE.years, label: "Years in games" },
     { icon: "studio", n: 2, label: "Game studios" },
-    { icon: "store", n: 2, label: "Store platforms" },
   ];
   $("aboutStats").innerHTML = STATS.map(st => `<li>${STAT_ICONS[st.icon]}<b data-n="${st.n}" data-suffix="${st.suffix || ""}">${st.n}${st.suffix || ""}</b><span>${esc(st.label)}</span></li>`).join("");
   if (!reduceMotion && "IntersectionObserver" in window) {
@@ -966,10 +980,24 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
   h.innerHTML = text.split(/\s+/).map(w => `<span class="word" aria-hidden="true">${[...w].map(c => `<span class="ch">${esc(c)}</span>`).join("")}</span>`).join(" ");
   if (reduceMotion) return;
   const chars = [...h.querySelectorAll(".ch")];
+  // Intro, in the spirit of the reference: once the loader lifts, the letters rise in one by one, then the role line
+  const copy = h.closest(".hero-copy");
+  chars.forEach((el, i) => el.style.setProperty("--d", i));
+  h.classList.add("intro"); copy.classList.add("intro-wait");
+  let introDone = false;
+  const startIntro = () => {
+    if (introDone) return; introDone = true;
+    h.classList.add("play");
+    setTimeout(() => copy.classList.remove("intro-wait"), 900);
+    setTimeout(() => h.classList.remove("intro", "play"), chars.length * 55 + 1100);
+  };
+  const boot = $("boot");
+  if (!boot || boot.hidden || boot.classList.contains("done")) startIntro();
+  else { addEventListener("boot:done", startIntro, { once: true }); setTimeout(startIntro, 7500); }
   const KINDS = ["back", "side", "front"];
   const clear = (el) => el.classList.remove("down", ...KINDS.map(k => "fall-" + k), ...KINDS.map(k => "rise-" + k));
   const fall = (el) => {
-    if (el.dataset.busy) return; // a letter that is already down ignores new hits until it is back up
+    if (el.dataset.busy || h.classList.contains("intro")) return; // ignore hits while the intro plays or the letter is down
     el.dataset.busy = "1";
     const kind = KINDS[(Math.random() * KINDS.length) | 0];
     const dir = Math.random() < 0.5 ? -1 : 1; // sideways falls go left or right
@@ -986,6 +1014,21 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
     if (x > 0.2 && x < 0.8 && y > 0.15 && y < 0.9) fall(el);
   }));
   h.addEventListener("pointerdown", (e) => { const el = e.target.closest(".ch"); if (el) fall(el); });
+})();
+
+/* ---------- Hero background video (YouTube), blurred and darkened like the reference ---------- */
+(function heroVideo() {
+  const id = PROFILE.heroVideo;
+  // Embedded previews (like Claude's) block other sites in frames, so only the real, top-level site loads it
+  if (!id || reduceMotion || window.self !== window.top) return;
+  const mount = () => {
+    const f = document.createElement("iframe");
+    f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3&disablekb=1&fs=0`;
+    f.title = "Background video"; f.allow = "autoplay; encrypted-media; picture-in-picture"; f.tabIndex = -1;
+    f.addEventListener("load", () => setTimeout(() => $("heroVideo").classList.add("on"), 1400)); // hide YouTube's start-up overlay
+    $("heroVideo").appendChild(f);
+  };
+  if (document.readyState === "complete") setTimeout(mount, 300); else addEventListener("load", () => setTimeout(mount, 300), { once: true });
 })();
 
 /* ---------- Hero: crossfading store art + typed role ---------- */
@@ -1085,7 +1128,7 @@ const modal = $("modal");
 let modalReturn = null;
 function openStory(i) {
   const s = STORY[i];
-  $("mTitle").textContent = `${s.title} at ${s.company}`;
+  $("mTitle").innerHTML = `${esc(s.title)} at <span class="m-co">${esc(s.company)}</span>`;
   const block = (d) => `<h4>${esc(d.h)}</h4>${d.p ? `<p>${esc(d.p)}</p>` : ""}<ul>${d.li.map(([b, t]) => `<li><b>${esc(b)}</b> → ${esc(t)}</li>`).join("")}</ul>`;
   const det = s.details || [], half = Math.ceil(det.length / 2);
   $("mBody").innerHTML = `<div>${det.slice(0, half).map(block).join("")}</div><div>${det.slice(half).map(block).join("")}</div>`;
@@ -1140,6 +1183,7 @@ menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false
   }
   function finish() {
     el.classList.add("done");
+    setTimeout(() => dispatchEvent(new Event("boot:done")), reduceMotion ? 0 : 450); // the hero name starts its intro as the curtain lifts
     document.documentElement.classList.remove("booting");
     setTimeout(() => { el.hidden = true; }, reduceMotion ? 350 : 1400);
   }
