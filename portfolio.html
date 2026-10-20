@@ -436,7 +436,7 @@ body { font-weight: 400; }
 .about-stats li { display: grid; justify-items: center; gap: 4px; }
 .about-stats svg { color: var(--muted); }
 .about-stats b { font-family: var(--f-title); font-weight: 400; font-size: 38px; line-height: 1.05; font-variant-numeric: tabular-nums; color: var(--ink); }
-.about-stats span { font-family: var(--f-body); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); max-width: 11ch; line-height: 1.35; }
+.about-stats span { font-family: var(--f-body); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); max-width: 12ch; line-height: 1.35; }
 .about-photo { position: absolute; top: 0; right: 0; bottom: 0; width: 36%; margin: 0; clip-path: polygon(16% 0, 100% 0, 100% 100%, 0 100%); background: linear-gradient(160deg, #2b3a4a, #121a21); overflow: hidden; }
 .about-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .about-photo .ph-art { position: absolute; inset: 0; display: grid; place-items: end center; }
@@ -449,7 +449,7 @@ body { font-weight: 400; }
 }
 @media (max-width: 560px) {
   .about-in { grid-template-columns: minmax(0, 1fr); }
-  .about-stats { border-right: 0; border-bottom: 2px dashed var(--line); padding: 0 0 22px; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .about-stats { border-right: 0; border-bottom: 2px dashed var(--line); padding: 0 0 22px; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
   .about-stats b { font-size: 28px; }
 }
 </style>
@@ -889,26 +889,25 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
 
   // About: stats column (counts up when it scrolls into view) and the portrait
   const STAT_ICONS = {
-    phones: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="5" y="4" width="13" height="25" rx="2.5"/><rect x="18" y="8" width="13" height="25" rx="2.5" fill="var(--page)"/><path d="M9.5 25.5h4M22.5 29.5h4" stroke-linecap="round"/></svg>',
-    pad: '<svg width="38" height="36" viewBox="0 0 38 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 11h14c5 0 8 4 9 10l.6 4c.5 3.4-3.6 5.4-6 2.9L25.5 24h-13l-4.1 3.9C6 30.4 1.9 28.4 2.4 25l.6-4c1-6 4-10 9-10z"/><path d="M11 15v6M8 18h6"/><circle cx="25.5" cy="16.5" r="1.2" fill="currentColor"/><circle cx="28.5" cy="19.5" r="1.2" fill="currentColor"/><path d="M19 11V7c0-2 1-3 3-3"/></svg>',
-    studio: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M5 32V13l9-6v25M14 32V4l17 6v22M3 32h30"/><path d="M19 13h2M25 13h2M19 18h2M25 18h2M19 23h2M25 23h2M8 18h2M8 23h2"/></svg>',
-    cup: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4h16v8a8 8 0 0 1-16 0z"/><path d="M10 7H5c0 5 2 8 5.5 8.5M26 7h5c0 5-2 8-5.5 8.5M18 20v6M12 32h12M14 26h8v6h-8z"/></svg>',
+    star: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M18 4l4.1 8.6 9.4 1.2-6.9 6.5 1.8 9.3L18 25l-8.4 4.6 1.8-9.3-6.9-6.5 9.4-1.2z"/><path d="M30 3v4M28 5h4M6 27v3M4.5 28.5h3" stroke-linecap="round"/></svg>',
+    trophy: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4h16v8a8 8 0 0 1-16 0z"/><path d="M10 7H5c0 5 2 8 5.5 8.5M26 7h5c0 5-2 8-5.5 8.5M18 20v6M12 32h12M14 26h8v6h-8z"/><path d="M18 8.5l1.2 2.4 2.6.4-1.9 1.8.5 2.6-2.4-1.3-2.4 1.3.5-2.6-1.9-1.8 2.6-.4z" fill="currentColor" stroke="none"/></svg>',
+    stack: '<svg width="36" height="36" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><rect x="4" y="4" width="12" height="12" rx="3.5"/><rect x="20" y="4" width="12" height="12" rx="3.5"/><rect x="4" y="20" width="12" height="12" rx="3.5"/><rect x="20" y="20" width="12" height="12" rx="3.5"/><path d="M26 23.5v5M23.5 26h5" stroke-linecap="round"/></svg>',
   };
+  // Edit these three: games featured this year, the breakout hit, and earlier successful games
   const STATS = [
-    { icon: "phones", n: GAMES.length + MORE_GAMES.length, label: "Shipped games" },
-    { icon: "pad", n: PROFILE.years, label: "Years in games" },
-    { icon: "studio", n: 2, label: "Game studios" },
-    { icon: "cup", n: 2, label: "Store platforms" },
+    { icon: "star", n: 4, label: "Featured games this year" },
+    { icon: "trophy", n: 1, label: "Breakout hit" },
+    { icon: "stack", n: MORE_GAMES.length, suffix: "+", label: "Earlier successful games" },
   ];
-  $("aboutStats").innerHTML = STATS.map(st => `<li>${STAT_ICONS[st.icon]}<b data-n="${st.n}">${st.n}</b><span>${esc(st.label)}</span></li>`).join("");
+  $("aboutStats").innerHTML = STATS.map(st => `<li>${STAT_ICONS[st.icon]}<b data-n="${st.n}" data-suffix="${st.suffix || ""}">${st.n}${st.suffix || ""}</b><span>${esc(st.label)}</span></li>`).join("");
   if (!reduceMotion && "IntersectionObserver" in window) {
     const countIO = new IntersectionObserver(([e]) => {
       if (!e.isIntersecting) return; countIO.disconnect();
       const nums = $("aboutStats").querySelectorAll("b"), t0 = performance.now();
       nums.forEach(b => { b.textContent = "0"; });
-      setTimeout(() => nums.forEach(b => { b.textContent = b.dataset.n; }), 1600); // always land on the real number
+      setTimeout(() => nums.forEach(b => { b.textContent = b.dataset.n + b.dataset.suffix; }), 1600); // always land on the real number
       const step = (now) => { const k = Math.min(1, (now - t0) / 1300), ease = 1 - Math.pow(1 - k, 3);
-        $("aboutStats").querySelectorAll("b").forEach(b => { b.textContent = Math.round(+b.dataset.n * ease); });
+        $("aboutStats").querySelectorAll("b").forEach(b => { b.textContent = Math.round(+b.dataset.n * ease) + (k >= 1 ? b.dataset.suffix : ""); });
         if (k < 1) requestAnimationFrame(step); };
       requestAnimationFrame(step);
     }, { threshold: 0.4 });
