@@ -414,18 +414,19 @@ html[data-view="play"] .float-links, html[data-view="sail"] .float-links { displ
 .hero h1 .word { display: inline-block; white-space: nowrap; perspective: 600px; }
 .hero h1 .ch { display: inline-block; transform-origin: 50% 92%; cursor: default; will-change: transform; transition: color .5s ease; }
 .hero h1 .ch.down { color: var(--accent); }
-.hero h1 .ch.fall-back { animation: fallBack .75s cubic-bezier(.45,0,.3,1) forwards; }
-.hero h1 .ch.rise-back { animation: riseBack .8s cubic-bezier(.3,1.4,.5,1) forwards; }
-.hero h1 .ch.fall-side { transform-origin: var(--ox, 100%) 92%; animation: fallSide .8s cubic-bezier(.5,0,.3,1) forwards; }
-.hero h1 .ch.rise-side { transform-origin: var(--ox, 100%) 92%; animation: riseSide .85s cubic-bezier(.3,1.4,.5,1) forwards; }
-.hero h1 .ch.fall-front { animation: fallFront .75s cubic-bezier(.45,0,.3,1) forwards; }
-.hero h1 .ch.rise-front { animation: riseFront .8s cubic-bezier(.3,1.4,.5,1) forwards; }
-@keyframes fallBack { 0% { transform: none; } 22% { transform: translateY(-.28em) rotateX(8deg); } 62% { transform: translateY(0) rotateX(74deg); } 76% { transform: rotateX(60deg); } 88% { transform: rotateX(70deg); } 100% { transform: rotateX(66deg); } }
-@keyframes riseBack { 0% { transform: rotateX(66deg); } 45% { transform: translateY(-.22em) rotateX(-10deg); } 72% { transform: rotateX(5deg); } 100% { transform: none; } }
-@keyframes fallSide { 0% { transform: none; } 18% { transform: translateY(-.14em) rotateZ(calc(var(--dir) * -6deg)); } 58% { transform: rotateZ(calc(var(--dir) * 92deg)); } 72% { transform: rotateZ(calc(var(--dir) * 80deg)); } 86% { transform: rotateZ(calc(var(--dir) * 89deg)); } 100% { transform: rotateZ(calc(var(--dir) * 86deg)); } }
-@keyframes riseSide { 0% { transform: rotateZ(calc(var(--dir) * 86deg)); } 48% { transform: translateY(-.16em) rotateZ(calc(var(--dir) * -9deg)); } 74% { transform: rotateZ(calc(var(--dir) * 3deg)); } 100% { transform: none; } }
-@keyframes fallFront { 0% { transform: none; } 22% { transform: translateY(-.24em) rotateX(-8deg); } 60% { transform: rotateX(-82deg) translateY(.04em); } 75% { transform: rotateX(-66deg); } 88% { transform: rotateX(-76deg); } 100% { transform: rotateX(-72deg); } }
-@keyframes riseFront { 0% { transform: rotateX(-72deg); } 45% { transform: translateY(-.2em) rotateX(10deg); } 72% { transform: rotateX(-4deg); } 100% { transform: none; } }
+.hero h1 .ch.fall-back { animation: fallBack .9s cubic-bezier(.33,0,.25,1) forwards; }
+.hero h1 .ch.rise-back { animation: riseBack .9s cubic-bezier(.3,1.15,.5,1) forwards; }
+.hero h1 .ch.fall-side { transform-origin: var(--ox, 100%) 92%; animation: fallSide .9s cubic-bezier(.33,0,.25,1) forwards; }
+.hero h1 .ch.rise-side { transform-origin: var(--ox, 100%) 92%; animation: riseSide .9s cubic-bezier(.3,1.15,.5,1) forwards; }
+.hero h1 .ch.fall-front { animation: fallFront .9s cubic-bezier(.33,0,.25,1) forwards; }
+.hero h1 .ch.rise-front { animation: riseFront .9s cubic-bezier(.3,1.15,.5,1) forwards; }
+/* gentle: a small hop, one lean, one soft settle */
+@keyframes fallBack { 0% { transform: none; } 30% { transform: translateY(-.08em) rotateX(6deg); } 80% { transform: rotateX(40deg); } 100% { transform: rotateX(36deg); } }
+@keyframes riseBack { 0% { transform: rotateX(36deg); } 60% { transform: translateY(-.05em) rotateX(-3deg); } 100% { transform: none; } }
+@keyframes fallSide { 0% { transform: none; } 30% { transform: translateY(-.06em) rotateZ(calc(var(--dir) * -2deg)); } 80% { transform: rotateZ(calc(var(--dir) * 24deg)); } 100% { transform: rotateZ(calc(var(--dir) * 21deg)); } }
+@keyframes riseSide { 0% { transform: rotateZ(calc(var(--dir) * 21deg)); } 60% { transform: rotateZ(calc(var(--dir) * -2deg)); } 100% { transform: none; } }
+@keyframes fallFront { 0% { transform: none; } 30% { transform: translateY(-.08em) rotateX(-5deg); } 80% { transform: rotateX(-38deg); } 100% { transform: rotateX(-34deg); } }
+@keyframes riseFront { 0% { transform: rotateX(-34deg); } 60% { transform: translateY(-.05em) rotateX(3deg); } 100% { transform: none; } }
 @media (prefers-reduced-motion: reduce) { .hero h1 .ch { animation: none !important; } }
 .role { font-weight: 600; letter-spacing: -.01em; }
 .logo { font-weight: 700; letter-spacing: -.01em; }
@@ -890,7 +891,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
     clear(el); void el.offsetWidth; el.classList.add("down", "fall-" + kind);
     setTimeout(() => {
       el.classList.remove("fall-" + kind); el.classList.add("rise-" + kind);
-      setTimeout(() => { clear(el); delete el.dataset.busy; }, 850);
+      setTimeout(() => { clear(el); delete el.dataset.busy; }, 950);
     }, 2400 + Math.random() * 800);
   };
   // hit zone: only the middle of the glyph counts, so brushing past an edge doesn't knock a neighbour over
