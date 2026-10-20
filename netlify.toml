@@ -1,0 +1,5 @@
+# Netlify: rebuild site/ from portfolio.html on every deploy, then publish only that folder.
+# This file overrides the build settings in the Netlify dashboard.
+[build]
+  command = "python3 build_site.py"
+  publish = "site"
