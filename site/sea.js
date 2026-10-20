@@ -111,7 +111,7 @@ window.initSea = function initSea() {
     const t = new T.CanvasTexture(c); t.anisotropy = MAX_ANISO; if (srgb) t.encoding = T.sRGBEncoding; return t;
   }
   const stripes = (cols, n, vertical = true) => canvasTex(256, 256, (g, w, h) => { for (let i = 0; i < n; i++) { g.fillStyle = cols[i % cols.length]; if (vertical) g.fillRect(i * w / n, 0, w / n + 1, h); else g.fillRect(0, i * h / n, w, h / n + 1); } });
-  const textTex = (str, { w = 512, h = 160, bg = "rgba(0,0,0,0)", fg = "#ffffff", font = "800 96px Unbounded, Arial Black, sans-serif" } = {}) =>
+  const textTex = (str, { w = 512, h = 160, bg = "rgba(0,0,0,0)", fg = "#ffffff", font = "800 96px Montserrat, Arial Black, sans-serif" } = {}) =>
     canvasTex(w, h, (g) => { g.fillStyle = bg; g.fillRect(0, 0, w, h); g.font = font; g.textAlign = "center"; g.textBaseline = "middle"; g.fillStyle = fg; g.fillText(str, w / 2, h / 2 + 6); });
 
   /* ---------- waves: the same function runs in the water shader and in JS (for bobbing) ---------- */
@@ -355,7 +355,7 @@ window.initSea = function initSea() {
       // About sign and a flag
       const post = mesh(new T.CylinderGeometry(0.1, 0.1, 2.6, 8), woodDark); post.position.set(2.4, 2.2, 1.5); st.add(post);
       const board = new T.Mesh(roundedBox(2.8, 1.0, 0.14, 0.12), whiteM); board.position.set(2.4, 3.2, 1.5); board.castShadow = true; st.add(board);
-      const txt = new T.Mesh(new T.PlaneGeometry(2.6, 0.82), new T.MeshBasicMaterial({ map: textTex("ABOUT ME", { fg: "#16242a", font: "800 86px Unbounded, Arial Black, sans-serif" }), transparent: true, toneMapped: false }));
+      const txt = new T.Mesh(new T.PlaneGeometry(2.6, 0.82), new T.MeshBasicMaterial({ map: textTex("ABOUT ME", { fg: "#16242a", font: "800 86px Montserrat, Arial Black, sans-serif" }), transparent: true, toneMapped: false }));
       txt.position.set(2.4, 3.2, 1.58); an.add(txt);
       const pole = mesh(new T.CylinderGeometry(0.07, 0.07, 6, 8), whiteM); pole.position.set(-1.5, 4, 2); st.add(pole);
       const flag = mesh(new T.PlaneGeometry(1.8, 1.1, 10, 1), basic(0xff5d3a, { side: T.DoubleSide }), false); flag.position.set(-0.6, 6.4, 2); flag.userData.keep = true; an.add(flag);

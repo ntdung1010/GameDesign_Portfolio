@@ -4,7 +4,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,800&family=JetBrains+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Montserrat:wght@500;600;700;800&display=swap">
 <style>
 /* Layout: fixed header with three tabs (Home, Portfolio, Play).
    Home = dark cinematic hero (store art crossfades behind the name), about, skills, a dark "My Backstory"
@@ -27,9 +27,11 @@
   --dk-ink: #f1f5f3;
   --dk-muted: rgba(241, 245, 243, .68);
   --dk-line: rgba(241, 245, 243, .85);
-  --f-display: "Unbounded", "Arial Black", system-ui, sans-serif;
-  --f-body: "Nunito Sans", "Segoe UI", system-ui, sans-serif;
-  --f-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  /* Montserrat for section headings and the menu, Be Vietnam Pro for titles, labels and body; both carry full Vietnamese */
+  --f-display: "Montserrat", "Segoe UI", system-ui, sans-serif;
+  --f-title: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "Be Vietnam Pro", "Segoe UI", system-ui, sans-serif;
   --gx: max(16px, env(safe-area-inset-left, 0px));
   --gxr: max(16px, env(safe-area-inset-right, 0px));
   --head-h: 64px;
@@ -63,7 +65,7 @@ body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f
 button, a { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 10px; }
 kbd { font-family: var(--f-mono); font-size: 12px; display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); border-bottom-width: 3px; color: var(--ink); line-height: 1; }
-.eyebrow { font-family: var(--f-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.eyebrow { font-family: var(--f-mono); font-weight: 600; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
 .cta { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 48px; padding: 0 22px; border-radius: 12px; background: var(--accent); color: var(--accent-ink); font-weight: 800; text-decoration: none; border: 0; cursor: pointer; letter-spacing: .02em; }
 .cta:hover { filter: brightness(1.06); }
 .ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
@@ -397,6 +399,17 @@ html.booting, html.booting body { overflow: hidden; }
 .float-links a:hover { transform: translateY(-2px) scale(1.06); background: var(--accent); color: #ffffff; }
 html[data-view="play"] .float-links, html[data-view="sail"] .float-links { display: none; }
 @media (max-width: 640px) { .float-links { gap: 8px; } .float-links a { width: 38px; height: 38px; } }
+/* ===== Typography in the style of the reference: Poppins-like titles, Montserrat headings ===== */
+.hero h1, .role, .logo, .tl-card h3, .item h3, .app b, .lbl b, :is(#panel, #sPanel) h2, .play-body h3, .m-card h3, .more-head h3, .boot-name, .skill-head h3 { font-family: var(--f-title); }
+.hero h1 { font-weight: 700; letter-spacing: -.015em; }
+.role { font-weight: 600; letter-spacing: -.01em; }
+.logo { font-weight: 700; letter-spacing: -.01em; }
+.big, .story-head h2, .sg-head h2 { font-family: var(--f-display); font-weight: 800; letter-spacing: .01em; }
+.tabs a { font-family: var(--f-display); font-weight: 600; font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
+#menu a { font-family: var(--f-display); font-weight: 800; text-transform: uppercase; letter-spacing: .01em; }
+.tl-card h3 { font-weight: 500; letter-spacing: -.01em; }
+.tl-card .when, .now, .scroll-cue, .count { font-family: var(--f-body); }
+body { font-weight: 400; }
 </style>
 
 <div id="boot" role="status" aria-label="Loading">
@@ -534,7 +547,7 @@ html[data-view="play"] .float-links, html[data-view="sail"] .float-links { displ
         <div class="play-art" aria-hidden="true">
           <svg viewBox="0 0 360 200">
             <path d="M26 172 C 60 160, 70 130, 130 114 S 200 90, 232 84 S 300 50, 334 28" fill="none" stroke="var(--surface)" stroke-width="10" stroke-linecap="round" stroke-dasharray="2 18"/>
-            <g font-family="Unbounded, Arial Black, sans-serif" font-weight="700" font-size="15" text-anchor="middle"><circle cx="26" cy="172" r="16" fill="var(--accent)"/><text x="26" y="178" fill="var(--accent-ink)">0</text><circle cx="80" cy="146" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="80" y="152" fill="var(--ink)">1</text><circle cx="130" cy="114" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="130" y="120" fill="var(--ink)">2</text><circle cx="182" cy="94" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="182" y="100" fill="var(--ink)">3</text><circle cx="232" cy="84" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="232" y="90" fill="var(--ink)">4</text><circle cx="282" cy="58" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="282" y="64" fill="var(--ink)">5</text><circle cx="334" cy="28" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="334" y="34" fill="var(--ink)">6</text></g>
+            <g font-family="Montserrat, Arial Black, sans-serif" font-weight="700" font-size="15" text-anchor="middle"><circle cx="26" cy="172" r="16" fill="var(--accent)"/><text x="26" y="178" fill="var(--accent-ink)">0</text><circle cx="80" cy="146" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="80" y="152" fill="var(--ink)">1</text><circle cx="130" cy="114" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="130" y="120" fill="var(--ink)">2</text><circle cx="182" cy="94" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="182" y="100" fill="var(--ink)">3</text><circle cx="232" cy="84" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="232" y="90" fill="var(--ink)">4</text><circle cx="282" cy="58" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="282" y="64" fill="var(--ink)">5</text><circle cx="334" cy="28" r="14" fill="var(--surface)" stroke="var(--accent)" stroke-width="4"/><text x="334" y="34" fill="var(--ink)">6</text></g>
             <g transform="translate(54 150) rotate(-18)"><rect x="-17" y="-10" width="34" height="20" rx="5" fill="#f3f4f1" stroke="#1b1e21" stroke-width="2"/><rect x="-10" y="-8" width="11" height="16" rx="3" fill="#1b1e21"/><rect x="-18" y="-12" width="7" height="5" rx="2" fill="#1b1e21"/><rect x="-18" y="7" width="7" height="5" rx="2" fill="#1b1e21"/><rect x="10" y="-12" width="7" height="5" rx="2" fill="#1b1e21"/><rect x="10" y="7" width="7" height="5" rx="2" fill="#1b1e21"/></g>
           </svg>
         </div>
@@ -1365,7 +1378,7 @@ function merge(list) {
 const M4 = (x = 0, y = 0, z = 0, rx = 0, ry = 0, rz = 0, s = 1) =>
   new THREE.Matrix4().compose(new THREE.Vector3(x, y, z), new THREE.Quaternion().setFromEuler(new THREE.Euler(rx, ry, rz)), new THREE.Vector3(s, s, s));
 
-function textTexture(str, { size = 512, font = "700 300px Unbounded, Arial Black, sans-serif", color = "#ffffff", y = 0.55 } = {}) {
+function textTexture(str, { size = 512, font = "700 300px Montserrat, Arial Black, sans-serif", color = "#ffffff", y = 0.55 } = {}) {
   const c = document.createElement("canvas"); c.width = c.height = size;
   const g = c.getContext("2d");
   g.font = font; g.textAlign = "center"; g.textBaseline = "middle";
