@@ -37,9 +37,6 @@ def build():
     os.makedirs(os.path.join(SITE, "icons"))
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
         f.write(html)
-    for name in ("sea.js",):  # extra scripts the page loads on demand
-        if os.path.exists(os.path.join(HERE, name)):
-            shutil.copy2(os.path.join(HERE, name), os.path.join(SITE, name))
     icons = os.path.join(HERE, "icons")
     for name in sorted(os.listdir(icons)):
         if name.lower().endswith((".png", ".webp", ".jpg")):

@@ -68,7 +68,7 @@
 .spin { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--line); border-top-color: var(--accent); animation: spin .8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 html { scroll-behavior: smooth; }
-html[data-view="play"], html[data-view="play"] body, html[data-view="sail"], html[data-view="sail"] body { overflow: hidden; height: 100%; }
+html[data-view="play"], html[data-view="play"] body { overflow: hidden; height: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.6; -webkit-tap-highlight-color: transparent; }
 button, a { font: inherit; color: inherit; }
 :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 10px; }
@@ -235,17 +235,17 @@ footer.foot .wrap { display: flex; justify-content: space-between; gap: 12px; fl
 .facts span { font-size: 12px; font-weight: 800; padding: 4px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); }
 
 /* ===== Play view (game) ===== */
-#app, #seaApp { position: fixed; top: var(--head-total); left: 0; right: 0; bottom: 0; z-index: 1; background: var(--bg); }
+#app { position: fixed; top: var(--head-total); left: 0; right: 0; bottom: 0; z-index: 1; background: var(--bg); }
 #c, #sc { display: block; width: 100%; height: 100%; touch-action: none; cursor: grab; }
-#labels, #sLabels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+#labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
 .lbl { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; align-items: center; gap: 2px; white-space: nowrap; transition: opacity .2s; }
 .lbl small { font-family: var(--f-mono); font-size: 10px; letter-spacing: .12em; color: var(--accent-ink); background: var(--accent); padding: 2px 7px; border-radius: 5px; }
 .lbl.done small { background: var(--ok); }
 .lbl b { font-family: var(--f-display); font-weight: 500; font-size: 13px; color: var(--ink); background: var(--surface); padding: 4px 10px; border-radius: 8px; box-shadow: var(--shadow); }
-.game-ui, .sea-ui { display: none; }
-html[data-view="play"] .game-ui, html[data-view="sail"] .sea-ui { display: revert; }
+.game-ui { display: none; }
+html[data-view="play"] .game-ui { display: revert; }
 .hud { position: fixed; top: var(--top); left: var(--gx); right: var(--gxr); align-items: center; justify-content: flex-end; gap: 8px; pointer-events: none; z-index: 5; }
-html[data-view="play"] .hud.game-ui, html[data-view="sail"] .hud.sea-ui { display: flex; }
+html[data-view="play"] .hud.game-ui { display: flex; }
 .hud > * { pointer-events: auto; }
 .chip { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); font-size: 13px; font-weight: 700; white-space: nowrap; }
 button.chip { cursor: pointer; }
@@ -255,35 +255,35 @@ button.chip:hover { border-color: var(--accent); }
 .dots i.on { background: var(--ok); transform: scale(1.15); }
 .count { font-family: var(--f-mono); font-size: 12px; font-variant-numeric: tabular-nums; }
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow); }
-:is(#panel, #sPanel) { position: fixed; top: calc(var(--top) + 52px); right: var(--gxr); width: 340px; max-width: calc(100% - 32px); overflow: hidden; z-index: 6; transform: translateX(24px); opacity: 0; pointer-events: none; transition: transform .28s cubic-bezier(.2,.9,.3,1.2), opacity .2s; }
-html[data-view="play"] #panel, html[data-view="sail"] #sPanel { display: block; }
-:is(#panel, #sPanel).show { transform: none; opacity: 1; pointer-events: auto; }
-:is(#panel, #sPanel) .tube { height: 10px; }
-:is(#panel, #sPanel) .pbody { padding: 18px 20px 20px; display: grid; gap: 10px; }
-:is(#panel, #sPanel) .phead { display: flex; gap: 12px; align-items: center; padding-right: 28px; }
-:is(#panel, #sPanel) .phead img, :is(#panel, #sPanel) .phead .ph { width: 52px; height: 52px; border-radius: 13px; flex: none; font-size: 16px; }
-:is(#panel, #sPanel) h2 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: -.01em; text-wrap: balance; }
-:is(#panel, #sPanel) p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
+#panel { position: fixed; top: calc(var(--top) + 52px); right: var(--gxr); width: 340px; max-width: calc(100% - 32px); overflow: hidden; z-index: 6; transform: translateX(24px); opacity: 0; pointer-events: none; transition: transform .28s cubic-bezier(.2,.9,.3,1.2), opacity .2s; }
+html[data-view="play"] #panel { display: block; }
+#panel.show { transform: none; opacity: 1; pointer-events: auto; }
+#panel .tube { height: 10px; }
+#panel .pbody { padding: 18px 20px 20px; display: grid; gap: 10px; }
+#panel .phead { display: flex; gap: 12px; align-items: center; padding-right: 28px; }
+#panel .phead img, #panel .phead .ph { width: 52px; height: 52px; border-radius: 13px; flex: none; font-size: 16px; }
+#panel h2 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: 18px; line-height: 1.2; letter-spacing: -.01em; text-wrap: balance; }
+#panel p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .tags span { font-size: 12px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); }
-:is(#panel, #sPanel) .cta { height: 44px; padding: 0 18px; }
+#panel .cta { height: 44px; padding: 0 18px; }
 .hint { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; }
 .x { position: absolute; top: 18px; right: 12px; width: 32px; height: 32px; border-radius: 10px; border: 0; background: transparent; cursor: pointer; font-size: 20px; line-height: 1; color: var(--muted); }
-:is(#tut, #sTut) { position: fixed; left: 0; right: 0; margin-inline: auto; bottom: calc(var(--bot) + 8px); width: min(460px, calc(100% - 32px)); padding: 14px 16px; z-index: 6; gap: 10px; transition: opacity .3s, transform .3s; }
-html[data-view="play"] #tut, html[data-view="sail"] #sTut { display: grid; }
-:is(#tut, #sTut).hide { opacity: 0; transform: translateY(16px); pointer-events: none; }
+#tut { position: fixed; left: 0; right: 0; margin-inline: auto; bottom: calc(var(--bot) + 8px); width: min(460px, calc(100% - 32px)); padding: 14px 16px; z-index: 6; gap: 10px; transition: opacity .3s, transform .3s; }
+html[data-view="play"] #tut { display: grid; }
+#tut.hide { opacity: 0; transform: translateY(16px); pointer-events: none; }
 .tut-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .steps { display: flex; gap: 5px; }
 .steps i { width: 22px; height: 5px; border-radius: 3px; background: var(--line); }
 .steps i.on { background: var(--accent); }
 .steps i.done { background: var(--ok); }
-:is(#tutText, #sTutText) { font-size: 16px; font-weight: 600; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; min-height: 28px; line-height: 1.4; }
+#tutText { font-size: 16px; font-weight: 600; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; min-height: 28px; line-height: 1.4; }
 .link { background: none; border: 0; padding: 4px 2px; font-size: 13px; color: var(--muted); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
 .tick { animation: pop .5s ease; }
 @keyframes pop { 0% { transform: scale(.96); } 50% { transform: scale(1.03); } 100% { transform: none; } }
-:is(#legend, #sLegend) { position: fixed; left: var(--gx); bottom: var(--bot); gap: 14px; align-items: center; font-size: 12px; color: var(--muted); z-index: 4; flex-wrap: wrap; }
-html[data-view="play"] #legend, html[data-view="sail"] #sLegend { display: flex; }
-:is(#legend, #sLegend) span { display: inline-flex; gap: 4px; align-items: center; }
+#legend { position: fixed; left: var(--gx); bottom: var(--bot); gap: 14px; align-items: center; font-size: 12px; color: var(--muted); z-index: 4; flex-wrap: wrap; }
+html[data-view="play"] #legend { display: flex; }
+#legend span { display: inline-flex; gap: 4px; align-items: center; }
 #joy { position: fixed; width: 120px; height: 120px; margin: -60px 0 0 -60px; border-radius: 50%; border: 2px solid var(--line); background: color-mix(in srgb, var(--surface) 40%, transparent); pointer-events: none; z-index: 7; }
 #joy i { position: absolute; left: 50%; top: 50%; width: 46px; height: 46px; margin: -23px 0 0 -23px; border-radius: 50%; background: var(--accent); box-shadow: var(--shadow); }
 #toast { position: fixed; left: 50%; top: calc(var(--top) + 52px); transform: translate(-50%, -10px); opacity: 0; z-index: 9; padding: 10px 16px; font-weight: 800; transition: opacity .3s, transform .3s; pointer-events: none; text-align: center; max-width: calc(100% - 32px); }
@@ -309,10 +309,10 @@ html[data-view="play"] #legend, html[data-view="sail"] #sLegend { display: flex;
 }
 @media (max-width: 640px) {
   .chip { padding: 0 10px; }
-  :is(#panel, #sPanel) { top: auto; bottom: calc(var(--bot) + 4px); left: var(--gx); right: var(--gxr); width: auto; max-width: none; transform: translateY(24px); }
-  :is(#panel, #sPanel) p.desc { font-size: 14px; }
-  :is(#tut, #sTut).lift { bottom: auto; top: calc(var(--top) + 48px); }
-  :is(#legend, #sLegend) { display: none !important; }
+  #panel { top: auto; bottom: calc(var(--bot) + 4px); left: var(--gx); right: var(--gxr); width: auto; max-width: none; transform: translateY(24px); }
+  #panel p.desc { font-size: 14px; }
+  #tut.lift { bottom: auto; top: calc(var(--top) + 48px); }
+  #legend { display: none !important; }
   #toast { top: calc(var(--top) + 170px); }
   .now { bottom: calc(var(--bot) + 52px); }
   .scroll-cue span { display: none; }
@@ -350,15 +350,6 @@ html.booting, html.booting body { overflow: hidden; }
 .snd[aria-pressed="false"] .on, .snd[aria-pressed="true"] .off { display: none; }
 @media (prefers-reduced-motion: reduce) { #boot { transition: opacity .3s; } #boot.done { clip-path: none; opacity: 0; } }
 
-/* ===== Sail tab ===== */
-#seaApp { background: #9fd8ee; }
-.tabs a.sail-tab { background: #1597a8; color: #ffffff; margin-left: 6px; display: inline-flex; gap: 8px; align-items: center; }
-.tabs a.sail-tab[aria-current="page"]::after { display: none; }
-.tabs a.sail-tab[aria-current="page"] { box-shadow: inset 0 0 0 2px var(--ink); }
-.count-big { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--f-display); font-weight: 800; font-size: clamp(64px, 14vw, 170px); letter-spacing: -.04em; color: #ffffff; text-shadow: 0 10px 40px rgba(0,0,0,.35); pointer-events: none; z-index: 3; }
-.count-big.pop { animation: bigPop .8s cubic-bezier(.2,.9,.3,1.2); }
-@keyframes bigPop { 0% { transform: scale(.4); opacity: 0; } 30% { transform: scale(1.12); opacity: 1; } 100% { transform: scale(1); opacity: .95; } }
-.sea-art { background: linear-gradient(#bfe9f7, #7fd0e6 55%, #3fb2cf); }
 /* ===== More games (older titles) ===== */
 .more { margin-top: 48px; display: grid; gap: 14px; text-align: left; }
 .more-head { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 6px; }
@@ -378,7 +369,7 @@ html.booting, html.booting body { overflow: hidden; }
 .sg-art { position: relative; overflow: hidden; min-height: 480px; background: var(--dk-bg); }
 .sg-art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(12,17,21,0) 25%, rgba(12,17,21,.7) 100%); pointer-events: none; }
 .sg-tiles { position: absolute; left: -25%; right: -25%; top: -45%; bottom: -45%; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: clamp(10px, 1.6vw, 22px); align-content: center; transform: rotate(-14deg); will-change: transform; }
-.sg-tiles img { width: 100%; aspect-ratio: 1; border-radius: 23%; box-shadow: 0 14px 30px rgba(0,0,0,.45); display: block; }
+.sg-tiles img { width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; border-radius: 23%; box-shadow: 0 14px 30px rgba(0,0,0,.45); display: block; }
 .sg-tiles img:nth-child(odd) { transform: translateY(18%); }
 .sg-text { padding-block: clamp(44px, 6vw, 88px); padding-inline: clamp(24px, 5vw, 80px); display: grid; gap: 30px; align-content: center; min-width: 0; }
 .sg-head { display: grid; gap: 8px; }
@@ -405,10 +396,10 @@ html.booting, html.booting body { overflow: hidden; }
 .float-links { position: fixed; right: var(--edge-r); bottom: calc(var(--bot) + 4px); z-index: 25; display: grid; gap: 10px; }
 .float-links a { width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; background: #eef0ef; color: #1b1f22; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,.18); transition: transform .2s, background .2s, color .2s; }
 .float-links a:hover { transform: translateY(-2px) scale(1.06); background: var(--accent); color: #ffffff; }
-html[data-view="play"] .float-links, html[data-view="sail"] .float-links { display: none; }
+html[data-view="play"] .float-links { display: none; }
 @media (max-width: 640px) { .float-links { gap: 8px; } .float-links a { width: 38px; height: 38px; } }
 /* ===== Typography in the style of the reference: Poppins-like titles, Montserrat headings ===== */
-.hero h1, .role, .logo, .tl-card h3, .item h3, .app b, .lbl b, :is(#panel, #sPanel) h2, .play-body h3, .m-card h3, .more-head h3, .boot-name, .skill-head h3 { font-family: var(--f-title); }
+.hero h1, .role, .logo, .tl-card h3, .item h3, .app b, .lbl b, #panel h2, .play-body h3, .m-card h3, .more-head h3, .boot-name, .skill-head h3 { font-family: var(--f-title); }
 .hero h1 { font-weight: 800; font-size: clamp(42px, 9.6vw, 120px); letter-spacing: -.02em; perspective: 700px; }
 /* hero name: a hovered letter falls over (back, sideways or forward), lies there, then springs back up */
 .hero h1 .word { display: inline-block; white-space: nowrap; perspective: 600px; }
@@ -463,9 +454,6 @@ body { font-weight: 400; }
 /* company names in My Backstory */
 .tl-card .when .co { color: var(--accent); font-weight: 700; letter-spacing: .02em; }
 .m-co { color: var(--accent); }
-/* the school stands apart from the companies in blue */
-.tl-card .when .co.edu { color: #4fa3ff; }
-.m-co.edu { color: #2f7fe0; }
 /* hero intro: letters rise out of a blur, then the eyebrow and role fade in */
 .hero h1.intro .ch { opacity: 0; transform: translateY(.42em) scale(.96); filter: blur(10px); }
 .hero h1.intro.play .ch { animation: nameIn 1s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--d) * 55ms); }
@@ -513,7 +501,6 @@ body { font-weight: 400; }
       <a href="#home" data-tab="home">Home</a>
       <a href="#portfolio" data-tab="portfolio">Portfolio</a>
       <a href="#play" data-tab="play" class="play-tab"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg>Play the map</a>
-      <a href="#sail" data-tab="sail" class="sail-tab"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v13M12 4l7 10h-7M3 18c2 2 4 2 6 0s4-2 6 0 4 2 6 0"/></svg>Sail the islands</a>
     </nav>
     <button class="burger" id="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu"><span><i></i><i></i><i></i></span></button>
   </div>
@@ -525,7 +512,6 @@ body { font-weight: 400; }
   <a href="#games">My Games</a>
   <a href="#portfolio">Portfolio</a>
   <a href="#play">Play the map</a>
-  <a href="#sail">Sail the islands</a>
 </nav>
 
 <!-- ===================== HOME ===================== -->
@@ -598,7 +584,7 @@ body { font-weight: 400; }
       <span class="eyebrow">Want to know more?</span>
       <h2 class="big">Take the scenic route</h2>
       <p class="lead">My portfolio is also a small 3D game: drive across a level map and stop at each game.</p>
-      <div class="row" style="justify-content:center"><a class="cta" href="#play">Play the map</a><a class="cta" href="#sail" style="background:#1597a8;color:#fff">Sail the islands</a><a class="cta ghost" href="#portfolio">See the list</a></div>
+      <div class="row" style="justify-content:center"><a class="cta" href="#play">Play the map</a><a class="cta ghost" href="#portfolio">See the list</a></div>
     </div>
   </section>
   <footer class="foot"><div class="wrap"><span class="copy">© 2026 Game Design Portfolio</span><span>Made with a level map</span></div></footer>
@@ -629,26 +615,6 @@ body { font-weight: 400; }
           <p>Drive a toy car across a 3D level map. Each game is a level pad: drive onto it to see the game and open its store page. A short tutorial runs first.</p>
           <div class="facts"><span>About 2 minutes</span><span>Keyboard or touch</span><span>6 levels</span></div>
           <div class="row"><a class="cta" href="#play">Open the Play tab</a></div>
-        </div>
-      </article>
-      <article class="play-card">
-        <div class="play-art sea-art" aria-hidden="true">
-          <svg viewBox="0 0 360 200">
-            <ellipse cx="80" cy="120" rx="46" ry="16" fill="#f2dca8"/><ellipse cx="80" cy="114" rx="30" ry="10" fill="#6fc06e"/>
-            <ellipse cx="250" cy="70" rx="40" ry="14" fill="#f2dca8"/><ellipse cx="250" cy="64" rx="24" ry="8" fill="#9b4dff"/>
-            <ellipse cx="300" cy="150" rx="30" ry="11" fill="#f2dca8"/><rect x="296" y="118" width="8" height="30" rx="3" fill="#ffffff"/><rect x="296" y="126" width="8" height="6" fill="#e8402f"/><rect x="296" y="138" width="8" height="6" fill="#e8402f"/>
-            <path d="M130 158 q20 -8 40 0 t40 0" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" opacity=".8"/>
-            <path d="M20 180 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" fill="none" stroke="#ffffff" stroke-width="3" opacity=".5"/>
-            <g transform="translate(170 132) rotate(-12)"><path d="M-26 0 L22 0 L30 -6 L-22 -6 Z" fill="#ffffff" stroke="#16324a" stroke-width="2"/><rect x="-6" y="-16" width="14" height="10" rx="3" fill="#16324a"/><rect x="-26" y="-2" width="6" height="4" fill="#ff5d3a"/></g>
-            <path d="M118 140 q-12 4 -24 0" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="play-body">
-          <span class="eyebrow">Interactive · New</span>
-          <h3>Sail the islands</h3>
-          <p>Take a boat across a sunny sea. Each game has its own island, fish and dolphins swim around you, and a buoy course hides a boat race against two rivals.</p>
-          <div class="facts"><span>6 islands</span><span>Boat race</span><span>Keyboard or touch</span></div>
-          <div class="row"><a class="cta" href="#sail" style="background:#1597a8;color:#fff">Open the Sail tab</a></div>
         </div>
       </article>
       <div class="grid" id="listGrid"></div>
@@ -694,45 +660,6 @@ body { font-weight: 400; }
 <div id="legend" class="key-only game-ui">
   <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> drive</span>
   <span><kbd>Shift</kbd> boost</span>
-  <span><kbd>R</kbd> reset</span>
-  <span>Scroll to zoom</span>
-</div>
-<!-- ===================== SAIL ===================== -->
-<div id="seaApp" hidden>
-  <canvas id="sc" aria-label="3D sea with islands. Steer the boat to visit each game."></canvas>
-  <div id="sLabels"></div>
-  <div class="count-big" id="sBig" hidden></div>
-  <div class="loader" id="sLoader" hidden><span class="spin" aria-hidden="true"></span><span id="sLoaderText">Filling the ocean…</span></div>
-</div>
-<div class="hud sea-ui" id="sHud">
-  <div class="chip" title="Islands visited"><span class="dots" id="sDots"></span><span class="count" id="sCnt">0/6</span></div>
-  <div class="chip" id="sTimerChip" hidden><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9 2h6"/></svg><span class="count" id="sTime">0:00.0</span></div>
-  <button class="chip" id="sQuit" type="button" hidden>Quit race</button>
-  <button class="chip snd" id="btnSound2" type="button" aria-pressed="true" aria-label="Music and sound"><svg class="on" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg><svg class="off" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9 5 6M21 9l-5 6"/></svg><span id="soundLabel2">Music on</span></button>
-  <button class="chip" id="sZOut" type="button" aria-label="Zoom out">−</button>
-  <button class="chip" id="sZIn" type="button" aria-label="Zoom in">+</button>
-  <button class="chip" id="sBtnTut" type="button" hidden>Tutorial</button>
-</div>
-<aside id="sPanel" class="card sea-ui" aria-live="polite">
-  <div class="tube" id="sTube"></div>
-  <button class="x" id="sClose" type="button" aria-label="Close">×</button>
-  <div class="pbody">
-    <div class="eyebrow" id="sEyebrow"></div>
-    <div class="phead"><span id="sIcon"></span><h2 id="sTitle"></h2></div>
-    <p class="desc" id="sDesc"></p>
-    <div class="tags" id="sTags"></div>
-    <div class="row" id="sActions"></div>
-    <div class="hint key-only" id="sHint"><kbd>Enter</kbd> to open · sail away to close</div>
-  </div>
-</aside>
-<section id="sTut" class="card hide sea-ui" aria-live="polite">
-  <div class="tut-top"><span class="eyebrow" id="sTutStepLabel">Tutorial · 1/4</span><div class="steps" id="sTutSteps"></div></div>
-  <div id="sTutText"></div>
-  <div><button class="link" id="sTutSkip" type="button">Skip tutorial</button></div>
-</section>
-<div id="sLegend" class="key-only sea-ui">
-  <span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> steer</span>
-  <span><kbd>Shift</kbd> throttle</span>
   <span><kbd>R</kbd> reset</span>
   <span>Scroll to zoom</span>
 </div>
@@ -852,9 +779,8 @@ const store = {
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 let isTouch = matchMedia("(pointer: coarse)").matches;
 const Game = {}; // filled in by initGame() the first time the Play tab opens
-const Sea = {};  // filled in by initSea() (sea.js) the first time the Sail tab opens
 const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-function setTouch(v) { isTouch = v; document.body.classList.toggle("is-touch", v); Game.onTouch?.(); Sea.onTouch?.(); }
+function setTouch(v) { isTouch = v; document.body.classList.toggle("is-touch", v); Game.onTouch?.(); }
 document.body.classList.toggle("is-touch", isTouch);
 const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 function iconHTML(g, cls = "") {
@@ -898,7 +824,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
       <span class="tl-dot" aria-hidden="true"></span>
       <div class="tl-card">
         <h3>${esc(s.title)}</h3>
-        <span class="when">${s.education ? `Education · <b class="co edu">${esc(s.company)}</b>` : `<b class="co">${esc(s.company)}</b>`}${s.years ? ` (${esc(s.years)})` : s.place ? ` · ${esc(s.place)}` : ""}</span>
+        <span class="when">${s.education ? `Education · <b class="co">${esc(s.company)}</b>` : `<b class="co">${esc(s.company)}</b>`}${s.years ? ` (${esc(s.years)})` : s.place ? ` · ${esc(s.place)}` : ""}</span>
         <p>${esc(s.summary)}</p>
         ${s.focus ? `<p>${esc(s.focus)}</p>` : ""}
         <button class="pill" type="button" data-story="${i}">${info}View details</button>
@@ -1131,7 +1057,7 @@ const modal = $("modal");
 let modalReturn = null;
 function openStory(i) {
   const s = STORY[i];
-  $("mTitle").innerHTML = `${esc(s.title)} at <span class="m-co${s.education ? " edu" : ""}">${esc(s.company)}</span>`;
+  $("mTitle").innerHTML = `${esc(s.title)} at <span class="m-co">${esc(s.company)}</span>`;
   const block = (d) => `<h4>${esc(d.h)}</h4>${d.p ? `<p>${esc(d.p)}</p>` : ""}<ul>${d.li.map(([b, t]) => `<li><b>${esc(b)}</b> → ${esc(t)}</li>`).join("")}</ul>`;
   const det = s.details || [], half = Math.ceil(det.length / 2);
   $("mBody").innerHTML = `<div>${det.slice(0, half).map(block).join("")}</div><div>${det.slice(half).map(block).join("")}</div>`;
@@ -1203,13 +1129,13 @@ menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false
   let w = 0, h = 0, running = false;
   const size = () => { const d = Math.min(devicePixelRatio, 1.5); w = innerWidth; h = innerHeight; cv.width = w * d; cv.height = h * d; ctx.setTransform(d, 0, 0, d, 0, 0); };
   size(); addEventListener("resize", size);
-  const LIFE = 420, pts = [], sparks = [];
+  const LIFE = 650, pts = [], sparks = [];
   const COLS = ["#ff5d3a", "#ffc93a", "#5bcf7a", "#3fb8f0", "#b69cff", "#ff8fb8"];
   addEventListener("pointermove", (e) => {
     if (e.pointerType !== "mouse") return;
     const now = performance.now();
     pts.push({ x: e.clientX, y: e.clientY, t: now });
-    if (Math.random() < 0.3) sparks.push({ x: e.clientX, y: e.clientY, vx: (Math.random() - 0.5) * 1.4, vy: (Math.random() - 0.5) * 1.4 - 0.5, life: 1, c: COLS[(Math.random() * COLS.length) | 0], r: 1.5 + Math.random() * 2.4 });
+    if (Math.random() < 0.3) sparks.push({ x: e.clientX, y: e.clientY, vx: (Math.random() - 0.5) * 0.9, vy: (Math.random() - 0.5) * 0.9 - 0.3, life: 1, c: COLS[(Math.random() * COLS.length) | 0], r: 2.4 + Math.random() * 3.4 });
     if (sparks.length > 80) sparks.shift();
     if (!running) { running = true; requestAnimationFrame(draw); }
   }, { passive: true });
@@ -1220,12 +1146,12 @@ menu.addEventListener("click", (e) => { if (e.target.closest("a")) setMenu(false
     for (let i = 1; i < pts.length; i++) {
       const a = pts[i - 1], b = pts[i], k = 1 - (now - b.t) / LIFE;
       ctx.strokeStyle = `hsl(${(b.t / 6) % 360} 90% 62%)`;
-      ctx.globalAlpha = k * 0.7; ctx.lineWidth = 1 + k * 7;
+      ctx.globalAlpha = k * 0.7; ctx.lineWidth = 2 + k * 11;
       ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
     }
     for (let i = sparks.length - 1; i >= 0; i--) {
       const s = sparks[i];
-      s.x += s.vx; s.y += s.vy; s.vy += 0.03; s.life -= 0.022;
+      s.x += s.vx; s.y += s.vy; s.vy += 0.02; s.life -= 0.014;
       if (s.life <= 0) { sparks.splice(i, 1); continue; }
       ctx.globalAlpha = s.life; ctx.fillStyle = s.c;
       ctx.beginPath(); ctx.arc(s.x, s.y, s.r * s.life, 0, Math.PI * 2); ctx.fill();
@@ -1347,15 +1273,6 @@ const Sound = (() => {
       engineGain.gain.setTargetAtTime(k * 0.045, t, 0.15);
       engineOsc.frequency.setTargetAtTime(40 + k * 40, t, 0.2);
     },
-    splash(vol = 0.5) {
-      if (!live()) return;
-      const t = ctx.currentTime, b = ctx.createBuffer(1, Math.floor(ctx.sampleRate * 0.5), ctx.sampleRate), d = b.getChannelData(0);
-      for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3);
-      const src = ctx.createBufferSource(); src.buffer = b;
-      const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 1300;
-      const g = ctx.createGain(); g.gain.value = 0.28 * vol;
-      src.connect(f).connect(g).connect(sfx); src.start(t);
-    },
     chime() { if (!live()) return; const t = ctx.currentTime; [76, 79, 84].forEach((m, i) => pluck(t + i * 0.11, m, 0.11, sfx)); },
     blip() { if (!live()) return; pluck(ctx.currentTime, 88, 0.05, sfx); },
     fanfare() { if (!live()) return; const t = ctx.currentTime; [72, 76, 79, 84, 88].forEach((m, i) => pluck(t + i * 0.12, m, 0.11, sfx)); },
@@ -1364,13 +1281,14 @@ const Sound = (() => {
 ["pointerdown", "keydown"].forEach(ev => addEventListener(ev, () => Sound.unlock(), { passive: true }));
 function renderSoundBtn() {
   const on = !Sound.muted;
-  [["btnSound", "soundLabel"], ["btnSound2", "soundLabel2"]].forEach(([b, l]) => { $(b).setAttribute("aria-pressed", String(on)); $(l).textContent = on ? "Music on" : "Music off"; });
+  $("btnSound").setAttribute("aria-pressed", String(on));
+  $("soundLabel").textContent = on ? "Music on" : "Music off";
 }
-["btnSound", "btnSound2"].forEach(id => { $(id).onclick = () => { Sound.setMuted(!Sound.muted); renderSoundBtn(); }; });
+$("btnSound").onclick = () => { Sound.setMuted(!Sound.muted); renderSoundBtn(); };
 renderSoundBtn();
 
 /* ---------- Views (tabs) ---------- */
-const VIEWS = ["home", "portfolio", "play", "sail"];
+const VIEWS = ["home", "portfolio", "play"];
 const THREE_URL = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
 let view = "home";
 function showView(v) {
@@ -1381,14 +1299,11 @@ function showView(v) {
   $("view-home").hidden = v !== "home";
   $("view-portfolio").hidden = v !== "portfolio";
   $("app").hidden = v !== "play";
-  $("seaApp").hidden = v !== "sail";
   document.querySelectorAll("[data-tab]").forEach(a => { if (a.dataset.tab === v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
   if (leaving === "play") Game.leave?.();
-  if (leaving === "sail") Sea.leave?.();
   if (v === "play") loadGame().then(() => { if (view === "play") Game.enter(); }).catch(() => {});
-  if (v === "sail") loadSea().then(() => { if (view === "sail") Sea.enter(); }).catch(() => {});
 }
-// Scripts load once and are shared: the 3D engine (both games) and sea.js (Sail tab)
+// Scripts load once: the 3D engine for the Play tab
 const scriptCache = {};
 function loadScript(src) {
   if (!scriptCache[src]) scriptCache[src] = new Promise((resolve, reject) => {
@@ -1409,17 +1324,6 @@ function loadGame() {
     catch (err) { console.error(err); $("loaderText").textContent = "The map couldn't start on this device."; reject(err); }
   }, 30)), () => { $("loaderText").textContent = "Couldn't load the 3D engine. Check your connection, then open the Play tab again."; gamePromise = null; throw new Error("three"); });
   return gamePromise;
-}
-// The sea world (sea.js) is built the first time the Sail tab opens
-let seaPromise = null;
-function loadSea() {
-  if (seaPromise) return seaPromise;
-  $("sLoader").hidden = false; $("sLoaderText").textContent = "Filling the ocean…";
-  seaPromise = loadScript(THREE_URL).then(() => loadScript("sea.js")).then(() => new Promise((resolve, reject) => setTimeout(() => {
-    try { window.initSea(); $("sLoader").hidden = true; resolve(); }
-    catch (err) { console.error(err); $("sLoaderText").textContent = "The sea couldn't start on this device."; reject(err); }
-  }, 30)), () => { $("sLoaderText").textContent = "Couldn't load the sea. Check your connection, then open the Sail tab again."; seaPromise = null; throw new Error("sea"); });
-  return seaPromise;
 }
 function go(id) {
   if (VIEWS.includes(id)) { showView(id); window.scrollTo({ top: 0, behavior: "instant" }); return; }
