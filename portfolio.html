@@ -708,6 +708,9 @@ const PROFILE = {
   heroVideo: "LGO0C7Dh8UM",   // YouTube id played blurred behind the hero (only on the real site, not inside Claude's preview)
   linkedin: "https://www.linkedin.com/in/dungntgd/",
   email: "dungnt1010.work@gmail.com",
+  // Telegram visit alerts: the /exec URL of the Apps Script in telegram/ (see telegram/HUONG-DAN.md). Empty turns them off.
+  // Open the site once with ?notrack to stop counting your own visits on that browser (?track turns it back on).
+  visitLog: "",
 };
 // Technical skills: tools and data work. Edit freely; an item can be "text" or { t: "text", sub: [...] }
 const TECH_SKILLS = [
@@ -2518,6 +2521,81 @@ applyTheme(); renderProgress();
 /* ---------- Boot ---------- */
 view = "";
 route();
+
+/* ---------- Visit alerts (Telegram, through the Apps Script relay) ---------- */
+(function visitAlerts() {
+  const url = PROFILE.visitLog;
+  const store = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} } };
+  const q = new URLSearchParams(location.search);
+  if (q.has("notrack")) store.set("pv-off", "1");
+  if (q.has("track")) store.set("pv-off", null);
+  const local = /^(localhost|127\.0\.0\.1|\[::1\]|.*\.localhost)$/.test(location.hostname) || location.protocol === "file:";
+  if (!/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(url || "") || local || window.self !== window.top || store.get("pv-off")) return;
+  const ua = navigator.userAgent;
+  if (/bot|crawl|spider|headless|lighthouse|preview/i.test(ua)) return;
+
+  // a random id kept on this browser only, so you can tell a first visit from a return visit
+  let me = null; try { me = JSON.parse(store.get("pv") || "null"); } catch {}
+  const now = Date.now(), first = !me;
+  me = me || { n: 0 }; const last = me.last; me.n++; me.last = now; store.set("pv", JSON.stringify(me));
+  const span = (ms) => { const m = ms / 60000; return m < 60 ? Math.max(1, Math.round(m)) + " min" : m < 1440 ? Math.round(m / 60) + " h" : Math.round(m / 1440) + " days"; };
+
+  const os = /iPhone/.test(ua) ? "iOS " + ((ua.match(/OS (\d+)_(\d+)/) || []).slice(1).join(".") || "")
+    : /iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) ? "iPadOS"
+    : /Android/.test(ua) ? "Android " + ((ua.match(/Android ([\d.]+)/) || [])[1] || "")
+    : /Windows/.test(ua) ? "Windows" : /CrOS/.test(ua) ? "ChromeOS" : /Mac OS X/.test(ua) ? "macOS" : /Linux/.test(ua) ? "Linux" : "Other";
+  const ver = (re) => (ua.match(re) || [])[1] || "";
+  const browser = /LinkedInApp/.test(ua) ? "LinkedIn app" : /FBAN|FBAV|FB_IAB/.test(ua) ? "Facebook app" : /Instagram/.test(ua) ? "Instagram app"
+    : /Zalo/i.test(ua) ? "Zalo app" : /Line\//.test(ua) ? "LINE app" : /Edg[A-Z]*\//.test(ua) ? "Edge " + ver(/Edg[A-Z]*\/(\d+)/)
+    : /OPR\//.test(ua) ? "Opera " + ver(/OPR\/(\d+)/) : /SamsungBrowser/.test(ua) ? "Samsung Internet " + ver(/SamsungBrowser\/(\d+)/)
+    : /Firefox|FxiOS/.test(ua) ? "Firefox " + ver(/(?:Firefox|FxiOS)\/(\d+)/) : /CriOS|Chrome/.test(ua) ? "Chrome " + ver(/(?:CriOS|Chrome)\/(\d+)/)
+    : /Safari/.test(ua) ? "Safari " + ver(/Version\/(\d+)/) : "Other browser";
+  let ref = ""; try { const r = new URL(document.referrer); if (r.host !== location.host) ref = r.host.replace(/^www\./, ""); } catch {}
+  const utm = [q.get("utm_source"), q.get("utm_campaign")].filter(Boolean).join(" / ");
+  const NAMES = { home: "Home", portfolio: "Portfolio", play: "Play the map" };
+  const info = {
+    sid: Math.random().toString(36).slice(2, 12) + now.toString(36).slice(-4),
+    n: me.n, ago: !first && last ? span(now - last) : "",
+    mobile: /Mobi|Android|iPhone|iPad/.test(ua) || navigator.maxTouchPoints > 1 && matchMedia("(pointer: coarse)").matches,
+    os, browser, model: "", screen: `${screen.width}×${screen.height}`, lang: navigator.language || "",
+    tz: Intl.DateTimeFormat().resolvedOptions().timeZone || "", ref, utm, page: NAMES[view] || "#" + view,
+  };
+  const tabs = [info.page], clicks = [];
+  let maxScroll = 0, started = false, sentKey = "";
+
+  const send = (type) => {
+    const body = JSON.stringify({ ...info, type, tabs, clicks, scroll: Math.round(maxScroll * 100), dur: span(Date.now() - now).replace(/^1 min$/, Math.round((Date.now() - now) / 1000) + " s") });
+    if (type === "update") { const k = body.replace(/"dur":"[^"]*"/, ""); if (k === sentKey && Date.now() - now < 60000) return; sentKey = k; }
+    const blob = new Blob([body], { type: "text/plain;charset=UTF-8" }); // a "simple" request: no CORS preflight
+    if (!(navigator.sendBeacon && navigator.sendBeacon(url, blob))) fetch(url, { method: "POST", body, mode: "no-cors", keepalive: true }).catch(() => {});
+  };
+  const start = () => { if (started) return; started = true; send("start"); };
+
+  // Chrome can say the exact phone or Windows version; other browsers simply leave these out
+  const hints = navigator.userAgentData?.getHighEntropyValues?.(["model", "platformVersion"]).then((h) => {
+    if (h.model) info.model = h.model;
+    if (h.platform === "Windows" && h.platformVersion) info.os = +h.platformVersion.split(".")[0] >= 13 ? "Windows 11" : "Windows 10";
+  }).catch(() => {});
+  // wait a moment so instant bounces and link previews don't buzz your phone
+  setTimeout(() => Promise.race([hints, new Promise(r => setTimeout(r, 600))]).then(() => { if (!document.hidden) start(); }), 2500);
+
+  addEventListener("scroll", () => { if (view === "home") maxScroll = Math.max(maxScroll, Math.min(1, (scrollY + innerHeight) / document.documentElement.scrollHeight)); }, { passive: true });
+  addEventListener("hashchange", () => setTimeout(() => { const t = NAMES[view]; if (t && tabs[tabs.length - 1] !== t) tabs.push(t); }, 0));
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("a[href]"); if (!a) return;
+    const href = a.getAttribute("href");
+    if (href.startsWith("#")) return; // tab changes are already tracked
+    const img = a.querySelector("img[alt]");
+    const label = href.startsWith("mailto:") ? "Email" : /linkedin\.com/.test(href) ? "LinkedIn"
+      : (a.querySelector("h3, b")?.textContent || img?.alt.replace(/ icon$/, "") || a.getAttribute("aria-label") || a.textContent).trim().replace(/\s+/g, " ").slice(0, 48);
+    const store2 = /play\.google/.test(href) ? " (Google Play)" : /apps\.apple/.test(href) ? " (App Store)" : "";
+    clicks.push(label + store2);
+    start(); setTimeout(() => send("update"), 400);
+  }, true);
+  const leave = () => { if (document.visibilityState === "hidden" && started) send("update"); };
+  document.addEventListener("visibilitychange", leave);
+  addEventListener("pagehide", () => { if (started) send("update"); });
+})();
 onScroll();
 // Warm the 3D engine while the visitor reads Home, so the Play tab opens fast
 const warm = () => { if (gamePromise || window.THREE) return; const l = document.createElement("link"); l.rel = "preload"; l.as = "script"; l.href = THREE_URL; document.head.appendChild(l); };
