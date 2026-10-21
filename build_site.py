@@ -38,8 +38,12 @@ def build():
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
         f.write(html)
     icons = os.path.join(HERE, "icons")
-    for name in sorted(os.listdir(icons)):
-        if name.lower().endswith((".png", ".webp", ".jpg")):
+    names = sorted(os.listdir(icons))
+    for name in names:
+        stem, ext = os.path.splitext(name)
+        if ext.lower() == ".png" and stem + ".webp" in names:
+            continue  # the page uses the lighter WebP copy; the PNG stays as the source
+        if ext.lower() in (".png", ".webp", ".jpg"):
             shutil.copy2(os.path.join(icons, name), os.path.join(SITE, "icons", name))
 
     with zipfile.ZipFile(ZIP, "w", zipfile.ZIP_DEFLATED) as z:

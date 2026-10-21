@@ -3,3 +3,9 @@
 [build]
   command = "python3 build_site.py"
   publish = "site"
+
+# Icons rarely change: let browsers keep them for a week instead of re-checking on every visit
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"

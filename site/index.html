@@ -12,7 +12,9 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect x=%2711%27 y=%274%27 width=%2710%27 height=%2712%27 rx=%273%27 fill=%27%23ff5d3a%27/%3E%3Crect x=%2711%27 y=%2716%27 width=%2710%27 height=%2712%27 rx=%274%27 fill=%27%232c9a6a%27/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Montserrat:wght@500;600;700;800&display=swap">
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Montserrat:wght@500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Montserrat:wght@500;600;700;800&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Montserrat:wght@500;600;700;800&display=swap"></noscript>
 <style>
 /* Layout: fixed header with three tabs (Home, Portfolio, Play).
    Home = dark cinematic hero (store art crossfades behind the name), about, skills, a dark "My Backstory"
@@ -761,38 +763,38 @@ const STORY = [
     ] },
 ];
 const GAMES = [
-  { id: "chaos", title: "Chaos Drink Sort: Water Puzzle", short: "Chaos Drink Sort", genre: "Water sort puzzle", store: "Google Play", icon: "icons/chaos.png",
+  { id: "chaos", title: "Chaos Drink Sort: Water Puzzle", short: "Chaos Drink Sort", genre: "Water sort puzzle", store: "Google Play", icon: "icons/chaos.webp",
     url: "https://play.google.com/store/apps/details?id=com.chaos.drink.sort",
     desc: "Sort colorful Halloween drinks into matching cups in a relaxing liquid sort puzzle.",
     tags: ["Sort puzzle", "Halloween theme", "Android"], colors: ["#8e44d9", "#ff8a1f", "#7bd23c", "#2d2a3e"] },
-  { id: "birdy", title: "Birdy Nest Sort", short: "Birdy Nest Sort", genre: "Bird sort puzzle", store: "Google Play", icon: "icons/birdy.png",
+  { id: "birdy", title: "Birdy Nest Sort", short: "Birdy Nest Sort", genre: "Bird sort puzzle", store: "Google Play", icon: "icons/birdy.webp",
     url: "https://play.google.com/store/apps/details?id=com.birdy.nest.sort",
     desc: "Sort birds onto branches by color, clear the branches and send every flock flying.",
     tags: ["Sort puzzle", "Android"], colors: ["#3f8fe8", "#f04a4a", "#ffc93a", "#6fcf8a"] },
-  { id: "water", title: "Water Sort Puzzle Premium", short: "Water Sort Premium", genre: "Water sort puzzle", store: "App Store", icon: "icons/water.png",
+  { id: "water", title: "Water Sort Puzzle Premium", short: "Water Sort Premium", genre: "Water sort puzzle", store: "App Store", icon: "icons/water.webp",
     url: "https://apps.apple.com/us/app/water-sort-puzzle-premium/id1566107229",
     desc: "Tap to pour water between glasses until every glass holds a single color.",
     tags: ["Sort puzzle", "iOS"], colors: ["#2fb6e8", "#ff5fa2", "#ffd84a", "#7b6cf6"] },
-  { id: "skewer", title: "Tasty Skewer Match", short: "Tasty Skewer Match", genre: "Food match puzzle", store: "Google Play", icon: "icons/skewer.png",
+  { id: "skewer", title: "Tasty Skewer Match", short: "Tasty Skewer Match", genre: "Food match puzzle", store: "Google Play", icon: "icons/skewer.webp",
     url: "https://play.google.com/store/apps/details?id=com.tasty.skewer.match&hl=en_SG",
     desc: "Grill up foodie fun: match ingredients on skewers to clear the board.",
     tags: ["Match puzzle", "Food theme", "Android"], colors: ["#a0522d", "#e8412f", "#5bbf3a", "#ffc23a"] },
-  { id: "mob", title: "Mob Rush Adventure", short: "Mob Rush Adventure", genre: "Item sort puzzle", store: "Google Play", icon: "icons/mob.png",
+  { id: "mob", title: "Mob Rush Adventure", short: "Mob Rush Adventure", genre: "Item sort puzzle", store: "Google Play", icon: "icons/mob.webp",
     url: "https://play.google.com/store/apps/details?id=com.mob.rush.adventure",
     desc: "Sort household items into the right boxes and pack every room neatly in a cozy organizing puzzle.",
     tags: ["Sort puzzle", "Organizing", "Android"], colors: ["#2aa7f0", "#f5a524", "#f47a7a", "#e6c79a"] },
-  { id: "hatch", title: "Birdy Sort: Hatchery Puzzle", short: "Birdy Sort Hatchery", genre: "Bird sort puzzle", store: "Google Play", icon: "icons/hatchery.png",
+  { id: "hatch", title: "Birdy Sort: Hatchery Puzzle", short: "Birdy Sort Hatchery", genre: "Bird sort puzzle", store: "Google Play", icon: "icons/hatchery.webp",
     url: "https://play.google.com/store/apps/details?id=com.birdy.sort.hatchery.puzzle.game",
     desc: "Match cute birds, clear crowded nests and solve clever sorting puzzles in a bright hatchery.",
     tags: ["Sort puzzle", "Match", "Android"], colors: ["#5cbf3a", "#ff7eb0", "#e8402f", "#ffc93a"] },
 ];
 /* Older titles, shown under "More games" (not on the 3D maps) */
 const MORE_GAMES = [
-  { title: "Cat Escape: Kitty Cat Games", genre: "Puzzle", icon: "icons/catescape.png", url: "https://play.google.com/store/apps/details?id=com.an.catescape.thecatgame&gl=IN",
+  { title: "Cat Escape: Kitty Cat Games", genre: "Puzzle", icon: "icons/catescape.webp", url: "https://play.google.com/store/apps/details?id=com.an.catescape.thecatgame&gl=IN",
     desc: "Think your way through tricky challenges to help the cat escape." },
-  { title: "Stick Hero 2: Tower Defense", genre: "Tower defense", icon: "icons/stickhero.png", url: "https://play.google.com/store/apps/details?id=com.an.stickhero.herowar&gl=IN",
+  { title: "Stick Hero 2: Tower Defense", genre: "Tower defense", icon: "icons/stickhero.webp", url: "https://play.google.com/store/apps/details?id=com.an.stickhero.herowar&gl=IN",
     desc: "Build a stick-hero army, attack the enemy and defend your tower." },
-  { title: "DIY 3D: Makeover Doll", genre: "Makeover · Dress-up", icon: "icons/diydoll.png", url: "https://play.google.com/store/apps/details?id=com.an.diypaperdoll.makeover3d&gl=IN",
+  { title: "DIY 3D: Makeover Doll", genre: "Makeover · Dress-up", icon: "icons/diydoll.webp", url: "https://play.google.com/store/apps/details?id=com.an.diypaperdoll.makeover3d&gl=IN",
     desc: "Do the makeup, outfit and style of a 3D doll your own way." },
 ];
 /* ================================ */
@@ -977,14 +979,27 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
   const id = PROFILE.heroVideo;
   // Embedded previews (like Claude's) block other sites in frames, so only the real, top-level site loads it
   if (!id || reduceMotion || window.self !== window.top) return;
+  const net = navigator.connection || {};
+  if (net.saveData || /(^|-)2g$/.test(net.effectiveType || "") || matchMedia("(max-width: 700px)").matches) return; // the blurred art is enough there
+  let f = null, playing = true;
+  const cmd = (func) => f?.contentWindow?.postMessage(JSON.stringify({ event: "command", func, args: [] }), "*");
+  const sync = () => { // only decode video while the hero is on screen and the tab is visible
+    const want = !document.hidden && view === "home" && $("home-top").getBoundingClientRect().bottom > 0;
+    if (want !== playing) { playing = want; cmd(want ? "playVideo" : "pauseVideo"); }
+  };
   const mount = () => {
-    const f = document.createElement("iframe");
-    f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3&disablekb=1&fs=0`;
+    f = document.createElement("iframe");
+    f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1`;
     f.title = "Background video"; f.allow = "autoplay; encrypted-media; picture-in-picture"; f.tabIndex = -1;
     f.addEventListener("load", () => setTimeout(() => $("heroVideo").classList.add("on"), 1400)); // hide YouTube's start-up overlay
     $("heroVideo").appendChild(f);
+    new IntersectionObserver(sync).observe($("home-top"));
+    document.addEventListener("visibilitychange", sync);
+    addEventListener("hashchange", () => setTimeout(sync, 50));
   };
-  if (document.readyState === "complete") setTimeout(mount, 300); else addEventListener("load", () => setTimeout(mount, 300), { once: true });
+  // after the loader and the page's own assets, so the player's scripts never compete with them
+  const later = () => (window.requestIdleCallback || setTimeout)(mount, { timeout: 2000 });
+  addEventListener("boot:done", () => document.readyState === "complete" ? later() : addEventListener("load", later, { once: true }), { once: true });
 })();
 
 /* ---------- Hero: crossfading store art + typed role ---------- */
@@ -1061,9 +1076,10 @@ if ("IntersectionObserver" in window && !reduceMotion) {
   const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.2, rootMargin: "0px 0px -8% 0px" });
   document.querySelectorAll(".rv, .divider, .tl-item, .shelf, .sg-head, .sg-col").forEach(el => io.observe(el));
 }
+let sgTiles = null;
 function onScroll() {
   if (view !== "home") return;
-  if (!reduceMotion) document.querySelectorAll(".sg-tiles").forEach(tl => {
+  if (!reduceMotion) (sgTiles ||= [...document.querySelectorAll(".sg-tiles")]).forEach(tl => {
     const r = tl.parentElement.getBoundingClientRect();
     if (r.bottom < 0 || r.top > innerHeight) return;
     const k = +tl.dataset.par, d = (r.top + r.height / 2 - innerHeight / 2);
