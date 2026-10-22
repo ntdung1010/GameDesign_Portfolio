@@ -1553,7 +1553,7 @@ function renderGame(id) {
   // soft art and reveals for what was just drawn
   $("view-game").querySelectorAll("[data-soft]").forEach(el => softArt(el));
   // the trailer fades in over the feature graphic once YouTube's start-up overlay has gone
-  $("view-game").querySelector(".gp-video iframe")?.addEventListener("load", (e) => setTimeout(() => e.target.parentElement.classList.add("on"), 1800));
+  $("view-game").querySelector(".gp-video iframe")?.addEventListener("load", (e) => { const box = e.target.parentElement; setTimeout(() => box?.classList.add("on"), 1800); });
   if (document.documentElement.classList.contains("reveal-ready")) {
     const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.15 });
     $("view-game").querySelectorAll(".rv").forEach(el => io.observe(el));
