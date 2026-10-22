@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 44">
+  <!-- the header logo: a test tube of sorted colours; the outline follows the browser's light or dark tab bar -->
+  <style>.o{stroke:#16242a}.r{fill:#16242a}@media (prefers-color-scheme:dark){.o{stroke:#e6efec}.r{fill:#e6efec}}</style>
+  <defs><clipPath id="t"><path d="M7.6 5H20.4V31.5a6.4 6.4 0 0 1-12.8 0Z"/></clipPath></defs>
+  <g clip-path="url(#t)">
+    <path d="M0 15q3.5-2.2 7 0t7 0t7 0t7 0V44H0Z" fill="#ff5d3a"/>
+    <rect y="23" width="28" height="8" fill="#ffc93a"/>
+    <rect y="31" width="28" height="13" fill="#3fb8f0"/>
+  </g>
+  <path class="o" d="M7.6 5H20.4V31.5a6.4 6.4 0 0 1-12.8 0Z" fill="none" stroke-width="2.4" stroke-linejoin="round"/>
+  <rect class="r" x="5.4" y="2.2" width="17.2" height="3.8" rx="1.9"/>
+  <path d="M10.6 9V28" stroke="#fff" stroke-opacity=".6" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

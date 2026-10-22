@@ -19,9 +19,7 @@ HEAD_EXTRA = (
     '<meta property="og:title" content="Dũng NT · Game Designer Portfolio">\n'
     '<meta property="og:description" content="Game designer specialized in mobile puzzle games. Play the portfolio as a small 3D level map.">\n'
     '<meta name="theme-color" content="#0c1115">\n'
-    '<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E'
-    '%3Crect x=%2711%27 y=%274%27 width=%2710%27 height=%2712%27 rx=%273%27 fill=%27%23ff5d3a%27/%3E'
-    '%3Crect x=%2711%27 y=%2716%27 width=%2710%27 height=%2712%27 rx=%274%27 fill=%27%232c9a6a%27/%3E%3C/svg%3E">'
+    '<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">'
 )
 
 
@@ -37,6 +35,7 @@ def build():
     os.makedirs(os.path.join(SITE, "icons"))
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
         f.write(html)
+    shutil.copy2(os.path.join(HERE, "favicon.svg"), os.path.join(SITE, "favicon.svg"))  # same tube as the header logo
     icons = os.path.join(HERE, "icons")
     names = sorted(os.listdir(icons))
     for name in names:
