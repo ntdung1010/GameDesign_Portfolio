@@ -46,6 +46,13 @@ def build():
         if ext.lower() in (".png", ".webp", ".jpg"):
             shutil.copy2(os.path.join(icons, name), os.path.join(SITE, "icons", name))
 
+    photos = os.path.join(HERE, "photos")  # About portraits
+    if os.path.isdir(photos):
+        os.makedirs(os.path.join(SITE, "photos"))
+        for name in sorted(os.listdir(photos)):
+            if name.lower().endswith((".webp", ".jpg", ".jpeg", ".png")):
+                shutil.copy2(os.path.join(photos, name), os.path.join(SITE, "photos", name))
+
     with zipfile.ZipFile(ZIP, "w", zipfile.ZIP_DEFLATED) as z:
         for root, _, files in os.walk(SITE):
             for name in files:
