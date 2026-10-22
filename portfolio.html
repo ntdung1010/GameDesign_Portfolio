@@ -827,7 +827,7 @@ html[data-view="game"] .float-links { bottom: calc(var(--bot) + 4px); }
       <div class="dev-title rv"><h2>Commercial Games</h2><i aria-hidden="true"></i></div>
       <div class="feats" id="featGames"></div>
       <div class="dev-title rv"><h2>Earlier Games</h2><i aria-hidden="true"></i></div>
-      <div class="covers" id="coversMore"></div>
+      <div class="feats" id="featMore"></div>
       <article class="play-card rv">
         <div class="play-art" aria-hidden="true">
           <svg viewBox="0 0 360 200">
@@ -1062,11 +1062,11 @@ const GAMES = [
 ];
 /* Older titles, shown under "More games" (not on the 3D maps) */
 const MORE_GAMES = [
-  { id: "stickhero", title: "Stick Hero 2: Tower Defense", genre: "Tower defense", icon: "icons/stickhero.webp", url: "https://play.google.com/store/apps/details?id=com.an.stickhero.herowar&gl=IN",
+  { id: "stickhero", store: "Google Play", title: "Stick Hero 2: Tower Defense", genre: "Tower defense", icon: "icons/stickhero.webp", url: "https://play.google.com/store/apps/details?id=com.an.stickhero.herowar&gl=IN",
     desc: "Build a stick-hero army, attack the enemy and defend your tower." },
-  { id: "diydoll", title: "DIY 3D: Makeover Doll", genre: "Makeover · Dress-up", icon: "icons/diydoll.webp", url: "https://play.google.com/store/apps/details?id=com.an.diypaperdoll.makeover3d&gl=IN",
+  { id: "diydoll", store: "Google Play", title: "DIY 3D: Makeover Doll", genre: "Makeover · Dress-up", icon: "icons/diydoll.webp", url: "https://play.google.com/store/apps/details?id=com.an.diypaperdoll.makeover3d&gl=IN",
     desc: "Do the makeup, outfit and style of a 3D doll your own way." },
-  { id: "catescape", title: "Cat Escape: Kitty Cat Games", genre: "Puzzle", icon: "icons/catescape.webp", url: "https://play.google.com/store/apps/details?id=com.an.catescape.thecatgame&gl=IN",
+  { id: "catescape", store: "Google Play", title: "Cat Escape: Kitty Cat Games", genre: "Puzzle", icon: "icons/catescape.webp", url: "https://play.google.com/store/apps/details?id=com.an.catescape.thecatgame&gl=IN",
     desc: "Think your way through tricky challenges to help the cat escape." },
 ];
 /* ================================ */
@@ -1263,7 +1263,8 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
       </div>
     </article>`;
   $("hsDots").innerHTML = [...GAMES, { short: "More games" }].map((g, i) => `<button type="button" aria-label="${esc(g.short)}" title="${esc(g.short)}">${i + 1}</button>`).join("");
-  $("featGames").innerHTML = GAMES.map((g, i) => { const c = caseOf(g); return `
+  // Commercial and Earlier games share one card layout
+  const featCard = (g) => { const c = caseOf(g); return `
     <article class="feat rv">
       <a class="feat-media" href="${g.url}" target="_blank" rel="noopener" aria-label="${esc(g.title)} on ${esc(g.store)}"><span class="hs-art" data-soft="${g.icon}" aria-hidden="true"></span><img src="${g.icon}" alt="" width="256" height="256" loading="lazy" decoding="async"></a>
       <div class="feat-body">
@@ -1274,15 +1275,9 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
         ${tasksHTML(c)}
         <a class="feat-btn" href="#game-${g.id}">More info</a>
       </div>
-    </article>`; }).join("");
-  const cover = (g, act) => `
-    <article class="cover rv">
-      <span class="hs-art" data-soft="${g.icon}" aria-hidden="true"></span>
-      <img src="${g.icon}" alt="${esc(g.title)} icon" width="256" height="256" loading="lazy" decoding="async">
-      <div class="cover-txt"><h3>${esc(g.short || g.title)}</h3><span>${esc(g.genre)}</span></div>
-      <div class="cover-over">${act}</div>
-    </article>`;
-  $("coversMore").innerHTML = MORE_GAMES.map((g) => cover(g, `<a class="feat-btn" href="#game-${g.id}">More info</a>`)).join("");
+    </article>`; };
+  $("featGames").innerHTML = GAMES.map(featCard).join("");
+  $("featMore").innerHTML = MORE_GAMES.map(featCard).join("");
 })();
 
 /* ---------- Hero name: letters bounce up and tip back on hover, then return a few seconds later ---------- */
