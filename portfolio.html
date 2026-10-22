@@ -459,12 +459,95 @@ html[data-view="play"] .float-links { display: none; }
 .tl-card h3 { font-weight: 500; letter-spacing: -.01em; }
 .tl-card .when, .now, .scroll-cue, .count { font-family: var(--f-body); }
 body { font-weight: 400; }
+/* ===== Portfolio: sideways games showcase (wide screens only) ===== */
+.hs { display: none; position: relative; background: #0d1114; }
+@media (min-width: 1100px) and (min-height: 620px) { .hs { display: block; } }
+.hs-pin { position: sticky; top: var(--head-total); height: calc(100vh - var(--head-total)); overflow: hidden; }
+.hs-track { position: absolute; top: 0; bottom: 0; left: 0; display: flex; will-change: transform; }
+.hs-panel { position: relative; flex: none; width: 140vw; height: 100%; color: #f1f5f3; overflow: hidden; }
+.hs-panel.hs-end { width: 100vw; }
+/* each panel's art: the game's own colours, pre-blurred, dark at both edges so the panels melt into each other */
+.hs-bg { position: absolute; inset: -4%; background-size: cover; background-position: center; opacity: .5; }
+.hs-panel::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, #0d1114 0%, rgba(13,17,20,.45) 14%, rgba(13,17,20,.25) 55%, rgba(13,17,20,.55) 86%, #0d1114 100%), linear-gradient(0deg, rgba(13,17,20,.8), transparent 40%); }
+.hs-copy { position: absolute; z-index: 2; left: 12vw; top: 50%; transform: translateY(-50%); width: min(540px, 36vw); }
+.hs-copy h2 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(40px, 4.2vw, 66px); line-height: 1.04; letter-spacing: -.025em; }
+.hs-copy h2 em { font-style: normal; color: var(--accent); }
+.hs-years { margin: 8px 0 22px !important; font-family: var(--f-display); font-weight: 400; font-size: clamp(22px, 2.1vw, 34px) !important; color: rgba(241,245,243,.82) !important; }
+.hs-copy p { margin: 0 0 12px; font-size: 15px; line-height: 1.6; color: rgba(241,245,243,.8); }
+.hs-copy b { color: #fff; font-weight: 700; }
+.hs-copy h4 { margin: 18px 0 8px; font-size: 15px; font-weight: 800; color: #fff; }
+.hs-copy ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 14.5px; line-height: 1.5; color: rgba(241,245,243,.8); }
+.hs-copy li::marker { color: var(--accent); }
+.hs-btn { margin-top: 28px; padding: 13px 28px; border: 1.5px solid #fff; border-radius: 0; background: transparent; color: #fff; font-family: var(--f-display); font-weight: 700; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; cursor: pointer; transition: background .25s, color .25s; }
+.hs-btn:hover, .hs-btn:focus-visible { background: #fff; color: #0d1114; }
+.hs-media { position: absolute; z-index: 2; left: 60vw; top: 50%; transform: translateY(-54%); width: 40vw; aspect-ratio: 16 / 10; }
+.hs-card { position: absolute; inset: 0; border-radius: 14px; overflow: hidden; display: block; background: #1a242c; box-shadow: 0 30px 80px rgba(0,0,0,.55); }
+.hs-art { position: absolute; inset: -6%; background-size: cover; background-position: center; }
+.hs-card .hs-art { filter: saturate(1.2) brightness(.85); }
+.hs-icon { position: absolute; left: 50%; top: 46%; width: 30%; height: auto; transform: translate(-50%, -50%); border-radius: 23%; box-shadow: 0 20px 50px rgba(0,0,0,.45); transition: transform .5s cubic-bezier(.3,1.4,.5,1); }
+.hs-card:hover .hs-icon { transform: translate(-50%, -50%) scale(1.06); }
+.hs-label { position: absolute; left: 24px; bottom: 22px; padding: 8px 16px; border: 2px solid #fff; background: rgba(13,17,20,.3); font-family: var(--f-display); font-weight: 800; font-size: clamp(14px, 1.5vw, 22px); letter-spacing: .06em; text-transform: uppercase; color: #fff; }
+.hs-end .hs-copy { left: 50%; transform: translate(-50%, -50%); text-align: left; width: min(520px, 60vw); }
+.hs-ask { font-size: 15px !important; color: #fff !important; font-weight: 600; margin-top: 18px !important; }
+.hs-mouse { display: block; width: 22px; height: 36px; margin: 26px 0 0 4px; border: 2px solid rgba(241,245,243,.7); border-radius: 12px; position: relative; }
+.hs-mouse::after { content: ""; position: absolute; left: 50%; top: 7px; width: 3px; height: 7px; margin-left: -1.5px; border-radius: 2px; background: #fff; animation: hsWheel 1.6s ease-in-out infinite; }
+@keyframes hsWheel { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(10px); opacity: 0; } 100% { opacity: 0; } }
+.hs-dots { position: absolute; z-index: 5; left: 28px; top: 50%; transform: translateY(-50%); display: grid; gap: 14px; }
+.hs-dots button { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid rgba(241,245,243,.65); background: transparent; color: rgba(241,245,243,.8); font: 700 10px/1 var(--f-display); cursor: pointer; padding: 0; transition: background .25s, color .25s, transform .25s; }
+.hs-dots button:hover { transform: scale(1.12); }
+.hs-dots button.on { background: #fff; color: #0d1114; border-color: #fff; }
+
+/* ===== Portfolio: Developed Games ===== */
+.dev-head { position: relative; text-align: center; color: #f1f5f3; background: #3a4650; padding: clamp(56px, 8vw, 96px) var(--gx) clamp(90px, 11vw, 140px); clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%); }
+.dev-head h2 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(28px, 3.4vw, 44px); letter-spacing: .02em; text-transform: uppercase; }
+.dev-head i { display: block; width: 44px; height: 2px; margin: 16px auto; background: var(--accent); }
+.dev-head p { margin: 0; font-size: 14px; font-weight: 600; color: rgba(241,245,243,.85); }
+.sect.dev { padding-top: clamp(28px, 4vw, 48px); }
+.dev-title { text-align: center; margin: clamp(28px, 4vw, 48px) 0 28px; }
+.dev-title h2 { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: clamp(22px, 2.4vw, 30px); }
+.dev-title i { display: block; width: 56px; height: 1px; margin: 18px auto 0; background: var(--line); }
+.feat { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); background: var(--surface); box-shadow: var(--shadow); border-radius: 4px; overflow: hidden; }
+.feat-media { position: relative; min-height: 320px; overflow: hidden; display: grid; place-items: center; background: #1a242c; }
+.feat-media img { position: relative; width: 38%; height: auto; border-radius: 23%; box-shadow: 0 20px 50px rgba(0,0,0,.45); transition: transform .5s cubic-bezier(.3,1.4,.5,1); }
+.feat-media:hover img { transform: scale(1.06); }
+.feat-body { padding: clamp(24px, 3.4vw, 44px); }
+.feat-body h3 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(22px, 2.2vw, 30px); letter-spacing: -.01em; }
+.feat-years { margin: 4px 0 12px; color: var(--muted); font-weight: 600; }
+.feat-role { display: inline-block; padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: .06em; color: var(--ink); }
+.feat-body p:not(.feat-years) { margin: 16px 0 0; color: var(--muted); line-height: 1.65; }
+.feat-body b { color: var(--ink); }
+.feat-body h4 { margin: 18px 0 8px; font-size: 15px; font-weight: 800; }
+.feat-body ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; color: var(--muted); line-height: 1.5; }
+.feat-body li::marker { color: var(--accent); }
+.feat-btn { display: inline-block; margin-top: 24px; padding: 12px 26px; border: 0; border-radius: 0; background: var(--ink); color: var(--page); font-family: var(--f-display); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: background .25s, color .25s; }
+.feat-btn:hover, .feat-btn:focus-visible { background: var(--accent); color: #fff; }
+.covers { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr)); gap: clamp(14px, 2vw, 24px); margin-top: clamp(20px, 3vw, 32px); }
+.cover { position: relative; aspect-ratio: 3 / 4; border-radius: 8px; overflow: hidden; background: #1a242c; color: #f1f5f3; box-shadow: var(--shadow); isolation: isolate; }
+.cover .hs-art { z-index: -1; filter: brightness(.8) saturate(1.2); transition: transform .6s ease; }
+.cover img { position: absolute; left: 50%; top: 40%; width: 52%; height: auto; transform: translate(-50%, -50%); border-radius: 23%; box-shadow: 0 16px 40px rgba(0,0,0,.45); transition: transform .5s cubic-bezier(.3,1.4,.5,1); }
+.cover-txt { position: absolute; left: 0; right: 0; bottom: 0; padding: 14px 16px 16px; background: linear-gradient(0deg, rgba(13,17,20,.85), transparent); }
+.cover-txt h3 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: 16px; line-height: 1.25; }
+.cover-txt span { font-size: 12px; color: rgba(241,245,243,.75); }
+.cover-over { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(13,17,20,.55); opacity: 0; transition: opacity .3s ease; }
+.cover-over .feat-btn { margin: 0; background: #fff; color: #0d1114; transform: translateY(12px); transition: transform .35s cubic-bezier(.3,1.4,.5,1), background .25s, color .25s; }
+.cover:is(:hover, :focus-within) .cover-over { opacity: 1; }
+.cover:is(:hover, :focus-within) .cover-over .feat-btn { transform: none; }
+.cover:hover .hs-art { transform: scale(1.06); }
+.cover:hover img { transform: translate(-50%, -54%) scale(1.04); }
+@media (hover: none) { .cover-over { opacity: 1; background: none; place-items: end center; padding-bottom: 64px; } .cover-over .feat-btn { transform: none; padding: 9px 16px; } }
+#view-portfolio .play-card { margin-top: clamp(40px, 6vw, 72px); }
+@media (max-width: 820px) { .feat { grid-template-columns: minmax(0, 1fr); } .feat-media { min-height: 220px; } }
+@media (max-width: 480px) { .cover-txt h3 { font-size: 14px; } .cover-over { padding-bottom: 58px; } .cover-over .feat-btn { font-size: 10px; letter-spacing: .1em; padding: 8px 12px; } }
+@media (prefers-reduced-motion: reduce) { .hs-mouse::after { animation: none; } }
+
 /* ===== About: stats column, text, slanted portrait ===== */
 .sect.about { position: relative; overflow: hidden; padding-left: var(--edge); padding-right: 0; }
 .about-in { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; width: 62%; }
 .about-text { min-width: 0; }
 .about-stats { list-style: none; margin: 0; padding: 0 clamp(16px, 2vw, 28px) 0 0; border-right: 2px dashed var(--line); display: grid; gap: 20px; justify-items: center; text-align: center; }
-.about-stats li { display: grid; justify-items: center; gap: 4px; }
+.about-stats li, .about-stats .stat-link { display: grid; justify-items: center; gap: 4px; }
+.about-stats .stat-link { color: inherit; text-decoration: none; cursor: pointer; }
 .about-stats svg { color: var(--muted); transition: color .35s ease, transform .45s cubic-bezier(.3,1.4,.5,1); }
 .about-stats li b, .about-stats li span { transition: color .35s ease; }
 .about-stats li:hover svg { color: var(--accent); transform: translateY(-3px); }
@@ -650,16 +733,25 @@ body { font-weight: 400; }
 
 <!-- ===================== PORTFOLIO ===================== -->
 <main class="view" id="view-portfolio" data-view="portfolio" hidden>
-  <section class="sect" style="min-height: 70vh">
+  <!-- Wide screens: one full-screen panel per game, scrolled sideways by the page scroll -->
+  <section class="hs" id="showcase" aria-label="Featured games">
+    <div class="hs-pin" id="hsPin">
+      <div class="hs-track" id="hsTrack"></div>
+      <nav class="hs-dots" id="hsDots" aria-label="Jump to a game"></nav>
+    </div>
+  </section>
+  <section class="dev-head" id="developed">
+    <h2>Developed Games</h2><i aria-hidden="true"></i>
+    <p>Most of the games I have worked on.</p>
+  </section>
+  <section class="sect dev">
     <div class="wrap">
-      <div class="pf-head">
-        <div style="display:grid;gap:10px">
-          <span class="eyebrow">Portfolio</span>
-          <h2 class="big">Shipped <em>levels</em></h2>
-        </div>
-        <span class="eyebrow" id="pfCount"></span>
-      </div>
-      <article class="play-card">
+      <div class="dev-title rv"><h2>Commercial Games</h2><i aria-hidden="true"></i></div>
+      <article class="feat rv" id="featGame"></article>
+      <div class="covers" id="covers"></div>
+      <div class="dev-title rv"><h2>Earlier Games</h2><i aria-hidden="true"></i></div>
+      <div class="covers" id="coversMore"></div>
+      <article class="play-card rv">
         <div class="play-art" aria-hidden="true">
           <svg viewBox="0 0 360 200">
             <path d="M26 172 C 60 160, 70 130, 130 114 S 200 90, 232 84 S 300 50, 334 28" fill="none" stroke="var(--surface)" stroke-width="10" stroke-linecap="round" stroke-dasharray="2 18"/>
@@ -675,8 +767,6 @@ body { font-weight: 400; }
           <div class="row"><a class="cta" href="#play">Open the Play tab</a></div>
         </div>
       </article>
-      <div class="grid" id="listGrid"></div>
-      <div class="more"><div class="more-head"><h3>More games</h3><span class="eyebrow">Earlier work · Google Play</span></div><div class="shelf more-shelf" data-more></div></div>
     </div>
   </section>
   <footer class="foot"><div class="wrap"><span class="copy">© 2026 Game Design Portfolio</span></div></footer>
@@ -761,6 +851,28 @@ const PROFILE = {
   // Telegram visit alerts: the /exec URL of the Apps Script in telegram/ (see telegram/HUONG-DAN.md). Empty turns them off.
   // Open the site once with ?notrack to stop counting your own visits on that browser (?track turns it back on).
   visitLog: "https://script.google.com/macros/s/AKfycbzHoBkbW8lXf5FMzMz-AynNZ6B64bPl9kSgBTK8XiQ9cvfGFaLhBvZVa6cf6otNte4q/exec",
+};
+/* Portfolio showcase copy for each game. DEMO TEXT: replace it with your real work.
+   **word** shows in bold. years / role show under the title. */
+const GAME_CASES = {
+  chaos: { years: "2025", role: "Game Designer",
+    work: "I own the **level design** and the **difficulty curve**, and balance the boosters for the Halloween season.",
+    tasks: ["Designed **levels** from the tutorial to the late game.", "Balanced **boosters**, rewards and the **in-game economy**.", "Ran **A/B tests** on level order and ad placement.", "Wrote **specs** for new mechanics and live events."] },
+  birdy: { years: "2025", role: "Game Designer",
+    work: "I worked on the **core loop** and the **level progression**, from the first prototype to live updates.",
+    tasks: ["Prototyped the **bird sort mechanic** and its game feel.", "Built **level packs** with new blockers every few levels.", "Tuned **difficulty spikes** with win rate and churn data.", "Planned **events** and rewards to lift retention."] },
+  water: { years: "2024", role: "Game Designer",
+    work: "I designed **levels** and **monetization** for the premium iOS version of a classic water sort.",
+    tasks: ["Designed and reviewed **hundreds of levels**.", "Balanced **hints and undo** for a paid audience.", "Ran **store tests** on icons and screenshots.", "Checked every **level config** before release."] },
+  skewer: { years: "2025", role: "Game Designer",
+    work: "I designed the **match rules** and the **board layouts** for a food-themed match puzzle.",
+    tasks: ["Designed the **skewer match mechanic** and its rules.", "Built **board layouts** and blockers for each level band.", "Balanced the **coin economy** and booster prices.", "Ran **A/B tests** on onboarding and first sessions."] },
+  mob: { years: "2025", role: "Game Designer",
+    work: "I designed the **item sort loop** and the **room progression** of a cozy organizing puzzle.",
+    tasks: ["Designed the **box sorting** mechanic and room themes.", "Created **levels** and the **difficulty curve**.", "Balanced **rewards and boosters** across the rooms.", "Wrote **specs** and reviewed builds with the team."] },
+  hatch: { years: "2025 – Present", role: "Game Designer",
+    work: "I am working on the **level design** and **live ops** of a new bird sort game set in a hatchery.",
+    tasks: ["Designing **levels** and new **nest mechanics**.", "Tuning the **difficulty curve** with player data.", "Planning **A/B tests** for retention and monetization.", "Writing **feature proposals** for upcoming updates."] },
 };
 // Technical skills: tools and data work. Edit freely; an item can be "text" or { t: "text", sub: [...] }
 const TECH_SKILLS = [
@@ -942,13 +1054,18 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
   // Edit these three: games featured this year, the breakout hit, and earlier successful games
   const STATS = [
     { icon: "star", n: 4, label: "Featured games this year" },
-    { icon: "trophy", n: 1, label: "Breakout hit" },
+    { icon: "trophy", n: 1, label: "Breakout hit", game: "chaos" },   // game: clicking the stat opens that game's page
     { icon: "stack", n: MORE_GAMES.length, suffix: "+", label: "Earlier successful games" },
     { icon: "phones", n: GAMES.length + MORE_GAMES.length, label: "Shipped games" },
     { icon: "pad", n: PROFILE.years, label: "Years in games" },
     { icon: "studio", n: 2, label: "Game studios" },
   ];
-  $("aboutStats").innerHTML = STATS.map(st => `<li>${STAT_ICONS[st.icon]}<b data-n="${st.n}" data-suffix="${st.suffix || ""}">${st.n}${st.suffix || ""}</b><span>${esc(st.label)}</span></li>`).join("");
+  $("aboutStats").innerHTML = STATS.map(st => { const inner = `${STAT_ICONS[st.icon]}<b data-n="${st.n}" data-suffix="${st.suffix || ""}">${st.n}${st.suffix || ""}</b><span>${esc(st.label)}</span>`;
+    const gi = st.game ? GAMES.findIndex(g => g.id === st.game) : -1;
+    return gi >= 0 ? `<li><a class="stat-link" href="#portfolio" data-stat-game="${gi}" title="${esc(GAMES[gi].short)}">${inner}</a></li>` : `<li>${inner}</li>`; }).join("");
+  // a stat tied to a game (the breakout hit) opens the Portfolio with that game's page on top
+  $("aboutStats").addEventListener("click", (e) => { const a = e.target.closest("[data-stat-game]"); if (!a) return;
+    e.preventDefault(); const i = +a.dataset.statGame; location.hash = "portfolio"; setTimeout(() => openGame(i), 380); });
   // stroked shapes get pathLength=1 so the hover can redraw them with one dash animation
   $("aboutStats").querySelectorAll("svg :is(path, rect, circle)").forEach(el => { if (el.getAttribute("stroke") !== "none") el.setAttribute("pathLength", "1"); });
   if (!reduceMotion && "IntersectionObserver" in window) {
@@ -1013,17 +1130,61 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
       <span>Google Play</span>
     </a>`).join("");
   document.querySelectorAll("[data-more]").forEach(el => { el.innerHTML = moreHTML; });
-  // Portfolio grid
-  $("pfCount").textContent = `${GAMES.length} games · Google Play & App Store`;
-  $("listGrid").innerHTML = GAMES.map((g, i) => `
-    <article class="item">
-      <div class="tube">${g.colors.map(c => `<i style="background:${c}"></i>`).join("")}</div>
-      <div class="pbody">
-        <div class="top">${iconHTML(g)}<div style="display:grid;gap:4px;min-width:0"><span class="eyebrow">Level ${i + 1} · ${esc(g.genre)}</span><h3>${esc(g.title)}</h3></div></div>
+  // Portfolio: sideways showcase (wide screens), then Developed Games (featured card + covers)
+  const md = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");          // **bold** in the case text
+  const caseOf = (g) => GAME_CASES[g.id] || { years: "", role: PROFILE.role, work: "", tasks: [] };
+  const twoTone = (t) => { const i = t.indexOf(":"); if (i > 0) return `${esc(t.slice(0, i + 1))} <em>${esc(t.slice(i + 1).trim())}</em>`;
+    const w = t.split(" "); return w.length > 1 ? `${esc(w.slice(0, -1).join(" "))} <em>${esc(w.at(-1))}</em>` : `<em>${esc(t)}</em>`; };
+  const tasksHTML = (c) => c.tasks.length ? `<h4>Task Overview</h4><ul>${c.tasks.map(t => `<li>${md(t)}</li>`).join("")}</ul>` : "";
+  $("hsTrack").innerHTML = GAMES.map((g, i) => { const c = caseOf(g); return `
+    <article class="hs-panel" aria-label="${esc(g.title)}">
+      <div class="hs-bg" data-soft="${g.icon}" aria-hidden="true"></div>
+      <div class="hs-copy">
+        <h2>${twoTone(g.title)}</h2>
+        <p class="hs-years">${esc(c.years)}</p>
         <p>${esc(g.desc)}</p>
-        <a class="cta" href="${g.url}" target="_blank" rel="noopener">${storeLabel(g)} <span aria-hidden="true">↗</span></a>
+        ${c.work ? `<p>${md(c.work)}</p>` : ""}
+        ${tasksHTML(c)}
+        <button class="hs-btn" type="button" data-game="${i}">My contributions</button>
       </div>
-    </article>`).join("");
+      <div class="hs-media">
+        <a class="hs-card" href="${g.url}" target="_blank" rel="noopener" aria-label="${esc(g.title)} on ${esc(g.store)}">
+          <span class="hs-art" data-soft="${g.icon}" aria-hidden="true"></span>
+          <img class="hs-icon" src="${g.icon}" alt="" width="256" height="256" loading="lazy" decoding="async">
+          <span class="hs-label">${esc(g.store)}</span>
+        </a>
+      </div>
+    </article>`; }).join("") + `
+    <article class="hs-panel hs-end" aria-label="More games">
+      <div class="hs-copy">
+        <h2>More <em>Games</em></h2>
+        <p class="hs-ask">Want to see more?</p>
+        <ul><li>Every game I have worked on, from my first studio to now.</li></ul>
+        <span class="hs-mouse" aria-hidden="true"></span>
+        <button class="hs-btn" type="button" id="hsAll">View all</button>
+      </div>
+    </article>`;
+  $("hsDots").innerHTML = [...GAMES, { short: "More games" }].map((g, i) => `<button type="button" aria-label="${esc(g.short)}" title="${esc(g.short)}">${i + 1}</button>`).join("");
+  const [fg, ...rest] = GAMES, fc = caseOf(fg);
+  $("featGame").innerHTML = `
+    <a class="feat-media" href="${fg.url}" target="_blank" rel="noopener" aria-label="${esc(fg.title)} on ${esc(fg.store)}"><span class="hs-art" data-soft="${fg.icon}" aria-hidden="true"></span><img src="${fg.icon}" alt="" width="256" height="256" loading="lazy" decoding="async"></a>
+    <div class="feat-body">
+      <h3>${esc(fg.title)}</h3>
+      <p class="feat-years">(${esc(fc.years)})</p>
+      <span class="feat-role">${esc(fc.role)}</span>
+      <p>${esc(fg.desc)} ${fc.work ? md(fc.work) : ""}</p>
+      ${tasksHTML(fc)}
+      <button class="feat-btn" type="button" data-game="0">More info</button>
+    </div>`;
+  const cover = (g, act) => `
+    <article class="cover rv">
+      <span class="hs-art" data-soft="${g.icon}" aria-hidden="true"></span>
+      <img src="${g.icon}" alt="${esc(g.title)} icon" width="256" height="256" loading="lazy" decoding="async">
+      <div class="cover-txt"><h3>${esc(g.short || g.title)}</h3><span>${esc(g.genre)}</span></div>
+      <div class="cover-over">${act}</div>
+    </article>`;
+  $("covers").innerHTML = rest.map((g) => cover(g, `<button class="feat-btn" type="button" data-game="${GAMES.indexOf(g)}">More info</button>`)).join("");
+  $("coversMore").innerHTML = MORE_GAMES.map((g) => cover(g, `<a class="feat-btn" href="${g.url}" target="_blank" rel="noopener">Google Play ↗</a>`)).join("");
 })();
 
 /* ---------- Hero name: letters bounce up and tip back on hover, then return a few seconds later ---------- */
@@ -1108,6 +1269,18 @@ document.querySelectorAll("[data-blur]").forEach(el => {
   img.onload = () => { const c = document.createElement("canvas"); c.width = c.height = 16; const g = c.getContext("2d"); g.filter = "saturate(1.35)"; g.drawImage(img, 0, 0, 16, 16); el.style.backgroundImage = `url(${c.toDataURL()})`; };
   img.src = el.dataset.blur;
 });
+// Portfolio art: squeeze the icon to 12px, then blow it up through a blur, so the colours become soft
+// gradients with no visible blocks even on a full-screen panel (done once per image)
+const softCache = {};
+document.querySelectorAll("[data-soft]").forEach(el => {
+  const u = el.dataset.soft;
+  softCache[u] ||= new Promise(res => { const img = new Image(); img.decoding = "async"; img.onload = () => {
+    const t = document.createElement("canvas"); t.width = t.height = 12; const tg = t.getContext("2d"); tg.filter = "saturate(1.35)"; tg.drawImage(img, 0, 0, 12, 12);
+    const b = document.createElement("canvas"); b.width = b.height = 192; const bg = b.getContext("2d");
+    bg.imageSmoothingQuality = "high"; bg.filter = "blur(14px)"; bg.drawImage(t, -24, -24, 240, 240);
+    res(`url(${b.toDataURL("image/jpeg", 0.82)})`); }; img.onerror = () => res(""); img.src = u; });
+  softCache[u].then(v => { if (v) el.style.backgroundImage = v; });
+});
 // Backstory: three icons squeezed into a 9x4 canvas, then smoothly upscaled once, so the colours
 // blend into soft blobs with no seams and no live CSS blur
 document.querySelectorAll("[data-blur-row]").forEach(el => {
@@ -1190,6 +1363,35 @@ let scrollTick = false; // one layout read per frame, however many scroll events
 addEventListener("scroll", () => { if (scrollTick) return; scrollTick = true; requestAnimationFrame(() => { scrollTick = false; onScroll(); }); }, { passive: true });
 addEventListener("keydown", (e) => { if (e.key !== "Escape") return; if (!modal.hidden) closeStory(); else if (!menu.hidden) setMenu(false); });
 
+/* ---------- Portfolio showcase: the page scroll moves the game panels sideways, 1:1 ---------- */
+(function showcase() {
+  const sec = $("showcase"), pin = $("hsPin"), track = $("hsTrack"), dots = [...$("hsDots").children], panels = [...track.children];
+  let on = false, max = 0, top = 0, last = -1;
+  function measure() {
+    on = view === "portfolio" && getComputedStyle(sec).display !== "none";
+    if (!on) return;
+    max = Math.max(0, track.scrollWidth - innerWidth);
+    sec.style.height = `${max + pin.offsetHeight}px`;
+    // the pin sticks below the header, so the sideways run starts when the section top meets the header
+    top = sec.getBoundingClientRect().top + scrollY - parseFloat(getComputedStyle(pin).top);
+    update();
+  }
+  function update() {
+    if (!on) return;
+    const x = clamp(scrollY - top, 0, max);
+    track.style.transform = `translate3d(${(-x).toFixed(1)}px, 0, 0)`;
+    let k = 0; panels.forEach((el, i) => { if (el.offsetLeft - innerWidth * 0.5 <= x) k = i; });
+    if (k !== last) { last = k; dots.forEach((d, i) => d.classList.toggle("on", i === k)); }
+  }
+  let tick = false;
+  addEventListener("scroll", () => { if (tick || !on) return; tick = true; requestAnimationFrame(() => { tick = false; update(); }); }, { passive: true });
+  addEventListener("resize", measure);
+  addEventListener("hashchange", () => setTimeout(measure, 60));
+  dots.forEach((d, i) => d.addEventListener("click", () => scrollTo({ top: top + Math.min(panels[i].offsetLeft, max), behavior: "smooth" })));
+  $("hsAll").addEventListener("click", () => $("developed").scrollIntoView({ behavior: "smooth", block: "start" }));
+  setTimeout(measure, 60);
+})();
+
 /* ---------- Backstory modal ---------- */
 const modal = $("modal");
 let modalReturn = null;
@@ -1203,7 +1405,21 @@ function openStory(i) {
   modal.hidden = false; document.documentElement.style.overflow = "hidden";
   $("mClose").focus();
 }
-function closeStory() { modal.hidden = true; document.documentElement.style.overflow = ""; modalReturn?.focus?.(); }
+function closeStory() { modal.hidden = true; document.documentElement.style.overflow = ""; modalReturn?.focus?.(); resetAction(); }
+const mAction = $("mAction"), resetAction = () => { mAction.href = "#portfolio"; mAction.textContent = "View project"; mAction.removeAttribute("target"); };
+// "My contributions" / "More info": the same dialog, filled with that game's case (demo text for now)
+function openGame(i) {
+  const g = GAMES[i], c = GAME_CASES[g.id] || { years: "", role: PROFILE.role, work: "", tasks: [] };
+  const md = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+  $("mTitle").innerHTML = `${esc(g.title)} <span class="m-co">${esc(c.years)}</span>`;
+  $("mBody").innerHTML = `<div><h4>Overview</h4><p>${esc(g.desc)}</p><h4>My role</h4><p><b>${esc(c.role)}</b>. ${md(c.work)}</p></div>
+    <div><h4>Task Overview</h4><ul>${c.tasks.map(t => `<li>${md(t)}</li>`).join("")}</ul><h4>Results</h4><ul><li><b>[Metric]</b> → add a result here, e.g. D1 retention or win rate change</li></ul></div>`;
+  mAction.href = g.url; mAction.target = "_blank"; mAction.rel = "noopener"; mAction.textContent = `Open on ${g.store} ↗`;
+  modalReturn = document.activeElement;
+  modal.hidden = false; document.documentElement.style.overflow = "hidden";
+  $("mClose").focus();
+}
+$("view-portfolio").addEventListener("click", (e) => { const b = e.target.closest("[data-game]"); if (b) openGame(+b.dataset.game); });
 $("timeline").addEventListener("click", (e) => { const b = e.target.closest("[data-story]"); if (b) openStory(+b.dataset.story); });
 $("mClose").onclick = closeStory;
 modal.addEventListener("click", (e) => { if (e.target === modal) closeStory(); });
