@@ -95,3 +95,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+# original photos (large); the site uses the WebP copies in photos/
+image/

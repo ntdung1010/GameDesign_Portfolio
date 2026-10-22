@@ -718,8 +718,13 @@ const PROFILE = {
   // About portraits: they take turns every few seconds. src = desktop (tall panel), m = phones (wide panel);
   // pos / mpos = object-position, so the crop stays on the person. An empty list shows a placeholder.
   photos: [
-    { src: "photos/me-1.webp", m: "photos/me-1-m.webp", pos: "55% 50%", mpos: "70% 50%" },
-    { src: "photos/me-2.webp", m: "photos/me-2-m.webp", pos: "32% 50%", mpos: "50% 50%" },
+    { src: "photos/me-1.webp", m: "photos/me-1-m.webp", pos: "48% 50%", mpos: "70% 50%" },   // cherry tree, leaning
+    { src: "photos/me-4.webp", pos: "48% 50%", mpos: "50% 85%" },                             // marathon finish
+    { src: "photos/me-3.webp", pos: "0% 50%", mpos: "50% 100%" },                             // Fansipan peak
+    { src: "photos/me-2.webp", m: "photos/me-2-m.webp", pos: "32% 50%", mpos: "50% 50%" },   // cherry tree, standing
+    { src: "photos/me-6.webp", pos: "42% 50%", mpos: "50% 90%" },                             // old street
+    { src: "photos/me-7.webp", pos: "55% 50%", mpos: "50% 100%" },                            // lake view
+    { src: "photos/me-5.webp", pos: "30% 50%", mpos: "35% 50%" },                             // Fansipan selfie
   ],
   heroVideo: "LGO0C7Dh8UM",   // YouTube id played blurred behind the hero (only on the real site, not inside Claude's preview)
   linkedin: "https://www.linkedin.com/in/dungntgd/",
@@ -920,7 +925,8 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
   if (photos.length > 1) (function cyclePhotos() {
     const box = $("aboutPhoto"), all = [...box.querySelectorAll(".pt")];
     let cur = 0, seen = false;
-    new IntersectionObserver(([e]) => { seen = e.isIntersecting; if (seen) all.forEach(p => p.querySelector("img").loading = "eager"); }, { rootMargin: "200px" }).observe(box);
+    const warm = (k) => { all[k].querySelector("img").loading = "eager"; }; // fetch only the photo that comes next
+    new IntersectionObserver(([e]) => { seen = e.isIntersecting; if (seen) warm((cur + 1) % all.length); }, { rootMargin: "200px" }).observe(box);
     setInterval(() => {
       if (!seen || document.hidden || view !== "home") return; // only turn while someone can see it
       const next = (cur + 1) % all.length, img = all[next].querySelector("img");
@@ -929,6 +935,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
       all[cur].classList.replace("on", "was");
       all[next].classList.add("on");
       cur = next;
+      warm((cur + 1) % all.length);
     }, 5500);
   })();
 
