@@ -19,6 +19,14 @@ HEAD_EXTRA = (
     '<meta property="og:title" content="Dũng NT · Game Designer Portfolio">\n'
     '<meta property="og:description" content="Game designer specialized in mobile puzzle games. Play the portfolio as a small 3D level map.">\n'
     '<meta name="theme-color" content="#0c1115">\n'
+    # link previews (LinkedIn, Facebook, Zalo, Telegram): the Home hero captured at 1200x630
+    '<meta property="og:url" content="https://dungnt.netlify.app/">\n'
+    '<meta property="og:image" content="https://dungnt.netlify.app/og-image.jpg">\n'
+    '<meta property="og:image:width" content="1200">\n'
+    '<meta property="og:image:height" content="630">\n'
+    '<meta property="og:image:alt" content="Nguyễn Trọng Dũng, Game Designer">\n'
+    '<meta name="twitter:card" content="summary_large_image">\n'
+    '<meta name="twitter:image" content="https://dungnt.netlify.app/og-image.jpg">\n'
     '<link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">'
 )
 
@@ -36,6 +44,7 @@ def build():
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
         f.write(html)
     shutil.copy2(os.path.join(HERE, "favicon.svg"), os.path.join(SITE, "favicon.svg"))  # same tube as the header logo
+    shutil.copy2(os.path.join(HERE, "og-image.jpg"), os.path.join(SITE, "og-image.jpg"))  # share preview
     icons = os.path.join(HERE, "icons")
     names = sorted(os.listdir(icons))
     for name in names:

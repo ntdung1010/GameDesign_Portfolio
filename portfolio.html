@@ -432,7 +432,7 @@ html[data-view="play"] .float-links { display: none; }
 @media (max-width: 640px) { .float-links, .float-links .fl-items { gap: 8px; } .float-links a, .float-links .fl-btn { width: 38px; height: 38px; } }
 /* ===== Typography in the style of the reference: Poppins-like titles, Montserrat headings ===== */
 .hero h1, .role, .logo, .tl-card h3, .item h3, .app b, .lbl b, #panel h2, .play-body h3, .m-card h3, .more-head h3, .boot-name, .skill-head h3 { font-family: var(--f-title); }
-.hero h1 { font-weight: 800; font-size: clamp(42px, 9.6vw, 120px); letter-spacing: -.02em; perspective: 700px; }
+.hero h1 { font-weight: 800; font-size: clamp(42px, 9.6vw, 120px); letter-spacing: -.02em; perspective: 700px; padding-top: .2em; } /* room for stacked Vietnamese accents (Ễ) above the first line */
 /* hero name: a hovered letter falls over (back, sideways or forward), lies there, then springs back up */
 .hero h1 .word { display: inline-block; white-space: nowrap; perspective: 600px; }
 .hero h1 .ch { display: inline-block; transform-origin: 50% 92%; cursor: default; will-change: transform; transition: color .5s ease; }
