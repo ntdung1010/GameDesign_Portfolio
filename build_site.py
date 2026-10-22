@@ -54,6 +54,14 @@ def build():
         if ext.lower() in (".png", ".webp", ".jpg"):
             shutil.copy2(os.path.join(icons, name), os.path.join(SITE, "icons", name))
 
+    games = os.path.join(HERE, "games")  # game pages: store feature graphics and screenshots
+    for root, _, files in os.walk(games):
+        for name in files:
+            if name.lower().endswith((".webp", ".jpg", ".png")):
+                rel = os.path.relpath(os.path.join(root, name), HERE)
+                os.makedirs(os.path.join(SITE, os.path.dirname(rel)), exist_ok=True)
+                shutil.copy2(os.path.join(HERE, rel), os.path.join(SITE, rel))
+
     photos = os.path.join(HERE, "photos")  # About portraits
     if os.path.isdir(photos):
         os.makedirs(os.path.join(SITE, "photos"))

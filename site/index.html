@@ -514,6 +514,79 @@ body { font-weight: 400; }
 .hs-dots button:hover { transform: scale(1.12); }
 .hs-dots button.on { background: #fff; color: #0d1114; border-color: #fff; }
 
+/* ===== Game page (#game-<id>), laid out like the reference project pages ===== */
+.gp { --ga: var(--accent); background: #fdf3e1; color: #2b3048; }
+.gp-wrap { width: min(1180px, 100% - var(--gx) - var(--gxr)); margin-inline: auto; }
+/* hero: trailer or feature graphic, logo, tagline, round store buttons, slanted bottom edge */
+.gp-hero { position: relative; min-height: min(86vh, 820px); display: grid; place-items: center; overflow: hidden; color: #fff; background: #10171e; clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%); }
+.gp-hero-bg { position: absolute; inset: -2%; background-size: cover; background-position: center; transform: scale(1.04); }
+.gp-video { position: absolute; inset: 0; overflow: hidden; opacity: 0; transition: opacity 1.2s ease; }
+.gp-video.on { opacity: 1; }
+/* oversized so the player's title bar and controls fall outside the frame */
+.gp-video iframe { position: absolute; top: 50%; left: 50%; width: max(100%, 177.78vh); height: max(100%, 56.25vw); transform: translate(-50%, -50%) scale(1.3); border: 0; pointer-events: none; }
+.gp-hero::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, rgba(10,14,20,.35), rgba(10,14,20,.78)), linear-gradient(0deg, rgba(10,14,20,.6), transparent 40%); }
+.gp-hero-in { position: relative; z-index: 2; display: grid; justify-items: center; gap: 14px; text-align: center; padding: 60px var(--gx) 90px; max-width: 760px; }
+.gp-logo { width: clamp(96px, 11vw, 150px); height: auto; border-radius: 23%; box-shadow: 0 24px 60px rgba(0,0,0,.5); }
+.gp-hero h1 { margin: 6px 0 0; font-family: var(--f-display); font-weight: 800; font-size: clamp(32px, 4.6vw, 64px); line-height: 1.02; letter-spacing: -.02em; text-shadow: 0 6px 30px rgba(0,0,0,.45); }
+.gp-tag { margin: 0; font-size: clamp(14px, 1.4vw, 17px); font-weight: 600; color: rgba(255,255,255,.88); max-width: 52ch; }
+.gp-stores { display: flex; gap: 14px; margin-top: 10px; }
+.gp-stores a { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.92); color: #10171e; box-shadow: 0 10px 30px rgba(0,0,0,.35); transition: transform .25s cubic-bezier(.3,1.5,.5,1), background .25s, color .25s; }
+.gp-stores a:hover { transform: translateY(-3px) scale(1.06); background: var(--ga); color: #10171e; }
+/* Overview: dark band, the game's accent on the title */
+.gp-over { background: #343a5a; color: #e9ecf5; margin-top: -9vh; padding: calc(9vh + clamp(40px, 6vw, 80px)) 0 clamp(48px, 7vw, 96px); }
+.gp-over-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(28px, 5vw, 72px); align-items: center; }
+.gp h2 { margin: 0 0 16px; font-family: var(--f-display); font-weight: 800; font-size: clamp(30px, 4vw, 52px); letter-spacing: .01em; text-transform: uppercase; line-height: 1; }
+.gp-over h2 { color: var(--ga); }
+.gp-plat { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 18px; padding: 0; font-size: 13px; font-weight: 700; color: rgba(233,236,245,.8); }
+.gp-plat li::before { content: "●"; color: var(--ga); margin-right: 6px; font-size: 10px; vertical-align: 2px; }
+.gp-over p { margin: 0 0 14px; font-size: 15.5px; line-height: 1.7; color: rgba(233,236,245,.85); }
+.gp-over b { color: #fff; }
+.gp-over-pic { position: relative; margin: 0; aspect-ratio: 1024 / 500; border-radius: 14px; overflow: hidden; background: #1a2030; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+.gp-over-pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gp-over-pic .gp-over-icon { position: absolute; left: 50%; top: 50%; width: 30%; height: auto; transform: translate(-50%, -50%); border-radius: 23%; }
+/* My Contributions: cream band, four cards, then the detailed list beside a sticky screenshot column */
+.gp-contrib { padding: clamp(48px, 7vw, 96px) 0 clamp(80px, 9vw, 120px); }
+.gp-contrib h2 { color: #2b3048; }
+.gp-cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 2vw, 26px); margin: 26px 0 clamp(36px, 5vw, 60px); }
+.gp-card-pic { position: relative; aspect-ratio: 4 / 3; border-radius: 10px; overflow: hidden; background: #e8dcc6; box-shadow: 0 12px 30px rgba(43,48,72,.18); }
+.gp-card-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; transition: transform .6s ease; }
+.gp-card:hover .gp-card-pic img { transform: scale(1.05); }
+.gp-card p { margin: 14px 0 0; font-size: 14px; line-height: 1.6; color: #4a4f66; }
+.gp-card b { color: #2b3048; }
+.gp-split { display: grid; grid-template-columns: minmax(0, 1fr) clamp(180px, 22vw, 280px); gap: clamp(24px, 4vw, 56px); align-items: start; }
+.gp-list, .gp-list ul { margin: 0; padding-left: 20px; display: grid; gap: 10px; font-size: 15px; line-height: 1.6; color: #3c4159; }
+.gp-list ul { margin-top: 8px; gap: 6px; }
+.gp-list b { color: #2b3048; }
+.gp-list li::marker { color: var(--ga); }
+.gp-inline { display: block; width: min(100%, 360px); height: auto; margin: 16px 0 6px; border-radius: 12px; box-shadow: 0 16px 40px rgba(43,48,72,.22); }
+.gp-inline.wide { width: min(100%, 640px); }
+.gp-gallery { position: sticky; top: calc(var(--head-total) + 16px); display: grid; gap: 14px; max-height: calc(100vh - var(--head-total) - 32px); overflow-y: auto; scrollbar-width: thin; padding-right: 4px; }
+.gp-gallery img { width: 100%; height: auto; border-radius: 10px; box-shadow: 0 10px 26px rgba(43,48,72,.2); display: block; }
+.gp-note { margin: 36px 0 0; font-size: 13px; font-style: italic; color: #6a6f86; }
+.gp-h-details { margin-top: clamp(36px, 5vw, 56px) !important; font-size: clamp(24px, 3vw, 38px) !important; }
+.gp-facts { margin: 0; padding-left: 20px; display: grid; gap: 8px; font-size: 15px; color: #3c4159; }
+.gp-facts li::marker { color: var(--ga); }
+.gp-facts b { color: #2b3048; }
+.gp-store { margin-top: 26px; }
+.gp-return { position: fixed; left: var(--edge); bottom: calc(var(--bot) + 4px); z-index: 25; display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 999px; background: #fff; color: #2b3048; font-weight: 700; font-size: 13px; text-decoration: none; box-shadow: 0 8px 24px rgba(0,0,0,.2); transition: transform .2s, background .2s, color .2s; }
+.gp-return:hover { transform: translateX(-3px); background: #2b3048; color: #fff; }
+/* scene change: a band in the game's colour sweeps across, then the hero content rises in */
+.gp-wipe { position: fixed; inset: 0; z-index: 30; background: var(--ga); transform: translateX(100%); pointer-events: none; }
+.gp.enter .gp-wipe { animation: gpWipe .9s cubic-bezier(.7,0,.2,1) both; }
+.gp.enter .gp-hero-in > * { animation: gpRise .8s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(.45s + var(--k, 0) * 90ms); }
+.gp.enter .gp-hero-in > :nth-child(2) { --k: 1; } .gp.enter .gp-hero-in > :nth-child(3) { --k: 2; } .gp.enter .gp-hero-in > :nth-child(4) { --k: 3; }
+.gp.enter .gp-hero-bg { animation: gpZoom 1.6s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes gpWipe { 0% { transform: translateX(100%); } 45% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
+@keyframes gpRise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@keyframes gpZoom { from { transform: scale(1.18); } to { transform: scale(1.04); } }
+html[data-view="game"] .float-links { bottom: calc(var(--bot) + 4px); }
+@media (max-width: 960px) {
+  .gp-over-grid, .gp-split { grid-template-columns: minmax(0, 1fr); }
+  .gp-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gp-gallery { position: static; max-height: none; overflow: visible; grid-auto-flow: column; grid-auto-columns: 42%; overflow-x: auto; padding-bottom: 6px; }
+}
+@media (max-width: 520px) { .gp-cards { grid-template-columns: minmax(0, 1fr); } .gp-gallery { grid-auto-columns: 62%; } .gp-hero { min-height: 78vh; } }
+
 /* ===== Portfolio: Developed Games ===== */
 .dev-head { position: relative; text-align: center; color: #f1f5f3; background: #3a4650; padding: clamp(56px, 8vw, 96px) var(--gx) clamp(90px, 11vw, 140px); clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%); }
 .dev-head h2 { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(28px, 3.4vw, 44px); letter-spacing: .02em; text-transform: uppercase; }
@@ -750,6 +823,9 @@ body { font-weight: 400; }
 </main>
 
 <!-- ===================== PORTFOLIO ===================== -->
+<!-- One page per game (#game-<id>), filled in by renderGame() -->
+<main class="view gp" id="view-game" data-view="game" hidden></main>
+
 <main class="view" id="view-portfolio" data-view="portfolio" hidden>
   <!-- Wide screens: one full-screen panel per game, scrolled sideways by the page scroll -->
   <section class="hs" id="showcase" aria-label="Featured games">
@@ -890,7 +966,29 @@ const GAME_CASES = {
   hatch: { years: "2026", role: "Game Designer", store: "Updated Oct 20, 2026", downloads: "10K+ downloads",
     work: "I am working on the **level design** and **live ops** of a new bird sort game set in a hatchery.",
     tasks: ["Designing **levels** and new **nest mechanics**.", "Tuning the **difficulty curve** with player data.", "Planning **A/B tests** for retention and monetization.", "Writing **feature proposals** for upcoming updates."] },
+  stickhero: { years: "2024", role: "Game Designer", store: "Released Jul 12, 2024", downloads: "", studio: "IceBear Studio",
+    work: "I designed **levels** and **game feel** for a stick-figure tower defense game.",
+    tasks: ["Designed **tower and enemy waves** for each level.", "Tuned **game feel**: hits, timing and feedback.", "Balanced **upgrades** and rewards.", "Reviewed builds with the team every sprint."] },
+  diydoll: { years: "2024", role: "Game Designer", store: "Released Jul 12, 2024", downloads: "", studio: "IceBear Studio",
+    work: "I designed the **dress-up loop** and the **level progression** of a 3D makeover game.",
+    tasks: ["Designed **makeover levels** and themes.", "Planned **item unlocks** and rewards.", "Tuned **sound and feedback** for each step.", "Wrote **specs** for new outfits and events."] },
+  catescape: { years: "2023", role: "Game Designer", store: "Released Jun 9, 2023", downloads: "", studio: "IceBear Studio",
+    work: "I designed **puzzle levels** and the **chase feel** of a cat escape puzzle.",
+    tasks: ["Designed **escape puzzles** and their difficulty.", "Tuned **game feel** and animations.", "Placed **sound effects** with the audio team.", "Balanced **hints** and level rewards."] },
 };
+// Store media for each game page: games/<id>/fg.webp (feature graphic) and s1..sN.webp (screenshots); yt = trailer
+const GAME_MEDIA = {
+  chaos: { fg: true, shots: 6, yt: "LGO0C7Dh8UM" },
+  birdy: { fg: true, shots: 6, yt: null },
+  hatch: { fg: true, shots: 6, yt: null },
+  skewer: { fg: true, shots: 6, yt: null },
+  catescape: { fg: true, shots: 6, yt: null },
+  stickhero: { fg: true, shots: 6, yt: null },
+  diydoll: { fg: true, shots: 6, yt: null },
+  water: { fg: false, shots: 5, yt: null }
+};
+// Accent colour of each game page (readable on the dark Overview band)
+const GAME_ACCENT = { chaos: "#ffb14a", birdy: "#7cc8ff", hatch: "#8be07a", skewer: "#ffb35c", mob: "#7fd0ff", water: "#6fd8ff", stickhero: "#ff8a8a", diydoll: "#ff9ad5", catescape: "#7fd0ff" };
 // Technical skills: tools and data work. Edit freely; an item can be "text" or { t: "text", sub: [...] }
 const TECH_SKILLS = [
   { title: "Tools & Engines", items: ["Unity: level editor, prefabs and configs", "Google Sheets & Excel: balancing and level data", "Figma: UI flows and mockups", "Photoshop: quick visual specs"] },
@@ -980,11 +1078,11 @@ const GAMES = [
 ];
 /* Older titles, shown under "More games" (not on the 3D maps) */
 const MORE_GAMES = [
-  { title: "Stick Hero 2: Tower Defense", genre: "Tower defense", icon: "icons/stickhero.webp", url: "https://play.google.com/store/apps/details?id=com.an.stickhero.herowar&gl=IN",
+  { id: "stickhero", title: "Stick Hero 2: Tower Defense", genre: "Tower defense", icon: "icons/stickhero.webp", url: "https://play.google.com/store/apps/details?id=com.an.stickhero.herowar&gl=IN",
     desc: "Build a stick-hero army, attack the enemy and defend your tower." },
-  { title: "DIY 3D: Makeover Doll", genre: "Makeover · Dress-up", icon: "icons/diydoll.webp", url: "https://play.google.com/store/apps/details?id=com.an.diypaperdoll.makeover3d&gl=IN",
+  { id: "diydoll", title: "DIY 3D: Makeover Doll", genre: "Makeover · Dress-up", icon: "icons/diydoll.webp", url: "https://play.google.com/store/apps/details?id=com.an.diypaperdoll.makeover3d&gl=IN",
     desc: "Do the makeup, outfit and style of a 3D doll your own way." },
-  { title: "Cat Escape: Kitty Cat Games", genre: "Puzzle", icon: "icons/catescape.webp", url: "https://play.google.com/store/apps/details?id=com.an.catescape.thecatgame&gl=IN",
+  { id: "catescape", title: "Cat Escape: Kitty Cat Games", genre: "Puzzle", icon: "icons/catescape.webp", url: "https://play.google.com/store/apps/details?id=com.an.catescape.thecatgame&gl=IN",
     desc: "Think your way through tricky challenges to help the cat escape." },
 ];
 /* ================================ */
@@ -1080,10 +1178,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
   ];
   $("aboutStats").innerHTML = STATS.map(st => { const inner = `${STAT_ICONS[st.icon]}<b data-n="${st.n}" data-suffix="${st.suffix || ""}">${st.n}${st.suffix || ""}</b><span>${esc(st.label)}</span>`;
     const gi = st.game ? GAMES.findIndex(g => g.id === st.game) : -1;
-    return gi >= 0 ? `<li><a class="stat-link" href="#portfolio" data-stat-game="${gi}" title="${esc(GAMES[gi].short)}">${inner}</a></li>` : `<li>${inner}</li>`; }).join("");
-  // a stat tied to a game (the breakout hit) opens the Portfolio with that game's page on top
-  $("aboutStats").addEventListener("click", (e) => { const a = e.target.closest("[data-stat-game]"); if (!a) return;
-    e.preventDefault(); const i = +a.dataset.statGame; location.hash = "portfolio"; setTimeout(() => openGame(i), 380); });
+    return gi >= 0 ? `<li><a class="stat-link" href="#game-${GAMES[gi].id}" title="${esc(GAMES[gi].short)}">${inner}</a></li>` : `<li>${inner}</li>`; }).join(""); // a stat tied to a game opens its page
   // stroked shapes get pathLength=1 so the hover can redraw them with one dash animation
   $("aboutStats").querySelectorAll("svg :is(path, rect, circle)").forEach(el => { if (el.getAttribute("stroke") !== "none") el.setAttribute("pathLength", "1"); });
   if (!reduceMotion && "IntersectionObserver" in window) {
@@ -1164,7 +1259,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
         <p>${esc(g.desc)}</p>
         ${c.work ? `<p>${md(c.work)}</p>` : ""}
         ${tasksHTML(c)}
-        <button class="hs-btn" type="button" data-game="${i}">My contributions</button>
+        <a class="hs-btn" href="#game-${g.id}">My contributions</a>
       </div>
       <div class="hs-media">
         <a class="hs-card" href="${g.url}" target="_blank" rel="noopener" aria-label="${esc(g.title)} on ${esc(g.store)}">
@@ -1193,7 +1288,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
         <span class="feat-role">${esc(c.role)}</span>
         <p>${esc(g.desc)} ${c.work ? md(c.work) : ""}</p>
         ${tasksHTML(c)}
-        <button class="feat-btn" type="button" data-game="${i}">More info</button>
+        <a class="feat-btn" href="#game-${g.id}">More info</a>
       </div>
     </article>`; }).join("");
   const cover = (g, act) => `
@@ -1203,7 +1298,7 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
       <div class="cover-txt"><h3>${esc(g.short || g.title)}</h3><span>${esc(g.genre)}</span></div>
       <div class="cover-over">${act}</div>
     </article>`;
-  $("coversMore").innerHTML = MORE_GAMES.map((g) => cover(g, `<a class="feat-btn" href="${g.url}" target="_blank" rel="noopener">Google Play ↗</a>`)).join("");
+  $("coversMore").innerHTML = MORE_GAMES.map((g) => cover(g, `<a class="feat-btn" href="#game-${g.id}">More info</a>`)).join("");
 })();
 
 /* ---------- Hero name: letters bounce up and tip back on hover, then return a few seconds later ---------- */
@@ -1291,7 +1386,7 @@ document.querySelectorAll("[data-blur]").forEach(el => {
 // Portfolio art: squeeze the icon to 12px, then blow it up through a blur, so the colours become soft
 // gradients with no visible blocks even on a full-screen panel (done once per image)
 const softCache = {};
-document.querySelectorAll("[data-soft]").forEach(el => {
+function softArt(el) {
   const u = el.dataset.soft;
   softCache[u] ||= new Promise(res => { const img = new Image(); img.decoding = "async"; img.onload = () => {
     const t = document.createElement("canvas"); t.width = t.height = 12; const tg = t.getContext("2d"); tg.filter = "saturate(1.35)"; tg.drawImage(img, 0, 0, 12, 12);
@@ -1299,7 +1394,8 @@ document.querySelectorAll("[data-soft]").forEach(el => {
     bg.imageSmoothingQuality = "high"; bg.filter = "blur(14px)"; bg.drawImage(t, -24, -24, 240, 240);
     res(`url(${b.toDataURL("image/jpeg", 0.82)})`); }; img.onerror = () => res(""); img.src = u; });
   softCache[u].then(v => { if (v) el.style.backgroundImage = v; });
-});
+}
+document.querySelectorAll("[data-soft]").forEach(softArt);
 // Backstory: three icons squeezed into a 9x4 canvas, then smoothly upscaled once, so the colours
 // blend into soft blobs with no seams and no live CSS blur
 document.querySelectorAll("[data-blur-row]").forEach(el => {
@@ -1382,6 +1478,115 @@ let scrollTick = false; // one layout read per frame, however many scroll events
 addEventListener("scroll", () => { if (scrollTick) return; scrollTick = true; requestAnimationFrame(() => { scrollTick = false; onScroll(); }); }, { passive: true });
 addEventListener("keydown", (e) => { if (e.key !== "Escape") return; if (!modal.hidden) closeStory(); else if (!menu.hidden) setMenu(false); });
 
+/* ---------- Game pages (#game-<id>): hero, Overview, My Contributions, Project Details ---------- */
+const baseTitle = document.title;
+const ALL_GAMES = () => [...GAMES, ...MORE_GAMES];
+// demo blocks used until a game has its own (replace in GAME_CASES with contrib: [...] and details: [...])
+const DEMO_CONTRIB = [
+  { h: "Level Design", t: "Designed and tuned levels, from the first tutorial steps to the late game." },
+  { h: "Game Balance", t: "Balanced boosters, rewards and the in-game economy with player data." },
+  { h: "Live Ops & A/B Tests", t: "Planned events and ran A/B tests to lift retention and revenue." },
+  { h: "Game Feel & UX", t: "Polished feedback, onboarding and UI flows with the art and dev teams." },
+];
+const DEMO_DETAILS = [
+  { li: "Designing **levels**", sub: ["Level layouts and the **difficulty curve**.", "A new mechanic or blocker every few levels.", "Level and config review before each release."], img: 2 },
+  { li: "**Game balance**", sub: ["Booster prices, rewards and **coin economy**.", "Win rate, attempts and churn per level band."], img: 3 },
+  { li: "**Live ops**", sub: ["Seasonal **events** and limited-time rewards.", "**A/B tests** on level order, ads and onboarding."], img: "fg" },
+  { li: "Working with **Unity** level tools, configs and spreadsheets." },
+];
+function renderGame(id) {
+  const g = ALL_GAMES().find(x => x.id === id);
+  if (!g) return false;
+  const c = GAME_CASES[id] || { years: "", role: PROFILE.role, work: "", tasks: [] };
+  const m = GAME_MEDIA[id] || { fg: false, shots: 0, yt: null };
+  const md = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+  const shot = (n) => `games/${id}/s${n}.webp`, fg = m.fg ? `games/${id}/fg.webp` : "";
+  const studio = c.studio || "Winter Wolf · IEC Games";
+  const isIOS = g.store === "App Store";
+  const storeIcon = isIOS
+    ? '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8s1.9.8 3.2.8 2.1-1.2 2.9-2.4c.9-1.3 1.3-2.6 1.3-2.7 0 0-2.4-1-2.4-4zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></svg>'
+    : '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.2 2.6 13.6 12l-9.4 9.4c-.4-.2-.6-.7-.6-1.2V3.8c0-.5.2-1 .6-1.2zm10.6 10.6 2.4 2.4-11 6.3 8.6-8.7zm3.6-3.6 2.6 1.5c.8.5.8 1.4 0 1.9l-2.6 1.5-2.7-2.6 2.7-2.3zM6.2 2.1l11 6.3-2.4 2.4-8.6-8.7z"/></svg>';
+  const contrib = (c.contrib || DEMO_CONTRIB).slice(0, 4);
+  const details = c.details || DEMO_DETAILS;
+  const pic = (k) => k === "fg" ? fg : (m.shots >= k ? shot(k) : "");
+  const facts = [["Studio", studio], ["Genre", g.genre], ["Engine & Tools used", c.engine || "Unity, Google Sheets, Firebase"], ["Platform", isIOS ? "iOS (App Store)" : "Android (Google Play)"],
+    [c.store?.startsWith("Updated") ? "Last update" : "Release", (c.store || "").replace(/^(Released|Updated) /, "").replace(/ · App Store$/, "")], ["Downloads", (c.downloads || "").replace(/ downloads$/, "")]].filter(([, v]) => v);
+  // the hero: the store trailer (muted, looping) on the real site, else the feature graphic, else the icon's colours
+  const canVideo = m.yt && !reduceMotion && window.self === window.top;
+  $("view-game").style.setProperty("--ga", GAME_ACCENT[id] || "var(--accent)");
+  $("view-game").innerHTML = `
+    <div class="gp-wipe" aria-hidden="true"></div>
+    <section class="gp-hero">
+      <div class="gp-hero-bg" ${fg ? `style="background-image:url(${fg})"` : `data-soft="${g.icon}"`} aria-hidden="true"></div>
+      ${canVideo ? `<div class="gp-video" aria-hidden="true"><iframe src="https://www.youtube-nocookie.com/embed/${m.yt}?autoplay=1&mute=1&loop=1&playlist=${m.yt}&controls=0&modestbranding=1&playsinline=1&rel=0&iv_load_policy=3&disablekb=1&fs=0" title="${esc(g.title)} trailer" allow="autoplay; encrypted-media" tabindex="-1"></iframe></div>` : ""}
+      <div class="gp-hero-in">
+        <img class="gp-logo" src="${g.icon}" alt="" width="256" height="256" decoding="async">
+        <h1>${esc(g.title)}</h1>
+        <p class="gp-tag">${esc(g.desc)}</p>
+        <div class="gp-stores">
+          <a href="${g.url}" target="_blank" rel="noopener" aria-label="Open ${esc(g.title)} on ${esc(g.store)}" title="${esc(g.store)}">${storeIcon}</a>
+          ${m.yt ? `<a href="https://www.youtube.com/watch?v=${m.yt}" target="_blank" rel="noopener" aria-label="Watch the trailer on YouTube" title="Trailer"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></a>` : ""}
+        </div>
+      </div>
+    </section>
+    <section class="gp-over">
+      <div class="gp-wrap gp-over-grid">
+        <div>
+          <h2>Overview</h2>
+          <ul class="gp-plat"><li>${esc(g.store)}</li><li>${isIOS ? "iOS" : "Android"}</li>${c.years ? `<li>${esc(c.years)}</li>` : ""}</ul>
+          <p><b>${esc(g.title)}</b> ${esc(g.desc.charAt(0).toLowerCase() + g.desc.slice(1))}</p>
+          <p>${md(c.work || "")}</p>
+          <p>I am working as <b>${esc(c.role)}</b> at <b>${esc(studio)}</b>, focusing on levels, balance and the player experience.</p>
+        </div>
+        <figure class="gp-over-pic">${fg ? `<img src="${fg}" alt="${esc(g.title)} key art" loading="lazy" decoding="async">` : `<span class="hs-art" data-soft="${g.icon}"></span><img class="gp-over-icon" src="${g.icon}" alt="" loading="lazy">`}</figure>
+      </div>
+    </section>
+    <section class="gp-contrib">
+      <div class="gp-wrap">
+        <h2>My Contributions</h2>
+        <div class="gp-cards">${contrib.map((k, i) => `
+          <article class="gp-card rv" style="--i:${i}">
+            <div class="gp-card-pic">${pic(i + 1) ? `<img src="${pic(i + 1)}" alt="" loading="lazy" decoding="async">` : `<span class="hs-art" data-soft="${g.icon}"></span>`}</div>
+            <p><b>${esc(k.h)}:</b> ${md(k.t)}</p>
+          </article>`).join("")}
+        </div>
+        <div class="gp-split">
+          <ul class="gp-list">${details.map(d => `
+            <li>${md(d.li)}${d.sub ? `<ul>${d.sub.map(x => `<li>${md(x)}</li>`).join("")}</ul>` : ""}${d.img && pic(d.img) ? `<img class="gp-inline${d.img === "fg" ? " wide" : ""}" src="${pic(d.img)}" alt="" loading="lazy" decoding="async">` : ""}</li>`).join("")}
+            ${c.tasks.length ? `<li>Task overview<ul>${c.tasks.map(t => `<li>${md(t)}</li>`).join("")}</ul></li>` : ""}
+          </ul>
+          <aside class="gp-gallery" aria-label="Screenshots">${Array.from({ length: m.shots }, (_, k) => `<img src="${shot(k + 1)}" alt="${esc(g.short || g.title)} screenshot ${k + 1}" loading="lazy" decoding="async">`).join("")}</aside>
+        </div>
+        <p class="gp-note">Note: the contributions shown here are a draft and will be updated.</p>
+        <h2 class="gp-h-details">Project Details</h2>
+        <ul class="gp-facts">${facts.map(([k, v]) => `<li><b>${esc(k)}:</b> ${esc(v)}</li>`).join("")}</ul>
+        <a class="feat-btn gp-store" href="${g.url}" target="_blank" rel="noopener">Open on ${esc(g.store)} ↗</a>
+      </div>
+    </section>
+    <a class="gp-return" href="#portfolio"><span aria-hidden="true">←</span> Return</a>`;
+  document.title = `${g.short || g.title} · ${PROFILE.name.split(/\s+/).slice(-1)[0]} NT`;
+  document.documentElement.dataset.game = id;
+  // soft art and reveals for what was just drawn
+  $("view-game").querySelectorAll("[data-soft]").forEach(el => softArt(el));
+  // the trailer fades in over the feature graphic once YouTube's start-up overlay has gone
+  $("view-game").querySelector(".gp-video iframe")?.addEventListener("load", (e) => setTimeout(() => e.target.parentElement.classList.add("on"), 1800));
+  if (document.documentElement.classList.contains("reveal-ready")) {
+    const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.15 });
+    $("view-game").querySelectorAll(".rv").forEach(el => io.observe(el));
+  }
+  return true;
+}
+// Scene change: a wipe in the game's colour crosses the screen, then the hero settles in
+function playGameIntro(from) {
+  const v = $("view-game");
+  v.classList.remove("enter"); void v.offsetWidth;
+  if (reduceMotion) { v.querySelector(".gp-wipe")?.remove(); return; }
+  v.classList.add("enter");
+  // never let the sweep or the rise get stuck (slow devices, background tabs): settle on a timer too
+  setTimeout(() => v.querySelector(".gp-wipe")?.remove(), 1000);
+  setTimeout(() => v.classList.remove("enter"), 1700);
+}
+
 /* ---------- Portfolio showcase: the page scroll moves the game panels sideways, 1:1 ---------- */
 (function showcase() {
   const sec = $("showcase"), pin = $("hsPin"), track = $("hsTrack"), dots = [...$("hsDots").children], panels = [...track.children];
@@ -1426,19 +1631,7 @@ function openStory(i) {
 }
 function closeStory() { modal.hidden = true; document.documentElement.style.overflow = ""; modalReturn?.focus?.(); resetAction(); }
 const mAction = $("mAction"), resetAction = () => { mAction.href = "#portfolio"; mAction.textContent = "View project"; mAction.removeAttribute("target"); };
-// "My contributions" / "More info": the same dialog, filled with that game's case (demo text for now)
-function openGame(i) {
-  const g = GAMES[i], c = GAME_CASES[g.id] || { years: "", role: PROFILE.role, work: "", tasks: [] };
-  const md = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
-  $("mTitle").innerHTML = `${esc(g.title)} <span class="m-co">${esc(c.years)}</span>`;
-  $("mBody").innerHTML = `<div><h4>Overview</h4><p>${esc(g.desc)}</p><h4>My role</h4><p><b>${esc(c.role)}</b>. ${md(c.work)}</p></div>
-    <div><h4>Task Overview</h4><ul>${c.tasks.map(t => `<li>${md(t)}</li>`).join("")}</ul><h4>Results</h4><ul><li><b>[Metric]</b> → add a result here, e.g. D1 retention or win rate change</li></ul></div>`;
-  mAction.href = g.url; mAction.target = "_blank"; mAction.rel = "noopener"; mAction.textContent = `Open on ${g.store} ↗`;
-  modalReturn = document.activeElement;
-  modal.hidden = false; document.documentElement.style.overflow = "hidden";
-  $("mClose").focus();
-}
-$("view-portfolio").addEventListener("click", (e) => { const b = e.target.closest("[data-game]"); if (b) openGame(+b.dataset.game); });
+
 $("timeline").addEventListener("click", (e) => { const b = e.target.closest("[data-story]"); if (b) openStory(+b.dataset.story); });
 $("mClose").onclick = closeStory;
 modal.addEventListener("click", (e) => { if (e.target === modal) closeStory(); });
@@ -1661,7 +1854,7 @@ $("btnSound").onclick = () => { Sound.setMuted(!Sound.muted); renderSoundBtn(); 
 renderSoundBtn();
 
 /* ---------- Views (tabs) ---------- */
-const VIEWS = ["home", "portfolio", "play"];
+const VIEWS = ["home", "portfolio", "play", "game"];
 const THREE_URL = "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js";
 let view = "home";
 function showView(v) {
@@ -1671,8 +1864,11 @@ function showView(v) {
   document.documentElement.dataset.view = v;
   $("view-home").hidden = v !== "home";
   $("view-portfolio").hidden = v !== "portfolio";
+  $("view-game").hidden = v !== "game";
   $("app").hidden = v !== "play";
-  document.querySelectorAll("[data-tab]").forEach(a => { if (a.dataset.tab === v) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+  const tab = v === "game" ? "portfolio" : v; // a game page sits under Portfolio
+  document.querySelectorAll("[data-tab]").forEach(a => { if (a.dataset.tab === tab) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current"); });
+  if (leaving === "game") { document.title = baseTitle; $("view-game").innerHTML = ""; }
   if (leaving === "play") Game.leave?.();
   if (v === "play") loadGame().then(() => { if (view === "play") Game.enter(); }).catch(() => {});
 }
@@ -1699,7 +1895,8 @@ function loadGame() {
   return gamePromise;
 }
 function go(id) {
-  if (VIEWS.includes(id)) { showView(id); window.scrollTo({ top: 0, behavior: "instant" }); return; }
+  if (id.startsWith("game-") && renderGame(id.slice(5))) { const was = view; showView("game"); window.scrollTo({ top: 0, behavior: "instant" }); playGameIntro(was); return; }
+  if (VIEWS.includes(id) && id !== "game") { showView(id); window.scrollTo({ top: 0, behavior: "instant" }); return; }
   const el = $(id);
   if (el && $("view-home").contains(el)) { showView("home"); requestAnimationFrame(() => el.scrollIntoView({ behavior: "smooth", block: "start" })); }
 }
@@ -2916,7 +3113,8 @@ route();
   setTimeout(() => Promise.race([hints, new Promise(r => setTimeout(r, 600))]).then(() => { if (!document.hidden) start(); }), 2500);
 
   addEventListener("scroll", () => { if (view === "home") maxScroll = Math.max(maxScroll, Math.min(1, (scrollY + innerHeight) / document.documentElement.scrollHeight)); }, { passive: true });
-  addEventListener("hashchange", () => setTimeout(() => { const t = NAMES[view]; if (t && tabs[tabs.length - 1] !== t) tabs.push(t); }, 0));
+  addEventListener("hashchange", () => setTimeout(() => { const g = view === "game" && ALL_GAMES().find(x => x.id === document.documentElement.dataset.game);
+    const t = g ? `Game: ${g.short || g.title}` : NAMES[view]; if (t && tabs[tabs.length - 1] !== t) tabs.push(t); }, 0));
   document.addEventListener("click", (e) => {
     const a = e.target.closest("a[href]"); if (!a) return;
     const href = a.getAttribute("href");
