@@ -53,6 +53,12 @@ def build():
             continue  # the page uses the lighter WebP copy; the PNG stays as the source
         if ext.lower() in (".png", ".webp", ".jpg"):
             shutil.copy2(os.path.join(icons, name), os.path.join(SITE, "icons", name))
+    studio = os.path.join(icons, "studio")  # Studio catalogue icons
+    if os.path.isdir(studio):
+        os.makedirs(os.path.join(SITE, "icons", "studio"))
+        for name in sorted(os.listdir(studio)):
+            if name.lower().endswith(".webp"):
+                shutil.copy2(os.path.join(studio, name), os.path.join(SITE, "icons", "studio", name))
 
     games = os.path.join(HERE, "games")  # game pages: store feature graphics and screenshots
     for root, _, files in os.walk(games):

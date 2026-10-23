@@ -583,6 +583,21 @@ html[data-view="game"] .float-links { bottom: calc(var(--bot) + 4px); }
 .dev-title { text-align: center; margin: clamp(28px, 4vw, 48px) 0 28px; }
 .dev-title h2 { margin: 0; font-family: var(--f-display); font-weight: 500; font-size: clamp(22px, 2.4vw, 30px); }
 .dev-title i { display: block; width: 56px; height: 1px; margin: 18px auto 0; background: var(--line); }
+.studio-note { max-width: 62ch; margin: -8px auto 18px; text-align: center; color: var(--muted); font-size: 14px; line-height: 1.6; }
+.studio-filters { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-bottom: 22px; }
+.studio-filters button { padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: 700 13px/1 var(--f-body); cursor: pointer; transition: background .2s, color .2s, border-color .2s; }
+.studio-filters button span { margin-left: 4px; color: var(--muted); font-weight: 600; }
+.studio-filters button[aria-pressed="true"] { background: var(--ink); color: var(--page); border-color: var(--ink); }
+.studio-filters button[aria-pressed="true"] span { color: inherit; opacity: .7; }
+.studio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(150px, 100%), 1fr)); gap: clamp(10px, 1.6vw, 18px); }
+.st-tile { display: grid; justify-items: center; align-content: start; gap: 6px; padding: 16px 12px 14px; border-radius: 14px; background: var(--surface); box-shadow: 0 6px 18px rgba(22,36,42,.08); color: var(--ink); text-decoration: none; text-align: center; transition: transform .25s cubic-bezier(.3,1.4,.5,1), box-shadow .25s; }
+.st-tile:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(22,36,42,.16); }
+.st-tile img { width: 72px; height: 72px; border-radius: 23%; box-shadow: 0 8px 18px rgba(22,36,42,.18); margin-bottom: 4px; }
+.st-tile b { font-family: var(--f-display); font-weight: 700; font-size: 13px; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.st-meta { font-size: 11px; color: var(--muted); }
+.st-tile .dl { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 999px; background: color-mix(in srgb, var(--accent) 14%, transparent); color: var(--accent); font-size: 11px; font-weight: 800; }
+.studio-more { text-align: center; margin-top: 20px; }
+.studio-more [hidden] { display: none; }
 .feats { display: grid; gap: clamp(20px, 3vw, 32px); }
 .feat { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); background: var(--surface); box-shadow: var(--shadow); border-radius: 4px; overflow: hidden; }
 .feat-media { position: relative; min-height: 320px; overflow: hidden; display: grid; place-items: center; background: #1a242c; }
@@ -844,6 +859,11 @@ html[data-view="game"] .float-links { bottom: calc(var(--bot) + 4px); }
       <div class="feats" id="featGames"></div>
       <div class="dev-title rv"><h2>Earlier Games</h2><i aria-hidden="true"></i></div>
       <div class="feats" id="featMore"></div>
+      <div class="dev-title rv"><h2>Studio Catalogue</h2><i aria-hidden="true"></i></div>
+      <p class="studio-note rv">More games from the studios I have worked with, sorted by downloads. These are team and studio titles; my own work is listed above.</p>
+      <div class="studio-filters" id="studioFilters" role="group" aria-label="Filter by studio"></div>
+      <div class="studio-grid" id="studioGrid"></div>
+      <div class="studio-more"><button class="feat-btn" type="button" id="studioMore"></button></div>
       <article class="play-card rv">
         <div class="play-art" aria-hidden="true">
           <svg viewBox="0 0 360 200">
@@ -976,6 +996,71 @@ const GAME_CASES = {
     work: "I designed **puzzle levels** and the **chase feel** of a cat escape puzzle.",
     tasks: ["Designed **escape puzzles** and their difficulty.", "Tuned **game feel** and animations.", "Placed **sound effects** with the audio team.", "Balanced **hints** and level rewards."] },
 };
+/* Studio catalogue: the other games on the studios' Google Play pages (checked Oct 2026), most downloaded first.
+   These are studio games, not claimed as my own work. [package, title, studio, downloads, genre]; icon: icons/studio/<package>.webp */
+const STUDIO_GAMES = [
+  ["com.gma.water.sort.puzzle", "Water Sort Puzzle", "IEC Games", "100M+", "Puzzle"],
+  ["com.gma.ball.sort.color.water.puzzle", "Bubble Sort Color Puzzle", "IEC Games", "10M+", "Puzzle"],
+  ["com.gma.soda.sort.puzzle", "Soda Sort: Water Color Puzzle", "IEC Games", "10M+", "Puzzle"],
+  ["com.gma.water.connect.puzzle", "Water Connect Puzzle", "IEC Games", "10M+", "Puzzle"],
+  ["com.IEC.gang.clash", "Gang Clash", "IEC Games", "10M+", "Casual"],
+  ["com.dress.up.fashion.challenge", "Dress Up Fashion Challenge", "IEC Games", "10M+", "Simulation"],
+  ["com.an.satisday.antistress.organizinggame", "Satisday ASMR: Organizing game", "TVC Global", "10M+", "Puzzle"],
+  ["com.IEC.Game.Cross.Fight", "Cross Fight", "IEC Games", "5M+", "Puzzle"],
+  ["com.gma.ball.fit.puzzle", "Ball Fit Puzzle", "IEC Games", "5M+", "Casual"],
+  ["com.gma.pirate.clash", "Pirate Attack", "IEC Games", "5M+", "Action"],
+  ["com.an.camo.hunt.sniper.spy", "Camo Hunt: Sniper Spy", "TVC Global", "5M+", "Action"],
+  ["com.mergemaster.mergerobo", "Merge Robot Master: Car Games", "TVC Global", "5M+", "Puzzle"],
+  ["com.an.superegg.surprisetoy3d", "Surprising Egg: Dino or Robo?", "TVC Global", "5M+", "Simulation"],
+  ["com.block.color.escape", "Screw Block Escape", "IEC Games", "1M+", "Puzzle"],
+  ["com.fit.tris.block.puzzle", "Fit It Piece Puzzle", "IEC Games", "1M+", "Puzzle"],
+  ["com.DTA.trigon", "Trigon : Triangle Block Puzzle", "IEC Games", "1M+", "Puzzle"],
+  ["com.inventory.merge.combat", "Inventory Merge Combat", "IEC Games", "1M+", "Casual"],
+  ["com.an.satisoul.ocd.organizinggame", "Satisoul: Perfect Organize", "TVC Global", "1M+", "Puzzle"],
+  ["com.street.food.puzzle", "Street Food Puzzle", "IEC Games", "500K+", "Puzzle"],
+  ["com.coffee.run.puzzle", "Coffee Run Puzzle", "IEC Games", "500K+", "Puzzle"],
+  ["com.traffic.no.way.out", "Traffic: No Way Out!", "IEC Games", "500K+", "Casual"],
+  ["com.match.color.rotate", "Match Color Rotate", "IEC Games", "500K+", "Puzzle"],
+  ["com.water.loop.puzzle", "Water Loop Puzzle", "IEC Games", "500K+", "Puzzle"],
+  ["com.wood.blast.escape", "Wood Blast Escape", "IEC Games", "500K+", "Puzzle"],
+  ["com.maze.arrow.escape", "Tap Snake Jam", "IEC Games", "500K+", "Puzzle"],
+  ["com.pencil.stack.color.sort", "Pencil Stack Color Sort", "IEC Games", "500K+", "Puzzle"],
+  ["com.dish.order.restaurant", "Dish Order Restaurant", "IEC Games", "100K+", "Puzzle"],
+  ["com.seat.escape", "Seat Escape", "IEC Games", "100K+", "Puzzle"],
+  ["com.sorting.cube.jam", "Sorting Cube Jam", "IEC Games", "100K+", "Puzzle"],
+  ["com.cube.color.escape", "Cube Color Escape", "IEC Games", "100K+", "Puzzle"],
+  ["com.color.loop.puzzle", "Color Loop Puzzle", "IEC Games", "100K+", "Puzzle"],
+  ["com.slither.in", "Slither In", "IEC Games", "100K+", "Puzzle"],
+  ["com.coffee.drop.wooden.hole", "Coffee Drop Wooden Hole", "IEC Games", "100K+", "Puzzle"],
+  ["com.people.color.jam", "People Color Jam", "IEC Games", "100K+", "Puzzle"],
+  ["com.color.juice.asmr", "Soda Color Loop!", "IEC Games", "100K+", "Puzzle"],
+  ["com.quacking.hole.color.puzzle", "Coffee Hole Color Puzzle", "IEC Games", "100K+", "Puzzle"],
+  ["com.battleship.idle.naval.conquest", "Naval Legends Warship Conquest", "IEC Games", "100K+", "Casual"],
+  ["com.goods.hunt.fever", "Goods Hunt Fever", "IEC Games", "50K+", "Puzzle"],
+  ["com.solitaire.sort.word.puzzle", "Solitaire Sort Word Puzzle", "IEC Games", "50K+", "Puzzle"],
+  ["com.wood.crush.puzzle", "Sweet Mania", "IEC Games", "50K+", "Puzzle"],
+  ["com.dreamy.finds.hidden.objects", "Dreamy Finds: Hidden Object", "IEC Games", "10K+", "Puzzle"],
+  ["com.pet.store.triple.match", "Pet Store: Triple Match", "IEC Games", "10K+", "Puzzle"],
+  ["com.hole.drop", "Hole Drop", "IEC Games", "10K+", "Puzzle"],
+  ["com.basket.match.puzzle", "Basket Match Puzzle", "IEC Games", "10K+", "Puzzle"],
+  ["com.crystal.gem.sort", "Crystal Gem Sort", "IEC Games", "10K+", "Casual"],
+  ["com.yarn.escape.color.match", "Yarn Escape - Color Match", "IEC Games", "10K+", "Puzzle"],
+  ["com.merge.block.escape", "Merge Block Escape", "IEC Games", "10K+", "Puzzle"],
+  ["com.food.color.escape", "Food Color Escape", "IEC Games", "10K+", "Puzzle"],
+  ["com.seatup.puzzle", "Seat Up: Logic Puzzle", "TVC Global", "10K+", "Puzzle"],
+  ["com.puzzooku", "Puzzooku: Nonogram Color", "IEC Games", "1K+", "Puzzle"],
+  ["com.pet.rescue.sorting.puzzle", "Pet Sort Puzzle: Animal Match", "IEC Games", "1K+", "Puzzle"],
+  ["com.farm.connect.flow", "Farm Connect Puzzle", "IEC Games", "1K+", "Puzzle"],
+  ["com.fish.match.ocean.park", "Fish Match: Ocean Park", "IEC Games", "1K+", "Puzzle"],
+  ["com.screw.sort.match.color", "Cozy Sort Match Color", "IEC Games", "1K+", "Puzzle"],
+  ["com.stick.hero.fight.tower", "Stick Tower: Number Fight", "TVC Global", "1K+", "Puzzle"],
+  ["com.hole.sort.color.puzzle", "Hole Sort: Color Puzzle", "IEC Games", "500+", "Puzzle"],
+  ["com.pigdoku.logic.brainpuzzle", "Pigdoku: Cozy Brain Puzzle", "TVC Global", "500+", "Puzzle"],
+  ["com.headshot.fury.sniper.game", "Headshot Fury: Sniper Game", "TVC Global", "500+", "Casual"],
+  ["com.cat.water.park", "Cat Water Park", "IEC Games", "100+", "Puzzle"],
+  ["com.color.sheep.sort.jam", "Color Sheep: Sorting Jam", "TVC Global", "100+", "Puzzle"],
+  ["com.color.sort.hidden.layer.puzzle", "Color Sort: Layer Puzzle", "IEC Games", "0+", "Puzzle"]
+];
 // Store media for each game page: games/<id>/fg.webp (feature graphic) and s1..sN.webp (screenshots); yt = trailer
 const GAME_MEDIA = {
   chaos: { fg: true, shots: 6, yt: "LGO0C7Dh8UM" },
@@ -1307,6 +1392,27 @@ function storeLabel(g) { return g.store === "App Store" ? "Open on the App Store
   $("featGames").innerHTML = GAMES.map(featCard).join("");
   document.querySelectorAll("[data-keyart]").forEach(el => { const g = GAMES.find(x => x.id === el.dataset.keyart); el.outerHTML = keyArt(g); });
   $("featMore").innerHTML = MORE_GAMES.map(featCard).join("");
+  // Studio catalogue: filter by studio, first 18 shown, the rest on demand
+  (function studioCatalogue() {
+    const studios = ["All", ...new Set(STUDIO_GAMES.map(r => r[2]))], FIRST = 18;
+    let pick = "All", all = false;
+    const draw = () => {
+      const list = STUDIO_GAMES.filter(r => pick === "All" || r[2] === pick), shown = all ? list : list.slice(0, FIRST);
+      $("studioFilters").innerHTML = studios.map(st => `<button type="button" aria-pressed="${st === pick}" data-st="${esc(st)}">${esc(st)} <span>${st === "All" ? STUDIO_GAMES.length : STUDIO_GAMES.filter(r => r[2] === st).length}</span></button>`).join("");
+      $("studioGrid").innerHTML = shown.map(([pkg, title, studio, dl, genre]) => `
+        <a class="st-tile" href="https://play.google.com/store/apps/details?id=${pkg}" target="_blank" rel="noopener" title="${esc(title)} on Google Play">
+          <img src="icons/studio/${pkg}.webp" alt="" width="160" height="160" loading="lazy" decoding="async">
+          <b>${esc(title)}</b>
+          <span class="st-meta">${esc(genre)}${genre ? " · " : ""}${esc(studio)}</span>
+          ${dl ? `<span class="dl">${IC_DL}${esc(dl)}</span>` : ""}
+        </a>`).join("");
+      $("studioMore").hidden = list.length <= FIRST;
+      $("studioMore").textContent = all ? "Show fewer" : `Show all ${list.length} games`;
+    };
+    $("studioFilters").addEventListener("click", (e) => { const b = e.target.closest("[data-st]"); if (b) { pick = b.dataset.st; all = false; draw(); } });
+    $("studioMore").addEventListener("click", () => { all = !all; draw(); if (!all) $("studioGrid").scrollIntoView({ behavior: "smooth", block: "start" }); });
+    draw();
+  })();
 })();
 
 /* ---------- Hero name: letters bounce up and tip back on hover, then return a few seconds later ---------- */
